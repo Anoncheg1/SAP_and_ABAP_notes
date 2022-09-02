@@ -1,0 +1,26 @@
+﻿
+
+
+Не зря консультанты по продуктам SAP делятся на три типа: абаперы, функциональные консультанты и базисники.
+	Базис консультанты:
+http://mgrconsulting.ru/ru/blog/553a0b97e4b0b68fb9799d19
+	Консультант SAP XI/PI
+http://mgrconsulting.ru/ru/blog/55ad02e7e4b0d016a9a49671
+	Консультант SAP EHS
+http://mgrconsulting.ru/ru/blog/SAP_EHSM_consultant
+
+
+
+
+
+Руководитель отдела ABAP решений
+Основы HCM: OM, PA, PY
+Технологии Расширения - все;
+Программирование транзакций - Transaction Service, Locks
+XLST преобразования.
+Dynpros, селекционные экраны, WebDynpro ABAP;
+PCH, PNPCE;
+
+Java, Maven, шаблоны проектирования
+Debian, Gentoo, Xen
+SQL, уровни изоляции, нормальные формы

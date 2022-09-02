@@ -1,0 +1,133 @@
+DATA ov_vred TYPE pd_objid_r.
+types tt_vred type RANGE OF pd_objid_r. " for class method
+*types ts_vred type LINE OF tt_vred.
+
+SELECT-OPTIONS s_vred1 FOR ov_vred NO INTERVALS.
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR s_vred1-low.
+  lcl_449=>f4_vred( CHANGING
+    it_scr   = s_vred1[]
+    it_scr_h = s_vred1
+  ).
+
+CLASS-METHODS:
+f4_vred
+        CHANGING
+          !it_scr   TYPE tt_vred
+          !it_scr_h TYPE LINE OF tt_vred
+        .
+
+METHOD f4_vred.
+    DATA choosen_objects TYPE STANDARD TABLE OF hrsobid.
+    DATA lv_plvar TYPE objec-plvar.
+    "мусор для обновляем сэ
+    IF it_scr_h-option IS INITIAL.
+      APPEND INITIAL LINE TO it_scr ASSIGNING FIELD-SYMBOL(<l>).
+      <l>-low    = -1.
+      <l>-option = 'EQ'.
+      <l>-sign   = 'I'.
+    ENDIF.
+
+    REFRESH choosen_objects[].
+
+    lv_plvar = lcl_449=>get_plvar( ).
+
+    LOOP AT it_scr[] ASSIGNING FIELD-SYMBOL(<s_vred>)
+        WHERE sign   = 'I'
+          AND option = 'EQ'.
+      APPEND INITIAL LINE TO choosen_objects ASSIGNING FIELD-SYMBOL(<choosen_objects>).
+      <choosen_objects>-plvar = gv_plvar.
+      <choosen_objects>-otype = gc_ch.
+      <choosen_objects>-sobid = <s_vred>-low.
+    ENDLOOP.
+
+    DATA lv_wegid TYPE gdstr-wegid VALUE 'ZH-ZF-CH'.
+    CALL FUNCTION 'RH_TYPE_STRUC_HELP'
+      EXPORTING
+        act_search_otype    = gc_ch
+        act_search_wegid    = lv_wegid
+        act_search_svect    = '1'
+        act_plvar           = gv_plvar
+        act_search_begda    = sy-datum
+        act_search_endda    = sy-datum
+        set_mode            = 'X'
+        selected_obj_append = 'X'
+        no_seark            = 'X'
+      TABLES
+        selected_objects    = choosen_objects.
+
+    FREE it_scr[].
+
+    LOOP AT choosen_objects ASSIGNING FIELD-SYMBOL(<choosen_objects_2>).
+      "выбранные на селекионный
+      APPEND INITIAL LINE TO it_scr ASSIGNING FIELD-SYMBOL(<s_vred_2>).
+      <s_vred_2>-low    = <choosen_objects_2>-sobid.
+      <s_vred_2>-option = 'EQ'.
+      <s_vred_2>-sign   = 'I'.
+    ENDLOOP.
+
+    "обновляем сэ и сбрасывает первую [] в заголовок если он был пустым
+    CALL FUNCTION 'SAPGUI_SET_FUNCTIONCODE'.
+
+  ENDMETHOD.
+
+
+
+
+
+
+
+
+
+
+*&---------------------------------------------------------------------*
+*& Report  ZHR_TT
+*&
+*&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------*
+REPORT zhr_tt.
+
+DATA lv_vred TYPE pd_objid_r.
+SELECT-OPTIONS s_vred FOR lv_vred NO INTERVALS. "вредные условия
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR s_vred-low.
+
+
+  DATA choosen_objects TYPE STANDARD TABLE OF hrsobid.
+  REFRESH choosen_objects[].
+  LOOP AT s_vred[] ASSIGNING FIELD-SYMBOL(<s_vred>)
+      WHERE sign   = 'I'
+        AND option = 'EQ'.
+    APPEND INITIAL LINE TO choosen_objects ASSIGNING FIELD-SYMBOL(<choosen_objects>).
+    <choosen_objects>-plvar = '01'.
+    <choosen_objects>-otype = 'CH'. "! DODO:eha
+    <choosen_objects>-sobid = <s_vred>-low.
+  ENDLOOP.
+
+  DATA lv_wegid TYPE gdstr-wegid VALUE 'ZH-ZF-CH'.
+  CALL FUNCTION 'RH_TYPE_STRUC_HELP'
+    EXPORTING
+      act_search_otype    = 'CH'
+      act_search_wegid    = lv_wegid
+      act_search_svect    = '1'
+      act_plvar           = '01' "! DODO:eha
+      act_search_begda    = sy-datum
+      act_search_endda    = sy-datum
+      set_mode            = 'X'
+      selected_obj_append = 'X'
+      no_seark            = 'X'
+    TABLES
+      selected_objects    = choosen_objects.
+
+  REFRESH s_vred[].
+  LOOP AT choosen_objects ASSIGNING FIELD-SYMBOL(<choosen_objects_2>).
+    APPEND INITIAL LINE TO s_vred ASSIGNING FIELD-SYMBOL(<s_vred_2>).
+     <s_vred_2>-LOW    = <choosen_objects_2>-sobid.
+     <s_vred_2>-OPTION = 'EQ'.
+     <s_vred_2>-SIGN   = 'I'.
+  ENDLOOP.
+
+   "обновляем сэ
+    CALL FUNCTION 'SAPGUI_SET_FUNCTIONCODE'.

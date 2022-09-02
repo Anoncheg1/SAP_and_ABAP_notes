@@ -1,0 +1,32 @@
+METHODS:
+handle_ucomm   FOR EVENT added_function OF cl_salv_events
+	IMPORTING e_salv_function.
+
+METHOD handle_ucomm.
+	CASE e_salv_function.
+	      WHEN 'ZSAV'.  "Кнопка "Создать формуляр"
+	ENDCASE.
+endmethod.
+
+ lr_functions = r_alv_grid->get_functions( ).
+      lv_text = text-sel.
+      lr_functions->add_function( name     = 'ZSEL'
+                                  icon     = '@B_MRKA@'
+                                  text     = ''
+                                  tooltip  = 'Выделить все'
+                                  position = 2 ).
+
+data lr_events    TYPE REF TO cl_salv_events_table.
+lr_events = r_alv_grid->get_event( ).
+SET HANDLER me->handle_ucomm FOR lr_events.
+
+
+"клики
+SET HANDLER me->handle_single_click FOR lr_events. 
+SET HANDLER me->handle_double_click FOR lr_events.
+
+
+
+methods:
+handle_single_click FOR EVENT link_click OF cl_salv_events_table,
+handle_double_click FOR EVENT double_click OF cl_salv_events_table.

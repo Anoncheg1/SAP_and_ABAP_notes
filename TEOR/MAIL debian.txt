@@ -1,0 +1,21 @@
+на каждый сервер каждой компании выделенный LXC контейнер,
+отдельный контейнер под базу данных. Сервисы компаний независимы.
+
+База данных: postgresql 
+
+Почтовый сервер: связка dbmail, postfix, stunnel, spamassassin
+
+LXC inux Containers (LXC) provide a Free Software virtualization system
+	This is accomplished through kernel level isolation using CGroups and namespaces.
+
+dbmail
+	обеспечивающий возможность хранения электронной почты в реляционной базе данных, а также работу пользователей 	со своей корреспонденцией посредством протоколов IMAP и POP3
+	A mail delivery agent or message delivery agent (MDA)
+	responsible for the delivery of e-mail messages to a local recipient's mailbox.
+	Also called an LDA, or local delivery agent.
+
+Postfix
+	агент передачи почты (MTA — mail transfer agent)
+
+stunnel
+	 is an open-source multi-platform application used to provide universal TLS/SSL tunneling service.

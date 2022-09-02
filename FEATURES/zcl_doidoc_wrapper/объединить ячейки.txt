@@ -1,0 +1,12 @@
+data lt_merg type SOI_FULL_RANGE_TABLE.
+
+APPEND INITIAL LINE TO lt_merg ASSIGNING FIELD-SYMBOL(<m>).
+"Можно объединить по name - область в диспетчере имен или по 4ом параметрам:
+"<m>-name = 'place'.
+"I_OI_SPREADSHEET->SET_SELECTION
+<m>-left = 2. "Line of Top Left-Hand Cell
+<m>-top = 2. "Column of Top Left-Hand Cell
+<m>-rows = 2. "lines
+<m>-columns = 1. "Columns
+
+lr_word->MERGE_CELLS( MERGE_TAB = lt_merg ).

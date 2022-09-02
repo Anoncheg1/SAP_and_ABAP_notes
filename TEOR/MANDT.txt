@@ -1,0 +1,50 @@
+***»спользование**1)*
+1) организации
+2) ландшафт
+
+***ќпределение **2)*
+Client
+	employees are identified by an eight-digit personnel number
+
+https://www.tutorialkart.com/sap-basis/what-is-client-in-sap-create-new-sap-client/
+https://www.techopedia.com/definition/28722/client-sap
+Client-specific Table
+Cross client tables
+
+DD02 - CLIDEP
+если есть ключевое поле с MANDT
+
+***„то есть что**3)*
+манданто зависимые:
+- настройки
+
+€зык
+1) интерфейс
+2) тестовые элементы
+
+
+
+    Client Dependent: SAPscript and STD texts data
+    Client Independent: —охран€ютс€ в пакеты. Smart forms, all dictionary objects data and repository objects data like programs, function modules, tables etc.
+
+Smart Forms are Client Independent because when you activate them you are actually generating a Function Module. This means that the Print Programs actually call a FM instead of using the УOPEN_FORMФ, УWRITE_FORMФ etc. FMТs that SAPscript use.
+
+1)
+ћандант содержит основные данные (Master Data), записи пользователей с полномочи€ми и манданто-зависимые настройки.
+2)
+общие дл€ всех мандантов данные: манданто-независимые настройки и репозитарий SAP системы.
+
+ акие таблицы манданто-зависимые/независимые: таблица DD02L поле CLIDEP
+
+«нак какие настройки манданто-зависимые не нужно, так как система сама предлагает выбрать запрос настройки, если настройка мандан-то зависима€, если нет, то не предлагает ничего.
+
+
+***ѕрименение**4)*
+When open SQL ABAP statements apply to a client-dependent table, SAP automatically adds the client selection in the WHERE clause.
+
+For example SELECT * FROM mara WHERE matnr LIKE '1%' will be automatically translated into SELECT * FROM mara WHERE mandt = sy-mandt AND matnr LIKE '1%' (where sy-mandt is the client where the program runs).
+
+If you try to do client selection yourself, it is ignored, except if you add the CLIENT SPECIFIED keyword.
+
+
+Language Dependent Tables:

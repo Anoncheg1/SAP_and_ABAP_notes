@@ -1,0 +1,113 @@
+; -*-Org-*-
+
+C-H v user-init-file RET
+https://github.com/hugo-dc/abap-mode
+
+F3	Start recording macro
+F4	Stop recording macro and play
+
+* auto-fill
+M-x auto-fill-mode
+M-q вксь параграф
+С-u C-x f set column to cursor
+
+* Programming
+C-x C-;  comment line
+M-;		comment area
+
+* # org mode <<My Target>>
+** headers
+C-q TAB	insert TAB
+
+TAB S-TAB	hide show
+C-c C-npfbu	Motion
+
+C-RET  	   HEADER
+C-c * 		   text to header
+M-RET		   new list item
+M-S-RET	   TODO
+S-righ, left or C-c C-t        TODO, DONE
+M(-S)-right lieft up down		move and indentation
+
+C-x n s/w редактировать только один уровень
+
+C-c /   C-c C-c.	sparse tree
+
+** ordered lists: 1. asdas    -,+,*,1,1.,1)  description list - asd :: asd
+   C-c -	cycle bullets
+   M-RET	insert new
+*** Description
+- aaaa :: descr
+
+** TAGS
+   header tags: * header :as:asd:
+   subheadings willl accumulate all tags.
+   file tags: #+FILETAGS: :Peter:Boss:Secret:
+   C-c C-q (C-c C-c)	   insert
+   C-c \ search
+
+** Checkboxes
+   M-S-RET	create at list
+   C-c C-c 	mark       
+
+** Properties
+   C-c C-x p Set a property.
+   C-c C-c d Remove
+
+** Time Stamp
+   C-c .	ins. for agenda
+   C-c !	ins. inactive
+   S-left/right	by one day
+   S-up/down	change at cursor
+
+** Footnotes
+  text [fn:1]
+  [fn:1] пояснение в конце
+  C-c C-c	jump
+
+** Tables
+
+** links [ [ link][description]]
+   [[#%20org%20mode][# org mode]]		local link [ [#aa]]
+   [[My Target][Find my target]]	same [ [My Target][Find my target]]’
+   C-c C-l	edit link
+   file:/home/dominik/images/jupiter.jpg	file, absolute path
+   /home/dominik/images/jupiter.jpg	same as above
+   file:papers/last.pdf				file, relative path
+   C-c C-o		open link
+   C-u C-u C-c C-o 	open not in emacs
+   C-c C-l		Insert/edit a link.
+[[file:C:/Users/v.chepelev/Desktop/f267-09be-4c76-bf32-fab01dbf0c84.jpg]]
+ (setq org-file-apps
+    '(("\\.docx\\'" . default)
+      ("\\.mm\\'" . default)
+      ("\\.x?html?\\'" . default)
+      ("\\.pdf\\'" . default)
+      ("\\.png\\'" . default)
+      ("\\.jpg\\'" . default)
+      ("\\.jpeg\\'" . default)
+      (auto-mode . emacs)))
+
+** Inline source code examples
+https://orgmode.org/manual/Literal-examples.html
+C-c '		Edit the source code
+C-c C-v d	create
+1)
+Here is an example
+: Some example from a text file.
+2)
+#+BEGIN_EXAMPLE
+Some example from a text file.
+#+END_EXAMPLE
+3)
+#+NAME: name_here
+#+BEGIN_SRC abap
+data p_datum type datum. "15.01.2018
+data p_molga type MOLGA value '33'.
+p_datum = sy-datum.
+#+END_SRC
+
+M+x o-f-buf
+org-src-fontify-block
+
+

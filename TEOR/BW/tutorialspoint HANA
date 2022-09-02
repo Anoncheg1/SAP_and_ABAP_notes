@@ -1,0 +1,135 @@
+;-*- mode: Org; fill-column:110; -*-
+https://www.tutorialspoint.com/sap_bw_on_hana/index.htm
+
+* overview
+initially developed in Java and C++ for SUSE server 11.
+
+*Index Server* - Holds data and executes all operations. Contains SQL/MDX processor to handle query statements for database.
+
+*Preprocessor* - Pre-process unstructured data
+*Name Server* - Maintains landscape information
+*Statistic Server* - Collects performance data about HANA
+
+*Index server* - actual data and engines for processing that data. There is *Presistence Layer* for
+ durability - to restore to most recent state when there is restart of system failure.
+
+Also has *Session* and *Transaction Manager*.
+
+*SQL/MDX Processor*
+It ensure that all requests are authorized and also provide error handling. Contains:
+ - MDX( MultiDimension Expression) is query language for OLAP
+ - Planning Engine - run planning operations
+ - Calculation Engine - create logical execution plan to support parallel processing of statements.
+ - Stored Procedure processor. it converts OLAP cubes to HANA optimized cubes.
+*XS Engine* helps external Java and HTML based app to access HANA system with help of XS client.
+SAP HANA system contains a web server.
+*SAP Host Agent* installed for update system.
+*LM structure* contains information about current installation details
+
+*SAP Solution Manager (SAP SOLMAN) diagnostic agent* provides data to sap solution manager
+
+* Introduction
+HANA stands for *Hasso's New Architecture* - in-memory data platform deplayable as on-premise appliance, or in the cloud.
+Database, Data Modeling, Administration, Data Provisioning in one suite.
+Overcome the limitations:
+ - access and fast access to real time data for analysis and business use in increase of "Data Volume"
+ - reduce maintainance costs
+
+Data Provisioning - сохранение на Hard Disk
+* main
+Hybrid in memory database: combines row based, column based and Object Oriented base tech.
+
+In-Memory Column-based storage provides data compression up to 11 times this reducing the storage space of huge data.
+
+* SAP HANA studio
+is Eclipse-based tool. Central development environment and the main administration tool.
+
+SAP HANA Studio Administration
+Perspectives:
+*SAP HANA Development* - App Development
+SAP HANA system contains a small Web server which can be used to host small apps in Java and HTML.
+*SAP HANA Modeler* - DataMarts and ABAP on SAP HANA scenarious, do not include native app development(XS).
+
+* Column-oriented vs Row-oriented DBMS
+Both columnar and row databases can use traditional database query languages like SQL to load data and perform queries. 
+In a row-oriented indexed system, the primary key is the rowid that is mapped from indexed data. In the
+column-oriented system, the primary key is the data, which is mapped from rowids.
+
+However, by storing data in columns rather than rows, the database can more precisely access the data it needs
+to answer a query rather than scanning and discarding unwanted data in rows. Query performance is often
+increased[1] as a result, particularly in very large data sets.
+
+Row-oriented uses indexes for sort operation.
+
+Column advantages:
+ - Collecting the first and last names from many rows to build a list of contacts is far more common than
+   reading all data for any single address
+ - Compression for column
+ - better aggregare functions like SUM, COUNT, MAX, MIN
+Column disadvantages:
+  - Operations that retrieve all the data for a given object (the entire row) are slower.
+
+Row benefits:
+ - best to return completer row.
+Columnar databases boost performance by reducing the amount of data that needs to be read from disk, both by
+efficiently compressing the similar columnar data and by reading only the data necessary to answer the query.
+
+In practice, columnar databases are well-suited for OLAP-like workloads (e.g., data warehouses) which
+typically involve highly complex queries over all data (possibly petabytes).
+
+Transactions (INSERTs) must be separated into columns and compressed as they are stored, making it less suited for OLTP workloads.
+
+Column-oriented systems suitable for both OLAP and OLTP roles effectively reduce the total data footprint by
+removing the need for separate systems.
+
+It is always advisable to use Column based, if SQL has aggregate functions and calculations
+
+Methods and algorithms how data can be stored in Column:
+ - Dictionary Compressed :: cells are stored in form of numbers in tables and numeral cells are always
+      performance optimized as compared to characters.
+0 a
+1 b
+2 c
+column: 0 1 1 2 0 0
+ - Run length compressed :: it saves the multiplier with cell value in numerical format and multiplier shows
+      repetitive value in table.
+0 a
+1 b
+2 c
+column: 0x1 2x1 1x2 2x0 
+
+Benefits for Columnar from HANA:
+ - compression
+ - faster read and write access
+ - flexibility & parallel processing
+ - aggregations and calculations at higher speed 
+
+* SAP HANA Information Modeler* or *HANA Data Modeler* - heart of HANA System.  
+It enables to create modeling views at the top of database tables and implement business logic to create a meaningful report.
+
+Informational modeler only works for column based storage tables.
+
+*Information Modeling Views* are consumed by Java or HTML based applications or SAP tools like SAP Lumira or
+ Analysis Office or MS Excel for reporting.
+https://www.guru99.com/sap-hana-modeling.html
+There are 3 types of *Information Views*:
+ - Attribute View :: - dimensions or are used to join dimensions or other attribute views. Types: Standard, Time,
+   Derived. Перетаскиваешь таблицы и задаешь связи между полями
+https://www.guru99.com/sap-hana-attribute-view.html
+ - Analytic View :: it has at least one _fact table_ (that has _measures_ and primaru keys of _dimension tables_)
+(transaction data) and surrounded by dimension tables contain _master data_ (descriptive data). Forms a cube-like structure.
+   * designed to perform Star schema queries.
+   * They are similar to Info Cubes and Info object in SAP BW.
+   * Can be created on top of Attribute views and Fact tables and performs calculations like number of unit sold, total price, etc.
+https://www.guru99.com/sap-hana-analytic-view.html
+ - Calculation View :: are used on top of Analytic and Attirbute views for complex calculations. Features:
+     * Can be created graphical (using _HANA Modeling feature_) or scripted in the SQL.
+     * One or more Attribute views and Analytic views are consumed with help of inbuilt functions like Projects,
+       Union, Join, Rank in a Calculation View.
+
+2 types of Data in view:
+ - Attribute :: descriptive and measurable data. E.g. Vendor ID, Vendor Name, City, etc.
+ - Measure :: data can be quantifiable and calculated.
+
+SAP HANA Modeler View can only be created on top of Column based tables.
+ 

@@ -1,0 +1,23 @@
+SELECTION-SCREEN BEGIN OF BLOCK bl2 WITH FRAME TITLE text-002.
+	SELECT-OPTIONS s_vred1 FOR ov_vred NO INTERVALS MODIF ID m01.
+	SELECT-OPTIONS s_vred2 FOR ov_vred NO INTERVALS MODIF ID m01.
+SELECTION-SCREEN END OF BLOCK bl2.
+
+SELECTION-SCREEN PUSHBUTTON 2(14) but1 USER-COMMAND fbut1.
+PARAMETERS gv_but1 type abap_bool NO-DISPLAY DEFAULT abap_false.
+
+"screen
+TABLES sscrfields.
+
+AT SELECTION-SCREEN OUTPUT.
+  "вредные условия
+  LOOP AT SCREEN INTO DATA(screen_wa).
+    IF screen_wa-group1 = 'M01'.
+      IF s_but1 = abap_false.
+        screen_wa-active = '0'.
+      ELSE.
+        screen_wa-active = '1'.
+      ENDIF.
+    ENDIF.
+    MODIFY screen FROM screen_wa.
+  ENDLOOP.

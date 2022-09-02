@@ -1,0 +1,124 @@
+FORM output USING iv_no_prn
+                  iv_base64.
+
+  DATA: lt_values TYPE STANDARD TABLE OF zwww_values WITH HEADER LINE.
+
+  IF NOT form IS INITIAL.
+    gv_form = form.
+  ELSE.
+    gv_form = gc_word_form_name.
+  ENDIF.
+
+  "заполняем данные выходной формы
+  PERFORM fill_values_for_form TABLES lt_values[].
+
+**********************************************************************
+  " Определяем расширение, имя файла
+  DATA lv_sapworkdir TYPE string.
+  DATA lv_word_form_name TYPE wwwdatatab-objid.
+  DATA lv_ext TYPE char5.
+  DATA lv_string TYPE string.
+
+  "Ищем SapWorkDir
+  CALL METHOD cl_gui_frontend_services=>get_sapgui_workdir
+    CHANGING
+      sapworkdir            = lv_sapworkdir
+    EXCEPTIONS
+      get_sapworkdir_failed = 1
+      cntl_error            = 2
+      error_no_gui          = 3
+      not_supported_by_gui  = 4
+      OTHERS                = 5.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+    MESSAGE s057(hrpadru_legal_forms) DISPLAY LIKE 'E'.
+    RETURN.
+  ENDIF.
+
+  "Определяем расширение
+*  lv_word_form_name = form.
+  CALL FUNCTION 'WWWPARAMS_READ'
+    EXPORTING
+      relid            = 'MI'
+      objid            = gv_form
+      name             = 'fileextension'
+    IMPORTING
+      value            = lv_ext
+    EXCEPTIONS
+      entry_not_exists = 1
+      OTHERS           = 2.
+  IF sy-subrc <> 0.
+    MESSAGE s057(hrpadru_legal_forms) DISPLAY LIKE 'E'.
+    RETURN.
+  ENDIF.
+
+  "Формируем имя файла
+  CONCATENATE lv_sapworkdir '\' gv_form sy-datum sy-uzeit lv_ext
+     INTO lv_string.
+
+  DATA lv_filename TYPE rlgrap-filename.
+**********************************************************************
+
+  "выводим выходную форму
+*  CALL FUNCTION 'ZWWW_OPENFORM'
+*    EXPORTING
+*      form_name   = gv_form
+*      protect     = ''
+*    TABLES
+*      it_values   = lt_values
+*    EXCEPTIONS
+*      printcancel = 1
+*      OTHERS      = 2.
+*  IF sy-subrc <> 0.
+** Implement suitable error handling here
+*    MESSAGE s057(hrpadru_legal_forms) DISPLAY LIKE 'E'.
+*  ENDIF.
+  lv_filename = lv_string.
+  IF iv_base64 IS INITIAL.
+    DATA(lv_del) = abap_true.
+  ENDIF.
+  CALL FUNCTION 'ZWWW_OPENFORM'
+    EXPORTING
+      form_name   = gv_form
+      file_name   = lv_filename
+      protect     = space
+      close_form  = iv_no_prn
+      delete_file = lv_del
+    TABLES
+      it_values   = lt_values.
+
+**********************************************************************
+  "Подготовка бинарного представления
+  DATA lv_base64_file TYPE string.
+  DATA lv_rc TYPE sy-subrc.
+
+  IF iv_base64 IS NOT INITIAL.
+
+    "Получаем документ в двоичном виде
+    CALL METHOD z_abap_cl_utilites=>get_base64_by_filename
+      EXPORTING
+        iv_filename      = lv_string
+      RECEIVING
+        rv_base64_string = lv_base64_file.
+    "Удаляем файл
+    CALL METHOD cl_gui_frontend_services=>file_delete
+      EXPORTING
+        filename = lv_string
+      CHANGING
+        rc       = lv_rc
+      EXCEPTIONS
+        OTHERS   = 1.
+
+    "Выгружаем в память
+    EXPORT lv_base64_file TO MEMORY ID 'ZPA_0055_BASE64_FILE'.
+
+    "Проверяем на первую точку и удаляем её.
+    IF lv_ext(1) = '.'.
+      SHIFT lv_ext LEFT.
+    ENDIF.
+
+    EXPORT lv_ext TO MEMORY ID 'ZPA_0055_FILE_EXT'.
+
+  ENDIF.
+
+ENDFORM.

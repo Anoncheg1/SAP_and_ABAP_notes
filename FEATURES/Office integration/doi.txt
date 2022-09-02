@@ -1,0 +1,147 @@
+Desktop Office Integration
+https://help.sap.com/erp2005_ehp_04/helpdata/en/e9/0be848408e11d1893b0000e8323c4f/frameset.htm
+
+FORM data_to_excel USING pv_wwwobjid    TYPE wwwdatatab-objid
+                         pv_ddic_name   TYPE x030l-tabname
+                         pt_data        TYPE ANY TABLE
+                         pt_data_add    TYPE tt_data_add.
+  TYPE-POOLS soi.
+
+  DATA container TYPE REF TO cl_gui_custom_container.
+  DATA control TYPE REF TO i_oi_container_control.
+  DATA table_collection	TYPE REF TO	i_oi_table_collection.
+  DATA document TYPE REF TO i_oi_document_proxy.
+  DATA www_key TYPE wwwdatatab.
+  DATA www_data TYPE TABLE OF w3mime WITH HEADER LINE.
+  DATA www_filelen TYPE i.
+  DATA www_filelen_c(10).
+
+  DATA l_retcode TYPE soi_ret_string.
+  DATA lc_error  TYPE REF TO i_oi_error.
+
+
+  CALL METHOD c_oi_container_control_creator=>get_container_control
+    IMPORTING
+      control = control
+      retcode = l_retcode
+      error   = lc_error.
+  IF l_retcode NE c_oi_errors=>ret_ok.
+  ENDIF.
+
+  CALL METHOD control->init_control
+    EXPORTING
+      r3_application_name      = 'SAP R/3'                  "#EC NOTEXT
+      inplace_enabled          = ' '
+      parent                   = container
+      inplace_scroll_documents = 'X'
+      register_on_close_event  = 'X'
+      register_on_custom_event = 'X'
+      no_flush                 = 'X'
+    IMPORTING
+      retcode                  = l_retcode
+      error                    = lc_error.
+  IF l_retcode NE c_oi_errors=>ret_ok.
+  ENDIF.
+
+  CALL METHOD control->get_table_collection
+    IMPORTING
+      table_collection = table_collection
+      retcode          = l_retcode
+      error            = lc_error.
+  IF l_retcode NE c_oi_errors=>ret_ok.
+  ENDIF.
+
+  CALL METHOD table_collection->add_table
+    EXPORTING
+      table_name = 'SAP_DATA'
+      table_type = table_collection->table_type_output
+      no_flush   = ''
+      ddic_name  = pv_ddic_name
+    IMPORTING
+      retcode    = l_retcode
+      error      = lc_error
+    CHANGING
+*     fields_table = fields_table[]
+      data_table = pt_data[].
+  IF l_retcode NE c_oi_errors=>ret_ok.
+  ENDIF.
+
+  CALL METHOD table_collection->add_table
+    EXPORTING
+      table_name = 'SAP_DATA_ADD'
+      table_type = table_collection->table_type_output
+      no_flush   = ''
+*     ddic_name  = pv_ddic_name
+    IMPORTING
+      retcode    = l_retcode
+      error      = lc_error
+    CHANGING
+*     fields_table = fields_table[]
+      data_table = pt_data_add[].
+  IF l_retcode NE c_oi_errors=>ret_ok.
+  ENDIF.
+
+  CALL METHOD control->get_document_proxy
+    EXPORTING
+      document_type      = 'Excel.Document'
+      register_container = 'X'
+    IMPORTING
+      document_proxy     = document
+      retcode            = l_retcode
+      error              = lc_error.
+
+  www_key-relid = 'MI'.
+  www_key-objid = pv_wwwobjid.
+
+  CALL FUNCTION 'WWWPARAMS_READ'
+    EXPORTING
+      relid            = www_key-relid
+      objid            = www_key-objid
+      name             = 'filesize'
+    IMPORTING
+      value            = www_filelen_c
+    EXCEPTIONS
+      entry_not_exists = 1
+      OTHERS           = 2.
+  CHECK sy-subrc EQ 0.
+
+  www_filelen = www_filelen_c.
+
+  CALL FUNCTION 'WWWDATA_IMPORT'
+    EXPORTING
+      key               = www_key
+    TABLES
+      mime              = www_data
+    EXCEPTIONS
+      wrong_object_type = 1
+      import_error      = 2
+      OTHERS            = 3.
+  CHECK sy-subrc EQ 0.
+
+
+  CALL METHOD document->open_document_from_table
+    EXPORTING
+      document_size  = www_filelen
+      document_table = www_data[]
+      open_inplace   = ''
+    IMPORTING
+      retcode        = l_retcode
+      error          = lc_error.
+  IF l_retcode <> c_oi_errors=>ret_ok.
+  ENDIF.
+
+
+  CALL METHOD document->execute_macro
+    EXPORTING
+      macro_string = 'Module1.Start'
+      param_count  = 0
+    IMPORTING
+      retcode      = l_retcode
+      error        = lc_error.
+  IF l_retcode <> c_oi_errors=>ret_ok.
+  ENDIF.
+
+
+  WRITE ''.
+
+ENDFORM. 

@@ -1,0 +1,8 @@
+; -*-Org-*-
+https://help.sap.com/saphelp_crm700_ehp02/helpdata/en/52/c25fc996a1494aa9e313d261a3728d/frameset.htm
+* authorizations
+	using a role-based identity management approach = assign authorizations to users based on the job
+
+
+* Identity Management for System Landscapes
+	 SAP Business Suite

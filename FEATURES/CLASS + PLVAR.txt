@@ -1,0 +1,53 @@
+﻿ПОЧЕМУ CLASS FINAL
+
+ЧТОБЫ ОТМЕТИТЬ ВЫБОР ДИЗАЙНА.
+inheritance is both powerful and dangerous [9]. We should use FINAL to prevent abuse.
+
+Because of its power, we tend to use inheritance as a powerful macro (so called implementation inheritance) just for DRY. But if the subclass is not a problem domain specialization (a subtype) of the super class (LSP [1] / [2]), this will lead to non intuitive errors, like a circle is not an ellipse ([3], [4], [5]).
+
+SAP recommend ([6], [7] : -broken links- defensive programming) to declare your classes FINAL by default. If you are really defensive, you will be using composition over inheritance more often.
+
+The circle/ellipse example: instead of creating a subclass of ellipse, you subclass both circle and ellipse from an abstract geometric object class. To force this decision in future code maintenance, the implementation of both circle and ellipse classes is set to FINAL.
+
+In this case, FINAL is used to indicate a design choice: subclass the geometric object abstract class instead.
+
+
+OBJECT
+Every class without the addition INHERITING FROM inherits implicitly from the predefined empty, abstract class object
+
+ЛОКАЛЬНЫЙ КЛАСС
+CLASS lcl_9141 DEFINITION FINAL.
+  PUBLIC SECTION.
+    CLASS-METHODS:
+      class_constructor,
+      get_plvar
+        RETURNING
+          VALUE(rv_plvar) TYPE objec-plvar
+   .
+  PRIVATE SECTION.
+    CLASS-DATA:
+    gv_plvar TYPE objec-plvar.
+ENDCLASS.
+
+CLASS lcl_0125 IMPLEMENTATION.
+  METHOD class_constructor.
+    "текущий план
+    CALL FUNCTION 'RH_INTERNAL_ACTIVE_WF_PLVAR'
+      IMPORTING
+        active_plvar          = gv_plvar
+      EXCEPTIONS
+        no_active_plvar_found = 1
+        OTHERS                = 2.
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD get_plvar.
+    rv_plvar = gv_plvar.
+  ENDMETHOD.
+ENDCLASS.
+
+
+ГЛОБАЛЬНЙ КЛАСС
+CLASS gcl_9141 PUBLIC DEFINITION FINAL.

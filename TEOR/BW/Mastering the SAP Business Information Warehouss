@@ -1,0 +1,188 @@
+;-*- mode: Org; fill-column:135; -*-
+/mnt/xvdb2/torrents/SAP ebooks/r3/Mastering the SAP Business Information Warehouse.pdf
+
+granular data or atomic data - подробная разбитая на все поля. Allow the same data to be examined in different ways.
+derived data - в виде строки или выходны
+
+
+
+most basic information:
+- who are the best customers
+- what products are selling
+- how match revenue was made last quarter
+online :
+- 
+* BI VS BW
+SAP BW as a part of a business intelligence solution.
+BI stands for  evolution of informational processing as example of business process reengineering evolution.
+Data warehouse is a solution in increasing amount of business information for efficient decision-making processes.
+* History
+master file -> database -> online apps & central online database
+batch -> online transaction processing
+
+Extract file - exctracted by one app from database and shipped to another app.
+
+Lot of them - spiderweb problem. Realization that there were different data - *operational* ( daily operations of a business) and
+*informational*.
+
+| Operational systems                     | Informational/DSS                       |
+|-----------------------------------------+-----------------------------------------|
+| Detailed                                | Summarized                              |
+| Can be updated                          | Snapshit records; no up                 |
+| Accurate up to the second               | Timestamp on each record                |
+| for clerks                              | used by management                      |
+| built based on requirements             | built without knowing reqs              |
+| support small uniform tr-s              | support mixed workload                  |
+| yields 2-3-sec resp time                | yields 30-24-hour resp time             |
+| Data designed for optimal storage(size) | Data designed for optimal access(speed) |
+| data designed around functional usage   | data designed around subject areas      |
+| very current data                       | mainly historical data                  |
+| data is application oriented            | data is integrated                      |
+| referential integrity is useful         | referential integrity is not useful     |
+| high availability is normal             | high availability is nice to have       | 
+
+Decision support system (DSS)  
+
+Operational processing was done out of an ERP systems like SAP. Information processing was done out of a data warehouse.
+* Data Warehouse
+It eveolvs from these requirements and supports the process of moving data from source systems, transforming and cleansing so that it
+may be stored in a integrated data model at an atomic level of granularity. Consist of tables or databases.
+ - Subject-oriented :: process or object. subject area databases for customer, material, vendor, transaction.
+ - Integrated :: data from various subject areas should be rationalized with one another.
+ - Nonvolatile :: no change for record
+ - Time-variant :: A record is accurate only as of some moment in time.
+ - Created for pyrpose of management decisions :: 
+
+Provides data:
+ - Detailed or granular
+ - Integrated
+ - Historical
+ - Easy-access
+
+* Data Model
+- design of data warehouse.
+At highest level, the data model is an *Entry relationship diagram(ERD)* - represents only granular data and no derived data.
+*ERD* - consist of _Entities_ and relationships. 
+Entities is futher detailed in *data item set(DIS)* - keys and attributes and futher at *physical design* for database management system.
+*physical aspects* - partitioning, loading, indexing, storage media, timestamping.
+
+One table relates to another by means of shared key or foreign key relationship.
+Table represent *subject area* or subset of *subject area*.
+ - Customer
+ - Product    [ˈprɒdʌkt]
+ - Shipment [ˈʃɪpmənt]
+ - Vendor     [ˈvɛndɔː] продавец
+ - Order       [ˈɔːdə]
+
+It is patently a mistake to build the data warehouse in an all-at-once or "big bang" approach.
+
+*Extract/transfer/load ETL* software - create interface to bring the data into the world of data warehouse.
+In SAP BW it is so-called _Staging Engine_ to perform simple transformation and conversion.
+
+* Timestamping
+Two ways that record is stored in the data warehouse:
+| discretely                                      | continuously      |
+|-------------------------------------------------+-------------------|
+| june 14                                         | jan 1 to jan 13   |
+| one instan in time for which record is accurate | span of time fo.. |
+
+Record in a data warehouse have a distinctive характерную structure:
+- timestamp
+- key
+- Primary data
+- Secondary data
+
+Data relationship in warehouse is specific - it limited by the timestams found on the participating records.(not like _referential integrity_)
+
+* Generic data vs Specific data
+Generic data - applies to all instances of a subject area.
+Specific data - applies to only certain occurrences of a subject area.
+* Data quality
+most data quality activity occurs at ELT.
+Over time data changes. there is need for periodic adjustment of data based on changes in business conditions that have occured over time.
+
+dormancy ration 10 20 % is ok.
+dormant data grossly hurts performance.
+Data that is inactive is placed in a physically separate facility - alternative storage or ner-line storage.
+This tech calls *cross-media storage manager(CMSM)* - sites between main storage and alternative.
+
+* Meta Data
+Roles:
+ - describe what data resides
+ - coordinator between different services from ELT to information access.
+
+Types:
+ - Technical meta data :: describe the structure and content of the different types of data. Stored for long time.
+ - Operational meta data :: is the metrics that are generated by the day-to-day. Metrics such
+   * records passed from one software component to anather
+   * length of operation of a program
+   * number of records in a database, etc.
+ - Business meta data :: business definitions, business formulae, and business conditions.
+
+One  concern is the integrity of meta data:
+- certain protocol for meta data is necessary.
+- each unit of meta data must have one owner. Owner has the right of update, creation and deletion of unit of meta data. Everyone else
+  becomes a sharer of the meta data. As meta data is passed from one node to the next, track of ownership must be kept.
+
+ * Warehouse concept
+database theory - all data be gathered into single database.
+data warehouse - different kinds of databases for different purposes. 1) Operational transaction processing 2) Informational prcessing
+The data warehouse called for data to be integrated and stored in physically separate database techs.
+*Data marts* (витрины данных) - grew from data warehouses.
+
+At the center was Data warehouse which provided granular data that was reshaped int omany different forms in order to feed the many
+different forms of decision support processing.
+*Corporate information factory(CIF)* - architectural framework. 
+CIF is like city plan:
+Apps -> ELT -> ODS, DataWarehouse -> data marts, data mining, crm, eComm, Bus In.
+
+CIF was In the same time that SAP and Enterprise Resource Planning(ERP) were developed.
+SAP BW uses CIF.
+
+Data Warehouse becomes the support infrastructure for business intelligence.
+
+
+* CHAPTER 2 
+SAP has been developing software according to *solution map*.  More or less SAP has evolved from ERP to e-business software solutions
+company covering areas as CRM, supply chain optimization, business intelligence.
+
+SAP BW First release 1998.
+
+SAP BI solution. Two main components: The Enterprise Portal and SAP BW.
+
+Business process re-engineering (BPR) is a _ business management strategy_, originally pioneered in the early 1990s.
+
+Why we need separate storage?:
+ - ERP apps were not designed to store history.
+ - Often only some of the apps are ERP based. In this case there is still  a need for integration.
+ - tech optimal for ERP is optimized on the efficient running of transcations. Informational processing does not run well on this kind
+   of tech; the predictable processes are found in the transaction-processing world, while unpredictable requests are made in analysis
+   world.
+ - ERP have thousand of tables in a highly normalized schema that may be difficult to access and to make available to the informational
+   analyst.
+ - ERP require their own processing windows for real-time information, while informational processing may tolerate latency
+** HISTORY OF SAP BW
+First in SAP R/3 release 2.0. To obtain reports easier created at *information system layer* within SAP R/3 product. Different Query
+tools in applications.
+
+In the early 1990s SAP implemented *Online analytic processing(OLAP)* - *research processor* was used in CO-PA. Today it is *Drill-Down
+Reporting*
+
+Then _reporting server_ was created - *SAP Business Information Warehouse (SAP BW)* most concepts was ported from SAP R/3.
+
+Until SAP BW 3.0, SAP had not created a complete solution to address components of CIF. (Open Information Warehouse, R/3-based Data
+Warehouse, ALE-based Data Warehouse)
+
+SAP BW software component is delivered with nearly every solution sold by SAP.
+*SAP BI solution* contains  the Enterprise Portal and  the SAP BW. Both create foundation on which to build collaborative analytic apps.
+
+** Architecture
+Applications: Directory Services (LDAP) - separate
+Enterprise portal: Text Retrival, Classification Taxonomy, Indexing. Main - Unification Services. ((Apps && Unstructured information)) 
+*SAP BW*: Presentation, Analysis/Access, Storage, ELT. Main - Master Data services, Administration Services. ((Structured Information))
+
+SAP BW v1.2a was a bit ahead of its time.
+*InfoCube and OLAP engine* - access and analyze data. base.
+*operational data store (ODS) layer* for creating data warehouse
+
+c 59

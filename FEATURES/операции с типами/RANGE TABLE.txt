@@ -1,0 +1,3 @@
+DATA: lt_rstruc2 TYPE RANGE OF struc-objid.
+lt_rstruc2[] = VALUE #( BASE lt_rstruc2
+    ( sign   = 'I' option = 'EQ' low = orgeh ) ).

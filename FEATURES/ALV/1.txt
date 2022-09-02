@@ -1,0 +1,69 @@
+"table
+DATA lt_p0001 TYPE STANDARD TABLE OF p0001.
+
+DATA lr_columns   TYPE REF TO cl_salv_columns.
+DATA lr_column    TYPE REF TO cl_salv_column_table.
+DATA lv_short     TYPE scrtext_s.
+DEFINE _set_texts. "macros set column name
+  lr_column ?= lr_columns->get_column( &1 ).
+  lr_column->set_medium_text( &2 ).
+  lr_column->set_long_text( &2 ).
+  lv_short = &2.
+  lr_column->set_short_text( lv_short ).
+END-OF-DEFINITION.
+
+CALL FUNCTION 'HR_READ_INFOTYPE'
+  EXPORTING
+    pernr     = '2500001'
+    infty     = '0001'
+*   begda     = pc-begda
+*   endda     = pc-endda
+  TABLES
+    infty_tab = lt_p0001
+  EXCEPTIONS
+    OTHERS    = 2.
+IF sy-subrc <> 0.
+  "error
+ENDIF.
+
+DELETE lt_p0001 WHERE sprps = abap_true.
+SORT lt_p0001 BY begda DESCENDING.
+READ TABLE lt_p0001 INDEX 1 ASSIGNING FIELD-SYMBOL(<lt_p0001>).
+
+IF lines( lt_p0001 ) = 0.
+  "error
+ENDIF.
+
+
+"alv table
+DATA: lx_msg TYPE REF TO cx_salv_msg.
+TRY.
+    DATA: o_alv TYPE REF TO cl_salv_table.
+    cl_salv_table=>factory(
+      IMPORTING        r_salv_table = o_alv
+      CHANGING         t_table      = lt_p0001 ).
+  CATCH cx_salv_msg INTO lx_msg.
+ENDTRY.
+
+"Functions
+DATA(lr_func) = o_alv->get_functions( ).
+lr_func->set_all( ).
+"columns
+TRY.
+    "ширина столбцов оптимизируетс€ по их названию
+    o_alv->get_columns( )->set_optimize( abap_true ).
+
+    "название столбцов
+    lr_columns = o_alv->get_columns( ).
+    _set_texts 'PERNR' ' л усл т'.
+
+    "объединить €чейки
+    DATA(gr_sorts) = o_alv->get_sorts( ).
+    gr_sorts->add_sort(
+      columnname = 'JUPER'
+      sequence   = if_salv_c_sort=>sort_down ).
+  CATCH cx_root.
+    "error message
+ENDTRY.
+
+o_alv->display( ).

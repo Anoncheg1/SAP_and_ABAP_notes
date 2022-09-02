@@ -1,0 +1,147 @@
+не закрывается, но outside выводит всю фигню
+похоже нельзя никак остановить фигню в outside
+
+
+"gs_out
+"вывод строк и даты
+  METHOD data_to_excel.
+    DATA:
+      lr      TYPE REF TO zcl_doidoc_wrapper,
+      control TYPE REF TO i_oi_container_control.
+    DATA:
+      lr_spreadsheet TYPE REF TO i_oi_spreadsheet,
+      ls_handle      TYPE cntl_handle,
+      lo_appl        TYPE ole2_object,
+      lo_sele        TYPE ole2_object,
+      lo_rows        TYPE ole2_object,
+      lv_rcode       TYPE soi_ret_string,
+      lv_top         TYPE i,
+      lv_copy        TYPE i,
+      lv_from        TYPE i,
+      lv_to          TYPE i,
+      lv_rows        TYPE string.
+    DATA:
+      lv_text       TYPE string,
+      lt_field_list TYPE zbc_doidoc_formfield_list,
+      ls_field_list LIKE LINE OF lt_field_list.
+
+    CREATE OBJECT lr
+      EXPORTING
+        control       = control
+        document_type = 'XLS'.
+
+    CALL METHOD lr->doidoc_open
+      EXPORTING
+        im_doc_type         = 'XLS'
+        im_doc_source       = 'WEBREP'
+        im_doc_key1         = 'ZHR_0419'
+        im_doc_open_inplace = ' '
+        im_save             = ' '
+        im_doc_title        = 'Перечень рабочих мест c льготным пенсионным обеспечением'(001)
+      RECEIVING
+        re_ref_exceldoc     = lr.
+
+    CALL METHOD lr->set_sheet
+      EXPORTING
+        sheet_name = 'Свод по заполненности подразд'(002).
+
+    ls_field_list-name = 'DATA1'.
+    lv_text = gs_out-date.
+    ls_field_list-value = lv_text.
+    APPEND ls_field_list TO lt_field_list.
+    ls_field_list-name = 'DATA2'.
+    APPEND ls_field_list TO lt_field_list.
+
+    lr->set_form_fields(
+      EXPORTING
+        field_list = lt_field_list ).
+
+
+    lr->get_spreadsheet( IMPORTING spreadsheet = lr_spreadsheet ).
+
+    CALL METHOD lr->proxy->get_document_handle
+      IMPORTING
+        handle = ls_handle.
+
+    GET PROPERTY OF ls_handle-obj 'Application' = lo_appl.
+
+    lv_top = 14.
+    IF lines( gs_out-tab ) > 1.
+
+      lv_from = lv_top + 1.
+      lv_to = lv_top + lines( gs_out-tab  ) - 1.
+      lv_rows = lv_from && ':' && lv_to.
+
+*--------------------------------------------------------------------------------*
+*     создаем нужное кол-во пустых строк
+*--------------------------------------------------------------------------------*
+      CALL METHOD OF
+          lo_appl
+          'Rows'  = lo_rows
+        EXPORTING
+          #1      = lv_rows.
+      CALL METHOD OF
+        lo_rows
+        'Insert'.
+
+*--------------------------------------------------------------------------------*
+*     копируем формат строки даных в буфер обмена (не наименование организации)
+*--------------------------------------------------------------------------------*
+      lv_copy = lv_top.
+      CALL METHOD lr_spreadsheet->set_selection
+        EXPORTING
+          top     = lv_copy
+          left    = 1
+          rows    = 1
+          columns = 8
+        IMPORTING
+          retcode = lv_rcode.
+      CALL METHOD OF
+        lo_appl
+          'Selection' = lo_sele.
+      CALL METHOD OF
+        lo_sele
+        'Copy'.
+
+
+*--------------------------------------------------------------------------------*
+*     выделяем необходимый диапазон для переноса формата из буфера
+*--------------------------------------------------------------------------------*
+      CALL METHOD lr_spreadsheet->set_selection
+        EXPORTING
+          top     = lv_top + 1
+          left    = 1
+          rows    = lines( gs_out-tab ) - 1
+          columns = 8
+        IMPORTING
+          retcode = lv_rcode.
+*     переносим формат
+      CALL METHOD OF
+        lo_appl
+          'Selection' = lo_sele.
+      CALL METHOD OF
+        lo_sele 'PasteSpecial'
+        EXPORTING
+          #1 = -4122
+          #2 = -4142.
+
+      SET PROPERTY OF lo_appl 'CutCopyMode' = 0.
+
+*      SET PROPERTY OF lo_sele 'RowHeight' = '15'.
+      CALL METHOD OF
+        lo_appl
+          'AutoFit' = lo_sele.
+
+    ENDIF.
+
+    lr->ins_tble_to_xls( sheet_name  = 'Свод по заполненности подразд'(002)
+                         sheet_data  = gs_out-tab[]
+                         top         = lv_top
+                         left        = 1
+                         cols        = 7 ).
+    lr->scroll_up( ).
+
+    lr->doidoc_show( lr ).
+    lr->doidoc_close( ).
+
+  ENDMETHOD.

@@ -1,0 +1,40 @@
+Все объекты:
+    1) Tables - Transparent Table, Pooled Table, Clustered Table
+    2) Views - Database View, Projection View, Maintenance View, Help View
+    3) Data Types -Data Elements, Data Structures,Table Types
+    4) Type Groups
+    5) Domains
+    6) Search Helps
+    7) Lock Objects
+    8) Matchcodes
+
+Не названные виды объектов:
+Text tables - текстовые таблицы.
+Client-dependent tables - Манданто-зависимые таблицы.
+Language-dependent tables - таблицы которые имеют инклуды с другими таблицами.
+
+Различие видов ракурсов Views:
+    Projection view - Just retrieves some fields from a single table.
+    Help View - This is used for search help.
+    Database View - This is inner join view of one or more tables
+    Maintenance View - Helps in creating maintaining data of the application object. The data can be distributed among several tables.
+
+Таблица Таблиц:
+DD02L
+вид DD02VV
+
+Таблицы содержащие DDIC объекты:
+1. TADIR - Directory of Repository Objects
+2. DD01L - Domain
+3. DD02L - Tables
+4. DD03L - Table Fields
+5. DD04L - Data Elements
+6. DD06L - Pool/Cluster structures
+7. DD07L - Fixed values for Domains
+8. DD08L - Relationship definitions
+9. DD09L - Technical Settings of tables
+10. DD12L - Secondary Indexes
+11. DD23L - Matchcode Objects
+12. DD25L - Aggregate Header (Views, MC Objects, Lock Objects)
+13. DD30L - Search Helps
+14. DD40L - Table types (internal tables defined in DD)

@@ -1,0 +1,6 @@
+;-*- Org -*-
+*Key types:*
+ - Default key
+ - Primary table key
+ - Secondary key
+ - Free key - in READ TABLE, *WITH KEY*

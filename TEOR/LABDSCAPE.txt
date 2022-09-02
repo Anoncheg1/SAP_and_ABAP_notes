@@ -1,0 +1,52 @@
+﻿https://blogs.sap.com/2012/06/14/what-is-sap-landscape/
+
+IDES : is purely for education purpose and is NOT INCLUDED in the landscape. 
+
+DEV 			would have multiple clients for ex: 190- Sandbox, 100- Golden, 180 – Unit Test.
+	is where the the consultants do the customization as per the company’s requirement.
+QAS			 may again have multiple clients for ex: 300- Integration Test, 700 to 710 Training.
+	is where the core team members and other members test the customization. 
+PRD			may have something like a 200 Production
+	is where the live data of the company is recorded. 
+
+Presentaion Server- Where SAP GUI have.
+Application Server – Where SAP Installed.
+Database Server – Where Database installed.
+
+A request will flow from Dev -> Qual -> Prod and not backwards. 
+
+ transport request pop up upon saving every time
+
+sandbox client 190:
+
+
+sandbox ->golden:
+Whenever you think you are satisfied with your CONFIGURATION and you think you can use it moving forward
+
+Golden client 100:
+Whenever you think you are satisfied with your configuration and you think you can use it moving forward, you RE-DO it in the golden client (remember, this is a very neat and clean client and you cannot use it for rough usage)
+You don’t run any transaction or even use the SAP Easy Access screen on the 100 (golden) client. This is a configuration only client.
+The Golden client remains the ‘database’ (if you wanna call it that) or you may rather call it the ‘ultimate’ reference client for all the good, complete and final configuration that is being used in the implementation. 
+
+golden ->unit test:
+As you re-do everything that you had thought was important and usable, you get a transport request pop up upon saving every time. You save it under a transport request and give your description to it. Thus the configuration is transported to the Unit Test client (180 in this example).
+
+unit test-> gold, sandbox:
+The incorrect or unsatisfactory configuration is corrected in Golden (may again as well be practised in the sandbox prior to Golden) and accordingly transported back to 180 (Unit Test) until the unit test affected by that particular config is satisfactory.  
+
+unit test client 180:
+In the Testing client you cannot even access SPRO  (Display IMG) screen. It’s a transaction only client where you perform the unit test.
+
+unit test -> DEV:
+Upon a satisfactory unit test, you move the good configuration to the next SERVER (DEV). The incorrect or unsatisfactory configuration is corrected in Golden (may again as well be practised in the sandbox prior to Golden) and accordingly transported back to 180 (Unit Test) until the unit test affected by that particular config is satisfactory. 
+
+
+
+Ландшафт с двумя системами DEV, PRD
+Но основная проблема на самом деле в другом: в переносе изменений. Никто не может гарантировать, что транспортный запрос содержит все необходимые компоненты с изменениями и импортируется в систему промышленной эксплуатации без ошибок. В таком ландшафте это никто не проверял.
+
+QAS->PRD
+ И тогда производится перенос всей очереди сформированных запросов в рамках данной разработки.
+
+
+ Подробности можно найти в курсах SAP ADM325 и SAP ADM800.

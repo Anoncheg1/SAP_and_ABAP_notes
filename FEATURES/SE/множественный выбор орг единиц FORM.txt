@@ -1,0 +1,48 @@
+FORM f4_orgeh.
+    DATA: lt_marked   TYPE TABLE OF hrsobid,
+          ls_marked   LIKE LINE  OF lt_marked,
+          lt_selected TYPE TABLE OF objec.
+    FIELD-SYMBOLS: <ls_selected> LIKE LINE OF lt_selected,
+                   <ls_orgeh>    LIKE LINE OF s_orgeh.
+    ls_marked-plvar = s_plvar.
+    ls_marked-otype = s_type. "'A1'.
+    LOOP AT s_orgeh
+        ASSIGNING <ls_orgeh>
+        WHERE low IS NOT INITIAL.
+      ls_marked-sobid = <ls_orgeh>-low.
+      APPEND ls_marked TO lt_marked.
+    ENDLOOP.
+    CALL FUNCTION 'RH_OBJID_REQUEST'
+      EXPORTING
+        plvar           = lcl_rep=>get_plvar( )
+        otype           = s_type "'A1'
+        set_mode        = abap_true
+      TABLES
+        marked_objects  = lt_marked
+        sel_objects     = lt_selected
+      EXCEPTIONS
+        cancelled       = 1
+        wrong_condition = 2
+        nothing_found   = 3
+        illegal_mode    = 4
+        internal_error  = 5
+        OTHERS          = 6.
+    IF sy-subrc = 0 OR
+       sy-subrc = 3.
+      CLEAR: s_orgeh,
+             s_orgeh[].
+    ENDIF.
+    IF sy-subrc = 0.
+      LOOP AT lt_selected ASSIGNING <ls_selected>.
+        APPEND INITIAL LINE TO s_orgeh ASSIGNING <ls_orgeh>.
+        <ls_orgeh>-sign   = 'I'.
+        <ls_orgeh>-option = 'EQ'.
+        <ls_orgeh>-low = <ls_selected>-objid.
+      ENDLOOP.
+      READ TABLE s_orgeh INTO s_orgeh
+        INDEX 1.
+    ENDIF.
+
+    "обновляем сэ и сбрасывает первую [] в заголовок если он был пустым
+    CALL FUNCTION 'SAPGUI_SET_FUNCTIONCODE'.
+  ENDFORM.                    "f4_orgeh

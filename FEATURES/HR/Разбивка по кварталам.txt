@@ -1,0 +1,51 @@
+I кв. II кв III кв. IV кв. Всего
+
+Если begda или endda была в квартале, то X. Всего: всегда +1
+
+FORM get_kv  USING    p_begda TYPE datum
+                        p_endda TYPE datum
+               CHANGING ch_out LIKE wa_output.
+    DATA: kv1, kv2, kv3, kv4.
+
+    IF p_begda+4(4) BETWEEN '0101' AND '0331'.
+      kv1 = abap_true.
+    ENDIF.
+    IF p_begda+4(4) BETWEEN '0401' AND '0630'.
+      kv2 = abap_true.
+    ENDIF.
+    IF p_begda+4(4) BETWEEN '0701' AND '0930'.
+      kv3 = abap_true.
+    ENDIF.
+    IF p_begda+4(4) BETWEEN '1001' AND '1231'.
+      kv4 = abap_true.
+    ENDIF.
+    IF p_endda+4(4) BETWEEN '0101' AND '0331'.
+      kv1 = abap_true.
+    ENDIF.
+    IF p_endda+4(4) BETWEEN '0401' AND '0630'.
+      kv2 = abap_true.
+    ENDIF.
+    IF p_endda+4(4) BETWEEN '0701' AND '0930'.
+      kv3 = abap_true.
+    ENDIF.
+    IF p_endda+4(4) BETWEEN '1001' AND '1231'.
+      kv4 = abap_true.
+    ENDIF.
+
+    IF kv1 = abap_true.
+      ADD 1 TO ch_out-kv1.
+    ENDIF.
+    IF kv2 = abap_true.
+      ADD 1 TO ch_out-kv2.
+    ENDIF.
+    IF kv3 = abap_true.
+      ADD 1 TO ch_out-kv3.
+    ENDIF.
+    IF kv4 = abap_true.
+      ADD 1 TO ch_out-kv4.
+    ENDIF.
+
+    IF NOT ( kv1 IS INITIAL AND kv2 IS INITIAL AND kv3 IS INITIAL AND kv4 IS INITIAL ).
+      ADD 1 TO ch_out-vsego.
+    ENDIF.
+  ENDFORM.

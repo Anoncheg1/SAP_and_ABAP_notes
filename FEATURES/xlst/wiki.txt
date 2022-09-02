@@ -1,0 +1,315 @@
+'''XLST''' - язык преобразования XML-документов. В примере мы берем XML с пустой таблицей и преобразуем его в XML с заполненной и прередаем в EXCEL. Технически, производим сериализацию.
+
+'''XML''' - предоставляет общие правила (синтаксис), используя которые, можно разметить данные на семантические единицы. В данном случае, используются таблицы Excel, закодированные его XML процессором.
+
+'''XSL''' (Extensible Stylesheet Language)   is a family of languages used to transform and render XML documents, split into: XSLT (XSL Transformations), XSL-FO (XSL Formatting Objects), XPath (XML Path Language).
+
+'''XPath''' (XML Path Language), a non-XML language for addressing the components (elements, attributes, and so on) of an XML document. XPath is widely used in other core-XML specifications and in programming libraries for accessing XML-encoded data.
+
+'''Simple transformations''', or ST, is a proprietary SAP programming language that describes the transformation of ABAP data to XML (serialization) and from XML to ABAP data (deserialization).
+
+Сравнение: !=, <=, <, =, >, >=.
+Логические операции: not(), or, and.
+==Базис==
+
+'''1)''' Создаем в EXCEL табличку:
+
+[[Файл:Excel table.PNG|заготовка XLST ]]
+
+Сохраняем как "Таблицы XML 2003 (*.xml)".
+
+Открываем файл и копируем все, кроме эти двух строк:
+
+<pre>
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+</pre>
+
+'''2)''' Создаем преобразование, правой клавишей на пакете Создать->Другое(1)->Преобразование->XLST
+
+<pre>
+<xsl:transform version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:sap="http://www.sap.com/sapxsl"
+>
+
+  <xsl:strip-space elements="*"/>
+
+  <xsl:template match="/">
+		Сюда вставляем XML из EXCEL
+  </xsl:template>
+
+</xsl:transform>
+</pre>
+
+
+'''3)''' Находим 
+<pre>
+<Worksheet ss:Name="Лист1"> 
+   <Table ss:ExpandedRowCount="2" >
+</pre>
+
+В тэге Table уже строго задано количество строк 2, а у нас количество строк динамическое, поэтому мы удалем из него атрибут:
+<pre>
+ss:ExpandedRowCount="2"
+</pre>
+
+'''4)''' Находим нужную ROW строку которую мы хотим пролупать и окружаем её тегом цикла.
+
+<pre>
+<xsl:for-each select="//DATA/*">   - здесь DATA это параметр SOURCE при вызове CALL TRANSFORMATION
+здесь <ROW> строка которую лупаем
+</xsl:for-each>
+</pre>
+
+DATA это:
+<pre>
+"внешняя таблица
+DATA: lt_t LIKE TABLE OF ls_t.
+...
+CALL TRANSFORMATION ('ZCH_NESTED_ITABS')
+        SOURCE
+          data = lt_t
+        RESULT XML
+          l_ostream.
+</pre>
+Замечение: Трансформации работают с внутренними таблицами, поэтому, структуры, таблицы ABAP Cловаря не нужны.
+
+'''5)''' Вставляем значение поля в тег Data. Здесь INDEX, это поле в таблице DATA.
+<pre>
+<Data ss:Type="Number">
+  <xsl:value-of select="INDEX"/>
+</Data>
+</pre>
+Замечение: Названия полей должны быть в ВЕРХНЕМ регистре.
+
+'''6)''' Вывов отчета см. прил. 1 или 2.
+
+== Вложенные Циклы == 
+
+Для вложенных циклов необходимо убрать //.
+(Полный пример можно посмотреть на M0H зеркале в программе ZCH_NESTED_ITABS
+<pre>
+          <xsl:for-each select="//DATA/*">
+            <xsl:for-each select="LT_INSIDE/*"> - здесь убрали // потому что DATA/LT_INSIDE
+              <Row>
+                <Cell>
+                  <Data ss:Type="Number"><xsl:value-of select="INDEX"/></Data>
+                </Cell>
+              </Row>
+            </xsl:for-each>
+          </xsl:for-each>
+</pre>
+
+== Задание позиции строки ==
+<Row> означает строку.
+<pre>
+<xsl:for-each select="//DATA/*">
+  <xsl:variable name="ops_row" select="2 + position()"/>    - вывод с третьей строки
+  <Row ss:Index="{$ops_row}">     <!-- {} - называется attribute value template -->
+</pre>
+
+== Объединение строк и динамические столбцы ==
+Сразу под <Table> задается количество столбцов с помощью тега <Column/>
+<pre>
+<Table ss:ExpandedColumnCount="6">
+  <Column/>
+  <Column/>
+<Row>
+  <Cell>   <!-- Если в строке 2 столбца нет, то строки объединены -->
+  </Cell>
+  <Cell>
+  </Cell>
+</Row>
+<Row>              <!-- Строка 1 и 2 в первом столбце объединены -->
+  <Cell ss:Index="2"> <!-- Сразу второй столбец -->
+  </Cell>
+</Row>
+</pre>
+
+Делаем динамические столбцы:
+<pre>
+<Table ss:ExpandedColumnCount="6">
+  <Column/>
+  <xsl:for-each select="//T2/*">
+    <Column/>
+  </xsl:for-each>
+<Row>
+  <Cell>
+  </Cell>
+  <xsl:for-each select="//T2/*">
+    <Cell>
+    </Cell>
+  </xsl:for-each>
+</Row>
+
+<xsl:for-each select="//T1/*">  <!-- цикл по строкам -->
+  <Row>
+    <xsl:for-each select="//T2/*"> <!-- цикл по столбцам -->
+      <xsl:variable name="cur_cell" select="1 + position()"/>
+      <Cell ss:Index="{$cur_cell}">
+      </Cell>
+    </xsl:for-each>
+  </Row>
+</xsl:for-each>
+</pre>
+
+Объединение строк в 1-ом столбце:
+<pre>
+<xsl:for-each select="//T1/*">
+  <xsl:variable name="t1_o" select="STEXT_O"/>  <!-- цикл T2 скрывает поля из T1 -->
+  <xsl:variable name="t2_count" select="count(T2/*)"/>
+  <xsl:for-each select="T2/*">
+    <Row>
+      <xsl:if test="position()=1">
+        <Cell ss:MergeDown="{$t2_count - 1}" ss:StyleID="s21"><Data ss:Type="String"><xsl:value-of select="$t1_o"/></Data></Cell>
+      </xsl:if>
+      <Cell ss:Index="2"></Cell>
+    </Row>
+  </xsl:for-each>
+</xsl:for-each>
+</pre>
+Двухуровневое объединение строк сделать невозможно, но можно сделать выравнивание по верхнему краю и вывести общую строку вверху первой.
+[[Файл:XLST merge.JPG|объединение ячеек ]]
+
+== Условие IF ELSE ==
+Если числовое значение поля равно 1.
+<pre>
+<xsl:if test="INDEX=1">
+</xsl:if>
+</pre>
+IF ELSE:
+<pre>
+     <xsl:choose>
+          <xsl:when test="SYMB='+'">
+            <Cell ss:StyleID="s26"><Data ss:Type="String"><xsl:value-of select="SYMB"/></Data></Cell>
+          </xsl:when>
+          <xsl:otherwise>
+            <Cell ss:StyleID="s18"><Data ss:Type="String"></Data></Cell>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:if>
+</pre>
+
+== Вызов внешних методов ==
+Вызов статического метода глобального класса:
+<pre>
+<sap:call-external class="ZMYCLASS" method="GET_XML">
+                  <sap:callvalue param="IV_STR" select="string(position())"/>  <!-- экспорт параметр -->
+                  <sap:callvariable name="fromclass" param="RET_VAL"/>
+</sap:call-external>
+<xsl:value-of select="$fromclass"/>
+</pre>
+Для вызова метода эксемпляра, необходимо чтобы статический метод класса вернул объект.
+<pre>
+method SIMP.
+  CREATE OBJECT EX_OBJ.
+endmethod.
+<sap:call-external class=”ZCAL” method=”SIMP”>    “calling static method
+  <sap:callvariable param=”EX_OBJ” name=”plant”/>  ” Hold the objec
+</sap:call-external>
+
+<sap:call-external name=”plant” method=”ZPERIOD”> “calling instacne method
+  <sap:callvalue param=”IM_MHDHB”  select=”string(Order/MHDHB)”/>
+  <sap:callvalue param=”IM_IPRKZ”  select=”string(Order/IPRKZ)”/>
+  <sap:callvariable param=”EX_MHDHB” name=”period”/>
+</sap:call-external>
+</pre>
+
+== Шаблон можно разделить на части ==
+Тэг xsl:apply-templates является альтернативой циклу xsl:for-each, он необходим если структура дочернего элемента заранее неизвестна, тогда выбирается соответствующий template. В следующем примере, у нас есть несколько PLANET, по которым делаем цикл.
+<pre>
+<xsl:template match="PLANETS">
+  <HTML>
+    <xsl:apply-templates/>
+  </HTML>
+</xsl:tempiate>
+
+<xsl:template match="PLANET">
+    <P>
+      <xsl:value-of select="NAME"/>
+    </P>
+</xsl:tempiate> 
+</pre>
+
+== Таблицы объединенные по ключу ==
+Если нужно вывести сразу две таблицы T1 и T2 с ключами LV_ID и LV_ID_F, то можно использовать следующий подход на основе фильтра:
+<pre>
+<xsl:for-each select="//T1/*">
+  <xsl:variable name="id" select="LV_ID"/>
+  <xsl:for-each select="//T2/*[LV_ID_F=$id]">
+  </xsl:for-each>
+</xsl:for-each>
+</pre>
+
+==Советы==
+* Если трансформация перестала работать то найти причину почти невозможно, если не знать последнее изменение которое стало причиной.
+* Структурая печать, чаще всего, неудобна.
+
+==Приложение 1. Вывод Classic Dynpro==
+<pre>
+    DATA lt_data_xml      TYPE swxmlcont.
+    DATA l_ostream        TYPE REF TO if_ixml_ostream.
+    DATA(l_xml) = cl_ixml=>create( ).
+    DATA(l_stream_factory) = l_xml->create_stream_factory( ).
+    l_ostream = l_stream_factory->create_ostream_itable( table = lt_data_xml[] ).
+
+    CALL TRANSFORMATION ZCH_NESTED_ITABS
+        SOURCE
+          data = lt_t
+        RESULT XML
+          l_ostream.
+
+    DATA: workdir  TYPE string.
+    cl_gui_frontend_services=>get_sapgui_workdir( CHANGING sapworkdir = workdir ).
+
+    cl_gui_cfw=>flush( ).
+    CONCATENATE workdir '\' 'ZCH_NESTED_ITABS' sy-datum sy-uzeit '.xml' INTO DATA(filename).
+*  "Удалим возможные спецсимволы
+    REPLACE ALL OCCURRENCES OF '*' IN filename WITH space.
+
+    CALL METHOD cl_gui_frontend_services=>gui_download
+      EXPORTING
+        filename         = filename
+        filetype         = 'BIN'
+      CHANGING
+        data_tab         = lt_data_xml[]
+      EXCEPTIONS
+        file_write_error = 1
+        OTHERS           = 99.
+
+    CONCATENATE '"' filename '"' INTO filename.
+
+    CALL METHOD cl_gui_frontend_services=>execute
+      EXPORTING
+        application = 'Excel'
+        parameter   = filename
+        operation   = 'OPEN'
+      EXCEPTIONS
+        OTHERS = 1.
+</pre>
+
+==Приложение 2. Вывод WebDynpro==
+
+<pre>
+DATA lv_result  TYPE xstring.
+  CALL TRANSFORMATION zch_nested_itabs
+      SOURCE
+        data      = lt_t
+      RESULT XML lv_result
+    .
+
+  CHECK lv_result IS NOT INITIAL.
+
+  CALL METHOD cl_wd_runtime_services=>attach_file_to_response
+    EXPORTING
+      i_filename  = 'a.xml'
+      i_content   = lv_result
+      i_mime_type = 'application/msexcel'
+      i_inplace   = abap_true.
+</pre>
+
+== ссылки ==
+[https://blogs.sap.com/2007/08/07/calling-instance-object-method-of-abap-class-into-xslt-mapping-by-using-sap-call-external/]
+[https://help.sap.com/saphelp_erp60_sp/helpdata/de/dd/ae463c36a30319e10000000a114084/frameset.htm]
+[https://help.sap.com/erp2005_ehp_04/helpdata/en/a8/824c3c66177414e10000000a114084/frameset.htm]

@@ -1,0 +1,11 @@
+рождения PА0002 – GBDAT
+
+HR_AUPBS_AGE
+
+	 AGE = BSDTE(4) - BDATE(4). сегоднешний год - рождения
+
+
+
+or HR_ECM_CALC_AGE
+
+or HRCM_MATRIX_AGE

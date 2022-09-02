@@ -1,0 +1,21 @@
+﻿ABAP Рупозиторий включает в себя абсолютно все объекты (все манданто-независимые), и почти все они доступны через ABAP Workbanch, в том числе se11 ABAP Словарь.
+
+1) ABAP Data Repository, ABAP Repository - Part of the central database of AS ABAP that contains only cross-client repository objects. The repository can be searched using the Repository Information System. The central store for all ABAP workbench development objects.
+	Включает ABAP Workbench.
+
+repository object - Repository objects are grouped together to form packages.
+
+2) ABAP Workbench - Development environment for repository objects in ABAP Repository and their components in the SAP GUI. Contains tools for editing and managing nearly all repository objects.
+	SAP EA ->Tools->ABAP Workbench
+	Включает ABAP Dictionary!
+
+
+3) ABAP/4 Data Dictionary, ABAP Dictionary, DDIC - Persistent repository for data types (meta data) that are visible in all repository objects.
+	The classic objects in ABAP Dictionary are edited using the tool of the same name in ABAP Workbench.
+	ABAP Dictionary also manages the CDS objects in ABAP CDS that are defined in CDS source code in the ABAP Development Tools (ADT). 
+	objects are the repository objects that can be maintained using transaction SE11.
+
+
+*** standard database - Central database of an AS ABAP.
+*** standard connection - Database connection between an AS ABAP and its standard database.  By default, reads in Open SQL, Native SQL, and AMDP are performed on this database schema using this standard connection. 
+*** database connection -  A database connection defines the address of the database system, the database user, and hence the database schema associated with this user. By default, the database interface uses the standard connection of the current work process to access the standard AS ABAP connection. Optionally, database accesses can also be performed on secondary databases using secondary connections or on the standard database using service connections. Up to 16 database connections can be opened for a single work process. 

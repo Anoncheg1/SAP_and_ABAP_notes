@@ -1,0 +1,23 @@
+;-*-Org-*-
+- transaction :: consists of multiple screen, content is logically connected but consists of multiple substeps.
+https://blogs.sap.com/2011/06/21/products-product-systems-product-instances-technical-systems-and-landscape-patterns-in-the-sap-solution-manager/
+- Product :: application solving business requirements starting with “SAP” (SAP ERP or SAP CRM, for example)
+- Technical System :: piece of SAP software installed on some hardware, one server or server and database separated on different hosts.
+- Product Systems :: are Technical Systems running one product or part of a product. (HRP, CRP, EPP)
+- system landscape :: R/3 installations DEV, quality assurance and test QAS, productive PRD
+- Landscape Pattern :: The way, products are distributed on technical systems. to calculate update and upgrade methods
+  * “hub” system :: used by several product systems
+  * “sidecar” system :: used by one product system
+- add-on product versions :: SAP EHPs for the SAP Business Suite
+- standalone product versions :: EHPs for SAP NetWeaver
+
+- ASAP Methodology ::  Accelerated SAP  is one of the important
+     Software Development Life Cycle (SDLC). Provides proper framework
+     for implementation road map and work distribution. 6 Phases.
+
+- The Business Blueprint :: 2 phase of ASAP Methodology. after 
+     workshops - the business blueprint should illustrate the strategy
+     of the organization in detail, defining all processes across all
+     business areas.
+
+

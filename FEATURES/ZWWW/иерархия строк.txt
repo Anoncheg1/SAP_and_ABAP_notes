@@ -1,0 +1,13 @@
+"clean
+  lt_val = VALUE #( BASE lt_val
+    ( var_name = 'P_LINE' val_type = 'D' )
+    ( var_name = 'A_LINE' val_type = 'D' )
+  ).
+
+
+ lt_val = VALUE #( BASE lt_val
+                    ( var_name = 'PLACE' var_num = lv_inx value = 'A_LINE' val_type = 'V' )
+                    ( var_name = 'PLACE' var_num = lv_inx find_text = '[POLE8]' value = ls_datatable_wa-nomer )
+                    ( var_name = 'PLACE' var_num = lv_inx find_text = '[POLE9]' value = ls_datatable_wa-pernr_fio )
+).
+" копируем строку A_LINE в PLACE и заменяем метки по A_LINE в новой строке 

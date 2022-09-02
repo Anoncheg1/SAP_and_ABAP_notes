@@ -1,0 +1,33 @@
+SELECT SINGLE *
+     FROM tfacs
+     INTO ls_tfacs
+     WHERE ident = 'RU' AND
+       jahr = p_gjahr.
+
+DO 12 TIMES VARYING lv_works_day FROM ls_tfacs-mon01
+                                     NEXT ls_tfacs-mon02. "LV_WORKS_DAY c(31)
+      IF sy-index = p_month. "для нужного нам месяца
+        lv_len = strlen( lv_works_day ).
+        lcl_rep=>cnt_days = p_day2 - p_day1 + 1.
+
+        CLEAR: lv_dayx.
+        DO lv_len TIMES.
+          lv_idx = sy-index - 1.
+          lv_day = sy-index.
+          CHECK lv_day BETWEEN p_day1 AND p_day2.
+          lv_dayx = lv_dayx + 1.
+          CONCATENATE 'S_WORKS_DAY-C' lv_dayx
+            INTO lv_var_name.
+          CONDENSE lv_var_name NO-GAPS.
+          ASSIGN (lv_var_name) TO <fs_value>.
+          <fs_value> = lv_works_day+lv_idx(1). "если бит для установлиен, то рабочий день
+          IF <fs_value> = 1.
+            ADD 1 TO cnt_days_w.
+          ENDIF.
+*          IF sy-index = lv_len.
+*            EXIT.
+*          ENDIF.
+        ENDDO.
+        EXIT.
+      ENDIF.
+    ENDDO.

@@ -1,0 +1,3 @@
+wd_assist->if_wd_component_assistance~get_text( key = '001').
+
+cl_demo_output=>display( a ).

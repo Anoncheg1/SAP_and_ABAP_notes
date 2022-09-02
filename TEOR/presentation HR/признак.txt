@@ -1,0 +1,45 @@
+https://help.sap.com/erp2005_ehp_05/helpdata/en/f1/a0e2539c70424de10000000a174cb4/frameset.htm
+1)Guide (IMG) for Personnel Management
+2)pe03
+
+are objects in the system that determine a specific value "return code" or "result". в зависимости от чего-то
+
+*** создание: ***
+россия, управление основными данными
+структура имеет максимум 5 символов
+
+
+Features for determining default values 
+Features for controlling system processes 
+Features for controlling list displays in evaluations
+
+Features are defined by the following five elements:
+	Persons Responsible for a Feature
+		attribute
+	Country/Component Assignment for a Feature
+		Go-To->Contry/Component
+	Feature Structure
+		structure for decision fields 
+	Decision Tree for a Feature 
+	Feature Documentation (optional)
+
+
+*** Использование ***
+data a type PME04.
+
+a-subty = '0001'.
+
+data ca(2) type c.
+
+CALL FUNCTION 'HR_FEATURE_BACKFIELD'
+  EXPORTING
+    feature                           = 'Z9099'
+    struc_content                     = a
+ IMPORTING
+   BACK                              = ca
+          .
+IF sy-subrc <> 0.
+* Implement suitable error handling here
+ENDIF.
+
+write ca.

@@ -1,0 +1,47 @@
+lt_struc   type TABLE OF struc.
+lt_objec TYPE TABLE OF objec.
+
+CALL FUNCTION 'RH_STRUC_GET'
+      EXPORTING
+        act_plvar      = gv_plvar
+        act_otype      = gc_o
+        act_objid      = s_orgeh-low
+        act_wegid      = gv_wegid "'O-O-S-P'
+        act_begda      = gv_begda
+        act_endda      = gv_endda
+      TABLES
+        result_objec   = lt_objec
+        result_struc   = lt_struc
+      EXCEPTIONS
+        no_plvar_found = 1
+        no_entry_found = 2
+        OTHERS         = 3.
+    IF sy-subrc <> 0.
+      "implement обработку ошибки
+    ENDIF.
+
+* Только нужные объекты
+
+    DELETE lt_objec WHERE otype <> gc_p.
+    SORT lt_objec BY objid.
+    DELETE ADJACENT DUPLICATES FROM lt_objec COMPARING objid.
+
+* O-O-S-A-CH
+TYPES: tt_struc TYPE STANDARD TABLE OF struc WITH NON-UNIQUE KEY seqnr WITH NON-UNIQUE SORTED KEY type COMPONENTS otype.
+data lt_struc    TYPE tt_struc.
+
+    DATA(lt_struc) = iv_struc. "copy
+    "оставляем только те CH которые попадают в выбранные.
+    DELETE lt_struc WHERE otype = 'CH' AND objid NOT IN it_svred.
+    " луп по уникальным CH
+    LOOP AT it_struc ASSIGNING FIELD-SYMBOL(<lt_struc>) WHERE otype = 'СH' GROUP BY <lt_struc>-objid.
+
+" находим в обраном порядке CH-A-S
+      READ TABLE it_struc ASSIGNING FIELD-SYMBOL(<str_a>) WITH TABLE KEY seqnr = <lt_struc>-pup.
+      CHECK sy-subrc = 0.
+      READ TABLE it_struc ASSIGNING FIELD-SYMBOL(<str_s>) WITH TABLE KEY seqnr = <str_a>-pup.
+      CHECK sy-subrc = 0.
+
+"object по struc
+READ TABLE lt_objec ASSIGNING FIELD-SYMBOL(<lt_object>) WITH KEY realo = <lt_struc>-objid.
+

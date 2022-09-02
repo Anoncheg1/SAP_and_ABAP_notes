@@ -1,0 +1,10 @@
+  lr->doidoc_open( EXPORTING im_doc_type         = 'XLS'
+                             im_doc_source       = 'WEBREP'
+                             im_doc_key1         = 'ZHR_OM_100_STAFF_VAC_ADD'
+                             im_doc_open_inplace = 'X'
+                             im_save             = ''
+                             im_doc_title        = sy-title
+                   RECEIVING re_ref_exceldoc     = lr ).
+
+"из диспетчера имен вставляет переменные из глобальной области
+  lr->set_form_fields_from_program( program = sy-repid ).

@@ -1,0 +1,24 @@
+﻿ABAP statements consist of the following *tokens* and end with a period (.):
+	ABAP words ключевые слова
+	Operands
+	Operators
+
+ ABAP language element = ABAP words + operands
+
+ABAP keyword = первое ABAP words в ABAP statements.
+
+Expression
+	Part of an ABAP statement that has a result. which can be specified at certain operand positions. Consist of Certain ABAP words, operands and operators.
+
+Operands:
+	Data objects from the same ABAP program 
+		Data objects in operand positions are modified (writer positions) or read (reader positions). 
+	Functions and expressions
+	Types from the same program or the repository 
+	Callable units from the same program or the repository 
+
+operators
+	Component of an ABAP statement that, when combined with operands, forms an expression
+
+
+

@@ -1,0 +1,66 @@
+382
+
+METHOD f4_for_orgeh.
+    "диалоговое окно с орг структурой
+    CALL FUNCTION 'RP_PNP_ORGSTRUCTURE'
+      EXPORTING
+        plvar  = gv_plvar
+      TABLES
+        pobjid = s_orgeh[].
+
+    "удаляем дублирующиеся орг единицы
+    "gv_mon_beg
+    gv_mon_beg = |{ so_year-low }{ so_perb-low }01|.
+    lcl_0382=>del_dupl_orgeh( ).
+
+    "первый выбранный в поле
+    READ TABLE s_orgeh WITH KEY sign   = 'I' option = 'EQ' ASSIGNING FIELD-SYMBOL(<line>).
+    IF <line> IS ASSIGNED.
+      s_orgeh = <line>.
+    ENDIF.
+
+    "обновляем сэ
+    CALL FUNCTION 'SAPGUI_SET_FUNCTIONCODE'.
+
+  ENDMETHOD.
+
+" првоеряем каждую
+  " если у неё есть вышестоящие удаляем их всех
+  "s_orgeh
+  "gv_mon_beg
+  METHOD del_dupl_orgeh.
+    DATA: objec_tab TYPE objec_t,
+          lv_size   TYPE i.
+    DATA lt_org_orig LIKE s_orgeh[].
+
+    lt_org_orig = s_orgeh[].
+
+    LOOP AT lt_org_orig ASSIGNING FIELD-SYMBOL(<orgeh>).
+      CALL FUNCTION 'RH_STRUC_GET' ##FM_SUBRC_OK
+        EXPORTING
+          act_otype    = 'O'
+          act_objid    = <orgeh>-low
+          act_wegid    = 'ORGA-UP' "вверх
+          act_plvar    = gv_plvar
+          act_begda    = gv_mon_beg
+          act_endda    = '99991231'
+        TABLES
+          result_objec = objec_tab
+        EXCEPTIONS
+          OTHERS       = 3.
+
+      DELETE ADJACENT DUPLICATES FROM objec_tab COMPARING objid. "чистим дубли
+      DELETE objec_tab WHERE objid = <orgeh>-low. "удаляем исодную
+      LOOP AT objec_tab ASSIGNING FIELD-SYMBOL(<o>) WHERE objid IN s_orgeh.
+        DELETE s_orgeh WHERE low = <o>-objid. " удаляем из таблицы оргединиц подчиненые оргединицы.
+      ENDLOOP.
+
+    ENDLOOP.
+  ENDMETHOD.
+
+
+
+
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR s_orgeh-low.
+  lcl_0382=>f4_for_orgeh( ).

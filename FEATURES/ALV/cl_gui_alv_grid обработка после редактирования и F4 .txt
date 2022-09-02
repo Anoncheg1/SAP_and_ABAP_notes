@@ -1,0 +1,45 @@
+https://archive.sap.com/discussions/thread/2016462?db=5
+ZOM_0675
+
+METHODS:
+handle_change FOR EVENT DATA_CHANGED OF cl_gui_alv_grid
+        IMPORTING
+          sender
+          !ER_DATA_CHANGED,
+
+
+	где нибудь
+	CALL METHOD sender->register_edit_event( cl_gui_alv_grid=>mc_evt_modified ).
+
+
+METHOD handle_change.
+
+    LOOP AT er_data_changed->mt_mod_cells ASSIGNING FIELD-SYMBOL(<ls_mod_cell>).
+
+      DATA lv_pernr TYPE p_pernr.
+      DATA lv_name TYPE string.
+
+      CALL METHOD er_data_changed->get_cell_value
+        EXPORTING
+          i_row_id    = <ls_mod_cell>-row_id
+          i_fieldname = 'PERNR_RUK'
+        IMPORTING
+          e_value     = lv_pernr.
+
+      READ TABLE ttt_grid_tab ASSIGNING FIELD-SYMBOL(<ruk>) INDEX <ls_mod_cell>-row_id.
+
+      IF lv_pernr IS NOT INITIAL.
+        zcl_hr_utilities=>get_empl_name(
+          EXPORTING
+            im_pernr        = lv_pernr
+            im_date         = '99991231'
+          CHANGING
+            ch_name_i       = lv_name
+         ).
+        <ruk>-ename_ruk = lv_name.
+      ENDIF.
+
+    ENDLOOP.
+
+    r_alv_grid->refresh( ).
+  ENDMETHOD.

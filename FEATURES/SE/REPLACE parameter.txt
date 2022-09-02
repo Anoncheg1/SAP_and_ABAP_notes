@@ -1,0 +1,12 @@
+создаем своё полею
+
+AT SELECTION-SCREEN OUTPUT.
+LOOP AT SCREEN INTO DATA(screen_wa).
+  CASE screen_wa-group4.
+	WHEN '003'. "группу смотреть в отладчике по имени поля
+		screen_wa-active = 0.
+  ENDCASE.
+
+
+AT SELECTION-SCREEN. или в начале START-OF-SELECTION.
+pchobjid = o_objid. " старое = новое

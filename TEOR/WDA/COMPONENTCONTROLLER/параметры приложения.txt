@@ -1,0 +1,21 @@
+  DATA: lo_api_componentcontroller TYPE REF TO  if_wd_component,
+        lo_application             TYPE REF TO  if_wd_application,
+        lo_appl_info               TYPE REF TO  if_wd_rr_application,
+        lt_appl_params             TYPE         wdrr_application_parameters,
+
+        ls_appl_params             LIKE LINE OF lt_appl_params.
+
+lo_api_componentcontroller = wd_this->wd_get_api( ).
+  lo_application = lo_api_componentcontroller->get_application( ).
+  lo_appl_info = lo_application->get_application_info( ).
+
+  lt_appl_params = lo_appl_info->get_application_parameters( ).
+
+  DATA lo_nd_selscr TYPE REF TO if_wd_context_node.
+  DATA lo_el_selscr TYPE REF TO if_wd_context_element.
+*   navigate from <CONTEXT> to <SELSCR> via lead selection
+  lo_nd_selscr = wd_context->get_child_node( name = wd_this->wdctx_selscr ).
+
+  READ TABLE lt_appl_params INTO ls_appl_params WITH KEY name = 'XSS_MODE'.
+  IF sy-subrc = 0.
+    wd_this->xss_mode = ls_appl_params-value.

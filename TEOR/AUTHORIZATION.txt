@@ -1,0 +1,71 @@
+﻿/---------------------------------------------------------------------
+
+                (TIP 37) SAP Press - 100 Things You Should Know about Authorizations in SAP 2012
+Многие люди не понимают до конца, что SAP безопасность основана двух последовательных проверках: при запуске транзакции
+(ядром на S_TCODE объекте авторизации) и все остальные проверки посредством AUTHORITY-CHECK.
+
+                Auditing and GRC Automation in SAP (c 154)
+Явная модель авторизации использованная в SAP для ABAP поднимает главную проблему безопасности, что проверки авторизации во 
+время выполнения могут быть выполнены только при условии явной проверки (check) объекта авторизации в ABAP программе. Объекты авторизации - SU21.
+
+                1) Где использовать авторизацию? 
+Везде.
+                2) Как использовать AUTHORITY-CHECK?
+-Выполнять неявную проверку при вызове транзакции: CALL TRANSACTION ... WITH AUTHORITY-CHECK.
+-Не нужно копировать стандартный код и изобретать велосипед.
+Необходимо использовать SAP APIs: логические базы данных, SAP функциональные модули и макросы для доступа к объектам ABAP Dictionary.
+Только в случае если необходимой функциональности не найдено, необходимо явно выполнять AUTHORITY-CHECK.
+                3) Какой объект авторизации использовать?
+Наиболее сложный вопрос. Необходимо использовать ST01 для трассировки и SU21, читать документацию к объектам авторизации.
+...
+
+Ошибки, которые тяжело найти, рекомендации:
+- опечатки
+- после проверки ничего не выполняется, проверка была не нужна.
+- выполнять адекватную реакцию на return code ( использовать Редактировать->Паттерн):
+1 Информировать пользователя
+2 Вернуться в согласованное состояние
+3 Уменьшить права
+- неправильное использование DUMMY или изобретение несуществующих значений, как '*' для значений поля.
+- не использовать слишком сильные(шире чем необходимо) проверки.
+- желательно отправить администратору по безопасности трассировку ST01 или SU53 на явные AUTHORITY-CHECK.
+
+               SAP старается предоставить максимально готовые решения с минимальной необходимостью расширения и доработки, но полностью
+обойтись без программирования нельзя. Программист по прежнему должен знать о таких угрозах безопасности, как SQL Injection, 
+ABAP command Injection, Directory Traversal and Cross-Site Scripting. Пожалуйста ознакомьтесь с SAP документацией:
+ABAP Keyword documentation - ABAP Security Notes.
+
+
+https://blog.virtualforge.com/en/ten-golden-rules-for-abap-authorization-checks
+https://blogs.sap.com/2013/11/02/how-to-put-proper-authority-checks-to-your-custom-programs/
+http://sapsecurityanalyst.com/WP/general-disclaimer/authorization-checks
+https://stackoverflow.com/questions/31871426/what-is-the-use-of-authority-check-in-abap
+http://sapsecurityanalyst.com/WP/general-disclaimer/su24-concept-in-sap
+
+/-------------------------------------------------------------
+
+Each time a transaction is started, the system automatically checks for authorization object S_TCODE. This check is also executed for any transactions that you created yourself.
+
+https://help.sap.com/doc/saphelp_tm90/9.0/en-US/4c/a0ac7a68243b9ee10000000a42189b/frameset.htm
+
+функциональные коды для объекта PLOGI:
+T77FC
+
+
+
+RH_BASE_READ_INFTY_1001
+объект авторизации PLOG
+
+
+оптимизация HR_READ_INFOTYPE через HR_READ_INFOTYPE_AUTHC_DISABLE
+Hint: So call the disable FM before each call of the read FM where you can legitimately ignore the authorization checks.
+
+
+Проблема в следующем: создал объект полномочий, добавил его в роль ( PFCG)
+Добавил роль Пользователю, права на изменение поля у него появились. Но и после удаления у Пользователя данной роли, права у него так и остаются
+Решение: Удалил созданный объект полномочий -> перегенерировал SAP_ALL 
+
+
+
+
+логон-группы (SAP LogonGroup) в транзакции SMLG, распределив диалоговоые инстанции между ними. SMLG ??????????????????

@@ -1,0 +1,40 @@
+﻿https://wiki.scn.sap.com/wiki/display/TechTSG/Dictionary+Object+Editor
+
+What types of objects can be created in the ABAP Dictionary?
+    Tables - Transparent Table, Pooled Table, Clustered Table
+    Views - Database View, Projection View, Maintenance View, Help View
+    Data Types -Data Elements, Data Structures,Table Types
+    Type Groups
+    Domains
+    Search Helps
+    Lock Objects
+    Matchcodes
+
+What are the different types of Views?
+    Projection view - Just retrieves some fields from a single table.
+    Help View - This is used for search help.
+    Database View - This is inner join view of one or more tables
+    Maintenance View - Helps in creating maintaining data of the application object. The data can be distributed among several tables.
+
+What tables contain DDIC objects?
+1. TADIR - Directory of Repository Objects
+2. DD01L - Domain
+3. DD02L - Tables
+4. DD03L - Table Fields
+5. DD04L - Data Elements
+6. DD06L - Pool/Cluster structures
+7. DD07L - Fixed values for Domains
+8. DD08L - Relationship definitions
+9. DD09L - Technical Settings of tables
+10. DD12L - Secondary Indexes
+11. DD23L - Matchcode Objects
+12. DD25L - Aggregate Header (Views, MC Objects, Lock Objects)
+13. DD30L - Search Helps
+14. DD40L - Table types (internal tables defined in DD)
+
+DD02 - CLIDEP
+если есть ключевое поле с MANDT
+
+TADIR - repository objects
+
+TDEVC - таблица пакетов

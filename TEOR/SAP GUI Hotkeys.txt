@@ -1,0 +1,33 @@
+﻿https://www.stechies.com/keyboard-shortcuts/
+https://help.sap.com/saphelp_nwpi71/helpdata/en/48/159c9b88474c23e10000000a42189b/frameset.htm
+Ctrl+Space	Code Completion
+Shift+Enter	для методов класса после code completion
+F2		navigate
+двойной клик	Where-Used
+
+CTRL+S = сохранение кода на сервере (обычное сохранение программы)
+CTRL+SHIFT+S = сохранение кода на клиенте (в текстовый файлик)
+
+CTRL+C - копирование участка кода
+CTRL+V - вставка участка кода
+CTRL+SHIFT+V - вызов меню/стэка копированных ранее участков кода с возможностью вставки
+
+CTRL+U - перевод в верхний регистр
+CTRL+L - перевод в нижний регистр
+
+Ctrl+D - дублирование строки (БЕЗ БУФЕРА!)
+Ctr+Shift+L - удаление строки (БЕЗ БУФЕРА!)
+
+Ctrl+Z		Undo
+Ctrl+U		Redo
+
+Ctrl+Shift+'+'	new window
+Ctrl+'/'		to transaction field		down, up arrays - roll	Alt+down - list
+
+Ctrl+up,down	roll screen
+Ctrl+Alt+up,down	захват перенос всей строки
+
+Ctlr+Home	Альфа
+Ctlr+End		Омега
+
+Ctrl+Shift + F12   - break point

@@ -1,0 +1,71 @@
+﻿CLASS lcl_0048 DEFINITION FINAL.
+  PUBLIC SECTION.
+    CLASS-METHODS:
+      rem_duplicates
+        IMPORTING
+          !iv_str_first       TYPE csequence
+          !iv_str_second      TYPE csequence
+        RETURNING
+          VALUE(rv_str_first) TYPE string.
+ENDCLASS.
+
+CLASS lcl_0048 IMPLEMENTATION.
+  METHOD rem_duplicates.
+
+    SPLIT iv_str_first AT space INTO TABLE DATA(lv_split_first).
+
+    DESCRIBE TABLE lv_split_first LINES DATA(lv_lines_f).
+    IF lv_lines_f = 0.
+      rv_str_first = iv_str_first.
+      RETURN.
+    ENDIF.
+
+    READ TABLE lv_split_first INDEX lv_lines_f ASSIGNING FIELD-SYMBOL(<f_last_word>).
+    "если на конце второй строки есть последнее слово первой строки
+    IF <f_last_word> IS ASSIGNED AND
+        strlen( <f_last_word> ) > 0 AND
+        contains( val = iv_str_second start = <f_last_word> case = abap_false ).
+
+      rv_str_first = replace( val = iv_str_first sub = <f_last_word> with = '' case = abap_false ).
+    ELSE.
+      rv_str_first = iv_str_first.
+      RETURN.
+    ENDIF.
+
+  ENDMETHOD.
+ENDCLASS.
+
+
+
+
+
+
+
+
+
+
+
+
+
+rem_duplicates
+        IMPORTING
+          !iv_str_first       TYPE csequence
+          !iv_str_second      TYPE csequence
+        RETURNING
+          VALUE(rv_str_first) TYPE string.
+
+METHOD rem_duplicates.
+    CONSTANTS lv_otd TYPE string VALUE 'отдела'.
+    CONSTANTS lv_uch TYPE string VALUE 'участка'.
+
+    IF contains( val = iv_str_first end = lv_otd case = abap_false ) AND
+     contains( val = iv_str_second start = lv_otd case = abap_false ).
+      rv_str_first = replace( val = iv_str_first sub = lv_otd with = '' case = abap_false ).
+    ELSE.
+      rv_str_first = iv_str_first.
+    ENDIF.
+    IF contains( val = rv_str_first end = lv_uch case = abap_false ) AND
+     contains( val = iv_str_second start = lv_uch case = abap_false ).
+      rv_str_first = replace( val = rv_str_first sub = lv_uch with = '' case = abap_false ).
+    ENDIF.
+  ENDMETHOD.

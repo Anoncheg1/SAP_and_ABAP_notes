@@ -1,0 +1,317 @@
+﻿https://books.google.ru/books?id=D-td6P9UnEYC&printsec=frontcover&hl=ru#v=onepage&q&f=false
+
+Интернет источники:
+
+    sapnet.ru — форум ABAP консультантов. Тут можно найти интересные материалы по ABAP, спросить совета у гуру, помочь кому-то и так далее.
+    sapboard.ru — русскоязычный форум по различным модулям SAP а так же по ABAP.
+    abap-blog.ru — очень интересный блог ABAP-разработчика. Пишет про различные новые технологии и интересные вещи в ABAP.
+    abaphr.ru — блог разработки приложений в модуле ABAP HR. (но на самом деле и не только).
+    www.sapdev.co.uk — зарубежный сайт разработчиков ABAP. Частенько нахожу тут интересующие меня темы.
+    help.sap.com — официальный help SAP. Практически всю документацию можно найти тут.
+
+http://www.tadviser.ru/index.php/ERP Государство Бизнес ИТ
+
+	OM полезные функции
+https://sites.google.com/site/abapkbase/sap-hr-abap/organizational-management/function-modules-in-om-module
+
+	SAP Interactive Forms by Adobe
+https://wiki.scn.sap.com/wiki/display/ABAP/SAP+Interactive+Forms+by+Adobe
+
+	java
+https://www.quora.com/How-do-you-judge-a-Java-programmer-with-only-5-questions
+
+	Парадигмы, Вики программиста
+	wiki.c2.com
+http://principles-wiki.net/collections:ood_principle_language
+
+
+	Модули
+https://de.wikipedia.org/wiki/SAP_ERP
+
+	ABAP Doc
+https://blogs.sap.com/2013/04/29/abap-doc/
+
+
+	Official ABAP Documentation (Release 7.40)
+https://help.sap.com/doc/abapdocu_740_index_htm/7.40/en-US/index.htm
+
+SAP Help Portal
+https://help.sap.com/viewer/index
+
+ABAP Development discussions, blogs, documents and videos on the SAP Community Network (SCN)
+https://www.sap.com/community/topic/abap.html
+
+https://www.tutorialspoint.com/sap_abap/sap_abap_internal_tables.htm
+
+старые книги от SAP 2001
+https://www.consolut.com/en/s/sap-ides-access/sap-online-help-pdfs.html
+
+transaction codes
+http://www.tcodesearch.com/tcodes/search?q=package
+
+
+
+объекты
+https://docs.google.com/file/d/0B2Q-dt5t3a6JWXltbGp6OU9Ud1E/edit
+	ALV
+
+https://docs.google.com/file/d/0B2Q-dt5t3a6JM2hsZDl6OVZ1bFU/edit
+
+
+Enhancements and Modifications BC425
+	https://drive.google.com/file/d/0B949FjjP7WRgaWtDenh4eWZncms/edit
+	https://www.scribd.com/presentation/98989589/BC425-Enhancements-and-Modifications
+
+help portal
+	http://help-legacy.sap.com/sitemap/
+
+tutor
+	https://www.saponlinetutorials.com/sap-hcm-tutorials/
+	http://sapbrainsonline.com/hr-tutorial
+http://www.guru99.com/sap-hcm.html
+
+HR sap help
+https://help.sap.com/saphelp_erp60_sp/helpdata/en/dd/72dd538636424de10000000a174cb4/frameset.htm
+
+KM
+https://wiki.scn.sap.com/wiki/display/BI/BW-BEX-ET-WJR-ODOC+Document+Integration
+
+https://blog.virtualforge.com/en/ten-golden-rules-for-abap-authorization-checks
+https://blogs.sap.com/2013/11/02/how-to-put-proper-authority-checks-to-your-custom-programs/
+http://sapsecurityanalyst.com/WP/general-disclaimer/authorization-checks
+https://stackoverflow.com/questions/31871426/what-is-the-use-of-authority-check-in-abap
+https://www.tutorialspoint.com/sap_basis/sap_basis_system_monitoring.htm
+http://sapsecurityanalyst.com/WP/general-disclaimer/su24-concept-in-sap
+
+	Auditing and GRC Automation in SAP (c 154)
+Explicit authorization model for abap. Authorization checks during runtime can only be 
+executed if the authorization object are indeed explicitly checked in ABAP programs.
+https://books.google.ru/books?id=BctJAAAAQBAJ&pg=PA154&lpg=PA154&dq=SAP+explicit+authorization+model&source=bl&ots=HEVxDyuj-w&sig=0rBkV_DUODyFPZxZ_hYKPa9gETs&hl=ru&sa=X&ved=0ahUKEwisyfr7xr_UAhUiJ5oKHdvyAOAQ6AEIGDAB
+
+
+sap doi
+https://help.sap.com/viewer/70396d7dec4c4f19b9ca3b2e47559d12/7.31.20/en-US/4921457e6f7314d0e10000000a42189b.html
+
+grasp
+https://ru.wikipedia.org/wiki/GRASP
+
+
+	Enhancements STATIC DYNAMIC Declaration, Code.
+https://blogs.sap.com/2013/10/22/static-enhancement-vs-dynamic-enhancement/
+	Exits 
+https://help.sap.com/doc/saphelp_erp60_sp/6.0/en-US/c8/19764e43b111d1896f0000e8322d00/frameset.htm
+http://www.sappractical.com/home/blogd/how-to-find-customer-exits-in-sap-abap/
+
+ABAPDesignPattern
+https://github.com/moreus/ABAPDesignPattern
+
+	ASAP
+https://www.simplilearn.com/what-is-asap-methodology-rar280-article
+
+	ABAP TIPS
+http://abap4.tripod.com/Other_Useful_Tips.html
+
+	поиск custom exit
+https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=189893877
+	
+	BAdI
+https://wiki.scn.sap.com/wiki/display/ABAP/The+new+Enhancement+Framework+and+the+new+kernel-based+BAdI
+http://fmis.minfin.bg/help/EN/a3/1d40425c459923e10000000a155106/content.htm
+	пример badi	
+http://abap-blog.ru/enhancements/optimalnoe-ispolzovanie-eser-exitov-s-pomoshhyu-vyzova-badi/
+
+	-Runtime-Error-Prevention-And-Detection
+http://sapinsider.wispubs.com/Assets/Articles/2000/October/ABAP-Runtime-Error-Prevention-And-Detection
+
+	РФ графики кодекс
+https://www.kdelo.ru/art/381882-qqq-15-m11-skolzyashchiy-grafik-2016
+
+
+подготовка к интервью
+SAP® ABAP(tm) Questions and Answers
+
+	logical database
+http://saptechnical.com/Tutorials/HRABAP/LDB/Index.htm
+https://wiki.scn.sap.com/wiki/display/ABAP/Logical+Database+with+Report+HR+Report+Category+Selection+Screen
+http://www.saptraininghq.com/how-to-create-sap-abap-hr-reports-using-logical-database-ldb/
+
+	Системный подход к реализации замещений SAP FI. Часть I
+http://sapland.ru/articles/stats/sistemnii-podhod-k-realizatsii-zameschenii-sap-fi-chasti-i.html
+
+	master data
+http://www.beginners-sap.com/interview-question-difference-between-master-and-customizing-data/
+
+	Дистанционное британское образование	
+http://www.abroad.ru/reference/ref_country/great_britain/gbDO.php
+
+	tutorials
+http://www.abap-tutorials.com/downloads/
+
+	Web Dynpro tutorialspoint
+https://www.tutorialspoint.com/sap_web_dynpro/sap_web_dynpro_configuration_and_integration.htm
+
+
+http://saphr.ru/2015/09/04/setup-webdynpro-for-abap-wda/
+
+Жизненный цикл создания системы управления ИТ
+http://www.jetinfo.ru/jetinfo_arhiv/itsm-proekt-shag-za-shagom/zhiznennyj-tsikl-sozdaniya-sistemy-upravleniya-it/2009
+
+	Динамические таблицы 3 способами
+http://abap-blog.ru/osnovy-abap/dinamicheskie-tablicy-v-abap/
+https://archive.sap.com/discussions/thread/390790
+https://wiki.scn.sap.com/wiki/display/ABAP/Dynamic+Internal+table
+	
+	Блог, ближе к админам.
+https://naidu-chandrababu.blogspot.ru/
+
+
+
+Для начинающих:
+Курсы:
+
+    BC100: Введение в программирование (c ABAP)
+    BC400: Инструментальные средства, основы
+    SAPTEC: Основы SAP Web Application Server
+
+
+Книги:
+
+    SAP R/3 Программирование на языке АВАР/4 – Вольфганг Вейс, Рюдигер Кречмер.
+
+
+Для продвинутых:
+Курсы:
+
+    BC401 – ABAP объекты
+    BC402 – Углубленное ABAP программирование
+    BC411 – Advanced ABAP programming
+
+
+Книги:
+
+    Object-oriented Programming with ABAP objects – James Wood,
+    ABAK cookbook – James Wood.
+
+
+Интернет источники:
+
+    sapnet.ru — форум ABAP консультантов. Тут можно найти интересные материалы по ABAP, спросить совета у гуру, помочь кому-то и так далее.
+    sapboard.ru — русскоязычный форум по различным модулям SAP а так же по ABAP.
+    abap-blog.ru — очень интересный блог ABAP-разработчика. Пишет про различные новые технологии и интересные вещи в ABAP.
+    abaphr.ru — блог разработки приложений в модуле ABAP HR. (но на самом деле и не только).
+    www.sapdev.co.uk — зарубежный сайт разработчиков ABAP. Частенько нахожу тут интересующие меня темы.
+    help.sap.com — официальный help SAP. Практически всю документацию можно найти тут.
+
+	Data Transfers - BAPI, BDC, ALE, LSMW, DX-WB
+https://wiki.scn.sap.com/wiki/display/ABAP/Data+Transfers+-+BAPI%2C+BDC%2C+ALE%2C+LSMW%2C+DX-WB
+	ALE IDOC
+http://saphr.ru/2012/03/27/ale_guide/
+
+	BAPI
+http://www.saptechnical.com/Tutorials/BAPI/BAPIMainPage.htm
+https://help.sap.com/erp2005_ehp_04/helpdata/en/3e/ecf226942511d2ad4b080009b0fb56/frameset.htm
+
+	LSMW
+https://www.slideshare.net/raonivaz/step-by-step-lsmw-tutorial
+
+	salv
+https://wiki.scn.sap.com/wiki/display/ABAP/ALV
+http://zevolving.com/2008/09/salv-table-1-normal-alv-table-display/
+https://help.sap.com/saphelp_scm50/helpdata/en/5e/88d440e14f8431e10000000a1550b0/frameset.htm
+
+	Eclipse IDE
+	Hotkeys
+https://blogs.sap.com/2013/11/21/useful-keyboard-shortcuts-for-abap-in-eclipse/
+http://abapblog.com/articles/thoughts/106-why-i-like-to-code-in-abap-in-eclipse
+
+	CDS
+https://wiki.scn.sap.com/wiki/display/ABAP/CDS+-+Core+Data+Services
+https://blogs.sap.com/2015/07/01/new-core-data-services-features-in-sap-hana-10-sps-10/
+
+	HANA
+http://www.sapyard.com/sap-hana-from-space-level/
+memory usage
+https://www.sap.com/documents/2016/08/205c8299-867c-0010-82c7-eda71af511fa.html
+https://blogs.sap.com/2017/01/03/hana-memory-usage-details-and-changes-in-sps12/
+
+	Persistence Services
+https://blogs.sap.com/2012/04/18/abap-persistent-object-services-demystified/
+
+	Transport Request
+https://www.tutorialspoint.com/sap_netweaver/sap_netweaver_transport_management.htm
+
+
+
+
+
+	SAP NetWeaver Tutorial
+https://www.tutorialspoint.com/sap_netweaver/index.htm
+
+
+	View Cluster Event
+https://blogs.sap.com/2014/10/24/creation-of-maintenance-view-cluster-2/
+
+	Payroll HR Clusters
+https://wiki.scn.sap.com/wiki/display/ERPHCM/HR+Payroll+Clusters
+
+	wda web dynpro
+	API
+https://help.sap.com/saphelp_nw70ehp1/helpdata/en/6e/0048413e466e24e10000000a155106/frameset.htm
+	standart plug parameters
+https://help.sap.com/doc/saphelp_ewm2007/5.1/en-US/45/19bf8c16f25d7ae10000000a11466f/frameset.htm
+	exit plug
+https://archive.sap.com/discussions/thread/1093859
+https://wiki.scn.sap.com/wiki/display/WDABAP/Web+Dynpro+-+Terminology
+	selection_option
+https://blogs.sap.com/2014/02/05/select-options-in-web-dynpro-abap-part-1/
+	selection_option for ALV
+http://www.erpworkbench.com/sap-webapps/sap-webdynpro/wdp-alv-selection.htm
+	WDA ALV
+https://www.tutorialspoint.com/sap_web_dynpro/sap_web_dynpro_list_viewer.htm
+http://www.erpworkbench.com/sap-webapps/sap-webdynpro/wdp-alv.htm
+https://wiki.scn.sap.com/wiki/display/WDABAP/SAP+List+Viewer+-+ALV
+http://www.sapyard.com/lets-web-dynpro-part-v/
+	ESS/MSS
+https://wiki.scn.sap.com/wiki/display/ERPHCM/HCM+ESS
+	Floorplan Manager 
+https://help.sap.com/saphelp_nw74/helpdata/en/9f/95467bbefc4a808fffeba4c5177258/frameset.htm
+	ITS ESS /default_host/sap/bc/gui/sap/its/webgui
+https://help.sap.com/erp2005_ehp_06/helpdata/en/39/df95bcd15611d2b4a3006094b9c9b4/frameset.htm
+	ITS
+https://wiki.scn.sap.com/wiki/display/HOME/Internet+Transaction+Server
+http://sap.ittoolbox.com/groups/technical-functional/sap-hr/ess-via-sap-gui-instead-of-portal-1321725
+	DEBUG WDA web dynpro
+https://itpsap.com/mastering-the-web-dynpro-debugging-tool/
+
+
+Web Dynpro for Java 
+https://blogs.sap.com/2013/11/06/sapui5-vs-other-sap-ui-technologies-jspdynpage-web-dynpro-javaabap/
+
+	Business intelegence
+https://www.tutorialspoint.com/dwh/dwh_olap.htm
+
+	SAP JAVA DEVELOPMENT
+https://wiki.scn.sap.com/wiki/display/Java/Java+Development+Home
+	java vs abap
+https://archive.sap.com/discussions/thread/551867
+
+	OM programming
+https://blogs.sap.com/2015/04/11/understanding-and-coding-for-om-inheritance-part-1-basics/
+https://blogs.sap.com/2015/04/11/understanding-and-coding-for-om-inheritance-part-2-coding/
+
+	Dynamic Documents
+https://help.sap.com/saphelp_nw70/helpdata/EN/10/24685b055711d4a7410000e83dd863/frameset.htm
+https://help.sap.com/saphelp_nw70/helpdata/EN/10/246879055711d4a7410000e83dd863/frameset.htm
+https://blogs.sap.com/2005/12/20/dynamic-documents-in-abap-objects/
+
+	SAP Fiori and UI5
+https://blogs.sap.com/2015/08/22/a-beginner-s-guide-to-skilling-up-for-sap-fiori-and-ui5/
+https://archive.sap.com/documents/docs/DOC-45780
+	Fiory
+
+	
+	HR
+	Concurrent, Central Person, IT0031
+https://archive.sap.com/discussions/thread/3447435
+	HR USER ESS
+https://archive.sap.com/discussions/thread/2078174

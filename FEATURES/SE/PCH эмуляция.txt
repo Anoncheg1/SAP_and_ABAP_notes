@@ -1,0 +1,150 @@
+		ZPA_0419_INCL_SSCR
+
+SELECTION-SCREEN BEGIN OF BLOCK bl1. " WITH FRAME TITLE text-b01.
+  PARAMETERS s_data TYPE sy-datum.
+  PARAMETERS s_plvar type plvar DEFAULT '01'.
+  PARAMETERS s_type type otype DEFAULT 'O'.
+data lv_orgeg type OBJEKTID.
+data lv_wegid type wegid.
+SELECT-OPTIONS :
+  s_orgeh FOR lv_orgeg NO INTERVALS,
+  s_wegid FOR lv_wegid  NO INTERVALS  NO-EXTENSION  DEFAULT 'Z-OSACHP'.
+SELECTION-SCREEN COMMENT 45(80) tx_puti.
+SELECTION-SCREEN END OF BLOCK bl1.
+
+		ZPA_0419_INCL_EVNT
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR s_orgeh-low.
+  "выбор O
+  PERFORM f4_orgeh.
+
+  AT SELECTION-SCREEN OUTPUT.
+    "настрйока экрана
+    lcl_rep=>at_sel_screen_output( ).
+
+  START-OF-SELECTION.
+
+		class
+METHOD at_sel_screen_output.
+    LOOP AT SCREEN INTO DATA(screen_wa).
+      CASE screen_wa-name.
+        WHEN 'S_PLVAR'.
+          screen_wa-input = 0.
+          WHEN 'S_TYPE'.
+          screen_wa-input = 0.
+          WHEN 'S_WEGID-LOW'.
+          screen_wa-input = 0.
+      ENDCASE.
+      MODIFY screen FROM screen_wa.
+    ENDLOOP.
+  ENDMETHOD.
+
+METHOD start_of_selection.
+    IF s_data IS INITIAL.
+      s_data = sy-datum.
+    ENDIF.
+    lcl_rep=>s_out-date = s_data+6(2) && '.' && s_data+4(2) && '.' && s_data(4).
+
+    DATA:
+      lv_wegid TYPE wegid,
+      lt_struc TYPE TABLE OF struc,
+      lt_objec TYPE TABLE OF objec,
+      lt_roots TYPE TABLE OF hrrootob
+      .
+
+    IF lines( s_orgeh[] ) = 0.
+      CALL FUNCTION 'RH_STRUC_HELP_ROOTS_GET'
+        EXPORTING
+          search_plvar  = gv_plvar
+          search_otype  = 'O'
+          search_wegid  = lv_wegid
+          search_begda  = s_data
+          search_endda  = s_data
+        TABLES
+          roots         = lt_roots
+        EXCEPTIONS
+          no_stru_seark = 0
+          OTHERS        = 0.
+    ELSE.
+      LOOP AT s_orgeh ASSIGNING FIELD-SYMBOL(<s_orgeh>).
+        lt_roots = VALUE #( BASE lt_roots
+          ( otype = 'O' objid = <s_orgeh>-low )
+        ).
+      ENDLOOP.
+    ENDIF.
+
+    CALL FUNCTION 'RH_STRUC_GET_MULTIPLE_ROOTS'
+      EXPORTING
+        act_wegid      = 'Z-OSACHP'
+        act_plvar      = gv_plvar
+        act_begda      = s_data
+        act_endda      = s_data
+      TABLES
+        root_objects   = lt_roots
+        result_objec   = lt_objec
+        result_struc   = lt_struc
+      EXCEPTIONS
+        no_plvar_found = 1
+        no_entry_found = 2
+        path_not_found = 3
+        root_not_found = 4
+        OTHERS         = 5.
+    IF sy-subrc <> 0.
+      "implement обработку ошибки
+    ENDIF.
+
+    LOOP AT lt_struc ASSIGNING FIELD-SYMBOL(<lt_struc>) WHERE otype = 'S' GROUP BY <lt_struc>-objid.
+
+    ENDLOOP.
+
+  ENDMETHOD.
+
+		FORM
+FORM f4_orgeh.
+    DATA: lt_marked   TYPE TABLE OF hrsobid,
+          ls_marked   LIKE LINE  OF lt_marked,
+          lt_selected TYPE TABLE OF objec.
+    FIELD-SYMBOLS: <ls_selected> LIKE LINE OF lt_selected,
+                   <ls_orgeh>    LIKE LINE OF s_orgeh.
+    ls_marked-plvar = s_plvar.
+    ls_marked-otype = s_type. "'A1'.
+    LOOP AT s_orgeh
+        ASSIGNING <ls_orgeh>
+        WHERE low IS NOT INITIAL.
+      ls_marked-sobid = <ls_orgeh>-low.
+      APPEND ls_marked TO lt_marked.
+    ENDLOOP.
+    CALL FUNCTION 'RH_OBJID_REQUEST'
+      EXPORTING
+        plvar           = lcl_rep=>get_plvar( )
+        otype           = s_type "'A1'
+        set_mode        = abap_true
+      TABLES
+        marked_objects  = lt_marked
+        sel_objects     = lt_selected
+      EXCEPTIONS
+        cancelled       = 1
+        wrong_condition = 2
+        nothing_found   = 3
+        illegal_mode    = 4
+        internal_error  = 5
+        OTHERS          = 6.
+    IF sy-subrc = 0 OR
+       sy-subrc = 3.
+      CLEAR: s_orgeh,
+             s_orgeh[].
+    ENDIF.
+    IF sy-subrc = 0.
+      LOOP AT lt_selected ASSIGNING <ls_selected>.
+        APPEND INITIAL LINE TO s_orgeh ASSIGNING <ls_orgeh>.
+        <ls_orgeh>-sign   = 'I'.
+        <ls_orgeh>-option = 'EQ'.
+        <ls_orgeh>-low = <ls_selected>-objid.
+      ENDLOOP.
+      READ TABLE s_orgeh INTO s_orgeh
+        INDEX 1.
+    ENDIF.
+
+    "обновляем сэ и сбрасывает первую [] в заголовок если он был пустым
+    CALL FUNCTION 'SAPGUI_SET_FUNCTIONCODE'.
+  ENDFORM.                    "f4_orgeh

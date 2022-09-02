@@ -1,0 +1,8 @@
+ALL FUNCTION 'HR_GET_LGART_TEXT'
+        EXPORTING
+          p_lgart    = <fs_lgart>-lgart "TYPE lgart
+          p_molga    = '33'
+        IMPORTING
+          p_longtext = <fs_lgart>-title "TYPE LGTXT
+        EXCEPTIONS
+          OTHERS     = 1.

@@ -1,0 +1,21 @@
+"предупреждение
+  DATA lv_count TYPE i.
+  LOOP AT ls_orgeh_o3-all2_o2 ASSIGNING FIELD-SYMBOL(<line>).
+    lv_count = lv_count + lines( <line>-all_o1 ).
+  ENDLOOP.
+  IF lv_count > 80000.
+    DATA lv_answer TYPE c.
+    CALL FUNCTION 'POPUP_TO_CONFIRM'
+      EXPORTING
+        titlebar              = 'Внимание!'
+        text_question         = 'количество строк превышает 80000, продолжить?'
+        text_button_1         = 'Да'
+        text_button_2         = 'Нет'
+        default_button        = '1'
+        display_cancel_button = ''
+      IMPORTING
+        answer                = lv_answer.
+    IF lv_answer <> '1'.
+      RETURN.
+    ENDIF.
+  ENDIF.

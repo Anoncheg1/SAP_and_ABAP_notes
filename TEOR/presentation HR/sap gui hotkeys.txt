@@ -1,0 +1,5 @@
+ctrl+shift+ + new window
+f2 navigate
+Ctrl+ / transaction
+
+Shift+F1 pretty print

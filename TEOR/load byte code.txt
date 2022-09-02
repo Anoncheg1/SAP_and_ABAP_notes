@@ -1,0 +1,13 @@
+t. RSDEPEND dependencies
+https://blogs.sap.com/2017/03/15/java-byte-code-and-abap-load/
+
+Byte Code 
+
+Result of generating an ABAP program using the ABAP Compiler. The statements in the byte code are connected to C functions. When the ABAP program is executed, the byte code is loaded into the PXA as the program load and interpreted by the ABAP runtime environment (virtual machine), which accesses the corresponding C functions. 
+
+Load 
+
+In the ABAP environment, a load describes a binary representation of a repository object which is optimized for fast access, in the memory or on the database. Examples of loads are those from the byte code of a program's existing program load or the package load.
+
+
+The generated ABAP load for a given report could be found from table REPOLOAD:

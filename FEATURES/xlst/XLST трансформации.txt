@@ -1,0 +1,124 @@
+http://abap-blog.ru/osnovy-abap/prostye-transformacii/
+https://wiki.scn.sap.com/wiki/display/ABAP/XML+XSLT+with+ABAP
+
+XSLT (Extensible Stylesheet Language Transformations
+
+XSL (eXtensible Stylesheet Language) 
+XPath is a major element in the XSLT standard. XPath can be used to navigate through elements and attributes in an XML document.
+
+из ABAP в XML (Сериализация) 
+
+Преобразование ссылочных переменных и объектов в настоящее время не поддерживается.
+Так же не поддерживается трансформация структур и таблиц, компонентами которых являются ссылочные переменные.
+Несмотря на это, допускается работа со ссылочными переменными (например, для вызова метода класса).\
+
+
+Создать:
+	Create-Other(1)-Transformation 	
+		Simple transformation(ST) 
+		or XSLT
+
+
+
+***Коротко о пространствах имен (XML Namespaces)***
+http://secretsofinternet.ru/2009/02/26/namespaces-first-look/
+
+<catalog>
+    <item>
+        <title />
+    </item>
+    <item>
+        <title />
+    </item>
+</catalog>
+
+XLST:
+равнозначны:
+<catalog>
+    <music:item xmlns:music = "http://ininfo.biz/music">
+        <music:title xmlns:music = "http://ininfo.biz/music" />
+    </music:item xmlns:music = "http://ininfo.biz/music">
+    <book:item xmlns:book = "http://ininfo.biz/book">
+        <book:title xmlns:book = "http://ininfo.biz/book" />
+    </book:item xmlns:book = "http://ininfo.biz/book">
+</catalog>
+
+Пространство имен объявленное для какого-либо элемента, является таковым для всех вложенных в него элементов, если для них не объявлено других пространств имен. 
+
+<music:catalog xmlns:music = "http://ininfo.biz/music">
+    <music:item>
+        <music:title />
+    </music:item>
+    <book:item xmlns:book = "http://ininfo.biz/book">
+        <book:title />
+    </book:item>
+</music:catalog>
+
+В следующем примере все элементы принадлежат одному пространству(значение атрибута равно «http://ininfo.biz/group») хотя и имеют разные имена-префиксы(«music» и «book»):
+<music:catalog 
+    xmlns:music = "http://ininfo.biz/music"
+    xmlns:book = "http://ininfo.biz/book">
+    <music:item>
+        <music:title />
+    </music:item>
+    <book:item>
+        <book:title />
+    </book:item>
+</music:catalog>
+
+используют одинаковые имена-префиксы:
+<catalog>
+    <group:item xmlns:group = "http://ininfo.biz/music">
+        <group:title />
+    </group:item>
+    <group:item xmlns:group = "http://ininfo.biz/book">
+        <group:title />
+    </group:item>
+</catalog>
+
+задать пространство имен по-умолчанию:
+
+<catalog>
+    <item xmlns = "http://ininfo.biz/music">
+        <title />
+    </item>
+    <item xmlns = "http://ininfo.biz/book">
+        <title />
+    </item>
+</catalog>
+
+Для того, чтобы отменить пространство имен заданное по-умолчанию, необходимо присвоить атрибуту «xmlns» значение пустой строки:
+
+<catalog 
+    xmlns = "http://ininfo.biz/group">
+    <item>
+        <title />
+    </item>
+    <item xmlns = "">
+        <title />
+    </item>
+</catalog>
+
+*** Аттрибуты ***
+<music:catalog 
+    xmlns:music = "http://ininfo.biz/music"
+    xmlns:book = "http://ininfo.biz/book">
+    <music:item music:number="10">
+        <music:title numref="20" />
+    </music:item>
+    <book:item book:number="20">
+        <book:title numref="10" />
+    </book:item>
+</music:catalog>
+
+Элементы - item, title, item, title
+Аттрибуты - music:number, numref, book:number, numref. Где music: - префикс.
+
+пространство имен по-умолчанию на атрибуты не распостраняется
+Если у атрибута не указан префикс, то он не принадлежит ни к одному пространству имен: numref
+
+Задание простаранства имен для элемента ( но не для его атрибута):
+<music:item number="10" 
+    xmlns:music = "http://ininfo.biz/music">
+
+

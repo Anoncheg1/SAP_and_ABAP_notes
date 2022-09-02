@@ -1,0 +1,18 @@
+
+		min max
+
+ result TYPE REF TO data.
+
+
+FIELD-SYMBOLS <result> TYPE ANY.
+
+result = cl_abap_exceptional_values=>get_min_value( pack ).
+
+IF result IS NOT INITIAL.
+  ASSIGN result->* TO <result>.
+  cl_demo_output=>write_data( <result> ).
+ENDIF.
+
+cl_abap_exceptional_values=>get_min_value( pack )
+
+cl_demo_output=>display( ).

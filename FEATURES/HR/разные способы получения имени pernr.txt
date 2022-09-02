@@ -1,0 +1,55 @@
+1) PA0002 nachn vorna midnm
+
+CALL FUNCTION 'HR_READ_INFOTYPE'
+      EXPORTING
+        pernr           = im_pernr
+        infty           = '0002'
+        begda           = im_date
+        endda           = im_date
+      TABLES
+        infty_tab       = lt_0002
+      EXCEPTIONS
+        infty_not_found = 1
+        OTHERS          = 2.
+
+    READ TABLE lt_0002 INDEX 1 ASSIGNING <fs_0002_line>.
+    IF sy-subrc <> 0.
+*      RAISE not_found.
+      RETURN.
+    ENDIF.
+  ENDIF.
+
+  CONCATENATE <fs_0002_line>-nachn <fs_0002_line>-vorna <fs_0002_line>-midnm
+    INTO lv_fio SEPARATED BY space.
+  IF ch_name_i IS SUPPLIED.
+    ch_name_i = lv_fio.
+  ENDIF.
+
+  IF ch_name_r IS SUPPLIED.
+    CONCATENATE <fs_0002_line>-nachn1 <fs_0002_line>-vorna1 <fs_0002_line>-nach3
+     INTO ch_name_r SEPARATED BY space.
+    IF ch_name_r IS INITIAL.
+      ch_name_r = lv_fio.
+    ENDIF.
+  ENDIF.
+  IF ch_name_d IS SUPPLIED.
+    CONCATENATE <fs_0002_line>-nachn2 <fs_0002_line>-vorna2 <fs_0002_line>-nach4
+     INTO ch_name_d SEPARATED BY space.
+    IF ch_name_d IS INITIAL.
+      ch_name_d = lv_fio.
+    ENDIF.
+  ENDIF.
+  IF ch_name_v IS SUPPLIED.
+    CONCATENATE <fs_0002_line>-nachn5 <fs_0002_line>-vorna5 <fs_0002_line>-midnm5
+     INTO ch_name_v SEPARATED BY space.
+    IF ch_name_v IS INITIAL.
+      ch_name_v = lv_fio.
+    ENDIF.
+  ENDIF.
+  IF ch_name_t IS SUPPLIED.
+    CONCATENATE <fs_0002_line>-nachn6 <fs_0002_line>-vorna6 <fs_0002_line>-midnm6
+     INTO ch_name_t SEPARATED BY space.
+    IF ch_name_t IS INITIAL.
+      ch_name_t = lv_fio.
+    ENDIF.
+  ENDIF.

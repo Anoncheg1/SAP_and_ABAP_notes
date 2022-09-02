@@ -1,0 +1,111 @@
+﻿https://wiki.scn.sap.com/wiki/display/Snippets/HR-ABAP+New+Class+to+Read+the+Infotype
+https://wiki.scn.sap.com/wiki/display/Snippets/fetching+hr+data+in+different+ways
+
+NEW:
+	0-1000
+	CL_HRPA_READ_INFOTYPE
+	IF_HRPA_READ_INFOTYPE
+
+
+OLD:
+
+0-1000
+     CALL FUNCTION 'HR_READ_INFOTYPE'
+        EXPORTING
+          pernr     = <gt_tree>-tv_pernr
+          infty     = '0001'
+          begda     = pc-begda
+          endda     = pc-endda
+        TABLES
+          infty_tab = lt_p0001
+        EXCEPTIONS
+          OTHERS    = 2.
+      IF sy-subrc <> 0.
+        "error
+      ENDIF.
+
+      DELETE lt_p0001 WHERE sprps = abap_true.
+      SORT lt_p0001 BY begda DESCENDING.
+      READ TABLE lt_p0001 INDEX 1 ASSIGNING FIELD-SYMBOL(<lt_p0001>).
+
+    if <lt_p0001> is not ASSIGNED.
+        "error
+    endif.
+ 
+
+1000 объект
+	RH_READ_INFTY_1000
+
+1001
+	RH_READ_INFTY_1001
+	rh_struc_get и его группу
+
+	RH_READ_INFTY_1001_EXT
+	то же самое, но с расширенным ИД объекта REALO
+
+1000-
+RHDB
+RH_READ_INFTY*
+
+
+
+CLASS PA
+1)
+data GO_INFOTYPE_READER  type ref to IF_HRPA_READ_INFOTYPE.
+data LT_IT     type HRPAD_PRELP_TAB.
+data LT_0002   type standard table of P0002.
+2)
+  call method CL_HRPA_READ_INFOTYPE=>GET_INSTANCE
+    importing
+      INFOTYPE_READER = OO_INFOTYPE_READER.
+3)
+	call method GO_INFOTYPE_READER->READ
+          exporting
+            TCLAS         = 'A'
+            PERNR         = LS_PERAS-PERNR
+            INFTY         = '0001'
+            BEGDA         = IV_BEGDA
+            ENDDA         = IV_ENDDA
+            NO_AUTH_CHECK = FALSE
+          importing
+            INFOTYPE_TAB  = LT_IT.
+
+
+3)
+     try.
+        call method GO_INFOTYPE_READER->READ
+          exporting
+            TCLAS         = 'A'
+            PERNR         = LS_PERAS-PERNR
+            INFTY         = '0002'
+            BEGDA         = IV_BEGDA
+            ENDDA         = IV_ENDDA
+            NO_AUTH_CHECK = FALSE
+          importing
+            INFOTYPE_TAB  = LT_IT.
+      catch CX_HRPA_VIOLATED_ASSERTION.
+    endtry.
+    if LT_IT[] is initial. continue. endif.
+    call method CL_HR_PNNNN_TYPE_CAST=>PRELP_TO_PNNNN_TAB
+      exporting
+        PRELP_TAB = LT_IT
+      importing
+        PNNNN_TAB = LT_0002.
+
+
+
+MACROS 1
+	TABLES: pernr.
+	INFOTYPES: 0002.
+ 
+	GET pernr.
+	rp_provide_from_frst p0002 space pn-begda pn-endda .
+	rp_provide_from_last p0002 space pn-begda pn-endda.
+
+MACROS 2
+	INFOTYPE: 0002.
+	PARAMETERS: PERNR LIKE P0002-PERNR.
+	RP-READ-INFOTYPE PERNR 0002 P0002 .
+	PROVIDE * FROM P0002
+		if ... then ...endif.
+	ENDPROVIDE.

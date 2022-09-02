@@ -1,0 +1,19 @@
+пример PPST
+
+ќтветна€ дата одним полем
+$pch$-keydate = '1'.
+    gdstr-svect = 1.
+
+
+минимум:
+TABLES : objec.
+
+START-OF-SELECTION.
+get objec.
+
+
+
+макросы:
+RH-SEL-ONE-OBJID
+RH-SEL-KEYDATE
+RH-GET-TBDAT

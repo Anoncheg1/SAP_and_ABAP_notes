@@ -1,0 +1,457 @@
+METHOD get_data .
+
+*07.02.2018 Чепелев В.С.
+* Берем по пути " O-S-P объекты S и P
+* по ним ищим S-IF
+* объекты P и IF кладем в три таблицы.
+* Каждому объекты IF из деерва поиска, в зависимости от признака Y9235, присваивается один из 4 полей.
+* Присвоение полностью динамическое. 4 поля могут быть в любом порядке.
+* Затем поля сортировка по строгому порядку <FUNC_ORGEH> <FUNC_GROUP> <FUNC> <TASK>
+* Если в будущем нужно будет изменить порядок полей в признаке Y9235, то нужно будет изменить этот порядое сортировки, остальное и так динамическое.
+
+  DATA: ls_data                TYPE zhr_univ_data_082,
+        lo_nd_selscr           TYPE REF TO if_wd_context_node,
+        lo_el_selscr           TYPE REF TO if_wd_context_element,
+        ls_selscr              TYPE wd_this->element_selscr,
+        lt_tasks               TYPE wd_this->elements_tasks,
+        lt_funcs               TYPE wd_this->elements_funcs,
+        lt_objid               TYPE RANGE OF hrobjid,
+        lv_num                 TYPE i.
+
+  FIELD-SYMBOLS: <ls_data> LIKE ls_data,
+                 <ls_task> LIKE LINE OF lt_tasks,
+                 <ls_func> LIKE LINE OF lt_funcs.
+
+  CLEAR wd_this->go_data.
+
+  lo_nd_selscr = wd_context->get_child_node( name = wd_this->wdctx_selscr ).
+  lo_el_selscr = lo_nd_selscr->get_element( ).
+  lo_el_selscr->get_static_attributes( IMPORTING static_attributes = ls_selscr ).
+  lt_objid[] = VALUE #(
+    ( sign   = 'I' option = 'EQ' low = ls_selscr-orgeh ) ).
+
+  DATA: lt_objec TYPE TABLE OF objec
+      .
+
+
+  TYPES: tt_struc TYPE STANDARD TABLE OF struc WITH NON-UNIQUE KEY seqnr. " WITH NON-UNIQUE SORTED KEY type COMPONENTS otype.
+  DATA lt_struc    TYPE tt_struc.
+
+
+  " три таблицы
+  "1) тексты <TASK> <FUNC> <FUNC_GROUP> <FUNC_ORGEH> и их objid
+  "2) таблица всех работников
+  "3) таблица присвоенныех функций из 1)(точнее строк). прикрепелена к каждому работнику.
+  DATA: BEGIN OF ls_t1,
+          lv_id         TYPE i, "индекс для свяки с 3)
+          lv_fuo_objid  TYPE pd_objid_r,
+          lv_fuo_t      TYPE string, "<FUNC_ORGEH>
+          lv_fug_objid  TYPE pd_objid_r,
+          lv_fug_t      TYPE string, "<FUNC_GROUP>
+          lv_fu_objid   TYPE pd_objid_r,
+          lv_fu_t       TYPE string, "<FUNC>
+          lv_task_objid TYPE pd_objid_r,
+          lv_task_t     TYPE string, "<TASK>
+        END OF ls_t1,
+        lt_t1 LIKE STANDARD TABLE OF ls_t1 WITH NON-UNIQUE KEY lv_fuo_objid lv_fug_objid lv_fu_objid lv_task_objid
+        .
+  DATA: BEGIN OF ls_t3, "для вывода будет удобнее, если количество строк будет как в 1)
+          lv_id_f TYPE i, "foreign key 1)
+          lv_bool TYPE abap_bool VALUE abap_false,
+        END OF ls_t3
+        .
+  DATA: BEGIN OF ls_t2, "работники
+          lv_pernr TYPE pd_objid_r,
+          lv_plans TYPE string,
+          lv_fio   TYPE string,
+          lt_t3    LIKE SORTED TABLE OF ls_t3 WITH UNIQUE KEY lv_id_f,
+        END OF ls_t2,
+        lt_t2 LIKE TABLE OF ls_t2
+        .
+
+  FIELD-SYMBOLS <lt_t1> LIKE ls_t1.
+  FIELD-SYMBOLS <lt_t2> LIKE ls_t2.
+  FIELD-SYMBOLS <lt_t3> LIKE ls_t3.
+
+  " O-S-P
+  CALL FUNCTION 'RH_STRUC_GET'
+    EXPORTING
+      act_otype      = 'O'
+      act_objid      = ls_selscr-orgeh
+      act_wegid      = 'O-S-P'
+      act_plvar      = '01'
+      act_begda      = ls_selscr-datum
+      act_endda      = ls_selscr-datum
+    TABLES
+      result_objec   = lt_objec
+      result_struc   = lt_struc
+    EXCEPTIONS
+      no_plvar_found = 1
+      no_entry_found = 2
+      OTHERS         = 3.
+
+  DATA: lv_o_descr TYPE string.
+  CALL METHOD zcl_hr_utilities=>get_objec_text
+    EXPORTING
+      im_otype  = 'O'
+      im_objid  = ls_selscr-orgeh
+    IMPORTING
+      ex_short  = lv_o_descr
+    EXCEPTIONS
+      not_found = 1
+      OTHERS    = 2.
+
+*  current pernr
+  IF wd_this->xss_mode = 'ESS'.
+    DATA: ls_p0105 TYPE pa0105.
+    SELECT SINGLE * FROM pa0105 INTO ls_p0105
+       WHERE subty = '0001'
+         AND usrid = sy-uname
+         AND begda <= sy-datum
+         AND endda >= sy-datum.
+
+    IF ls_p0105-pernr IS INITIAL.
+      wd_this->wd_get_api( )->get_message_manager( )->report_message('Текущему пользователю не присвоен ТН.').
+      RETURN.
+    ENDIF.
+    "оставляем только текущего ТН
+    DELETE lt_struc WHERE otype = 'P' AND objid <> ls_p0105-pernr.
+  ENDIF.
+
+  "4 переменных и их уровень в  S-IF-O-IF
+  "для динамического выбора
+  DATA: lt_cols TYPE TABLE OF y9235."<FUNC_ORGEH><FUNC_GROUP><FUNC><TASK>
+  "После сортировки не меняется. Привязка по ссылке.
+  APPEND INITIAL LINE TO lt_cols ASSIGNING FIELD-SYMBOL(<func_orgeh>).
+  <func_orgeh>-marker = 'lv_fuo'.
+  APPEND INITIAL LINE TO lt_cols ASSIGNING FIELD-SYMBOL(<func_group>).
+  <func_group>-marker = 'lv_fug'.
+  APPEND INITIAL LINE TO lt_cols ASSIGNING FIELD-SYMBOL(<func>).
+  <func>-marker = 'lv_fu'.
+  APPEND INITIAL LINE TO lt_cols ASSIGNING FIELD-SYMBOL(<task>).
+  <task>-marker = 'lv_task'.
+  "динамическое присвоение уровней
+  TRY.
+      wd_assist->get_priz(
+        IMPORTING
+           ev_task         =   <task>-levl  " Уровень
+           ev_fu           =   <func>-levl    " Уровень
+           ev_fu_g         =   <func_group>-levl  " Уровень
+           ev_fu_o         =   <func_orgeh>-levl  " Уровень
+      ).
+    CATCH cx_static_check.
+      wd_this->wd_get_api( )->get_message_manager( )->report_message(
+        wd_assist->if_wd_component_assistance~get_text( key = '001')
+      ).
+      RETURN.
+  ENDTRY.
+
+  "находим снизу вверх P-S
+  LOOP AT lt_struc ASSIGNING FIELD-SYMBOL(<lt_struc>) WHERE otype = 'P' GROUP BY <lt_struc>-objid.
+    READ TABLE lt_struc ASSIGNING FIELD-SYMBOL(<str_s>) WITH TABLE KEY seqnr = <lt_struc>-pup.
+    IF sy-subrc <> 0.
+      CONTINUE.
+    ENDIF.
+
+    APPEND INITIAL LINE TO lt_t2 ASSIGNING <lt_t2>. "таблица 2) Работник
+
+    READ TABLE lt_objec ASSIGNING FIELD-SYMBOL(<lt_object>) WITH KEY realo = <lt_struc>-objid.
+    <lt_t2>-lv_pernr = <lt_object>-objid. "pernr
+
+    CALL METHOD zcl_hr_utilities=>get_empl_name
+      EXPORTING
+        im_pernr  = <lt_t2>-lv_pernr
+      CHANGING
+        ch_name_i = <lt_t2>-lv_fio "fio
+      EXCEPTIONS
+        not_found = 1
+        OTHERS    = 2.
+    READ TABLE lt_objec ASSIGNING <lt_object> WITH KEY realo = <str_s>-objid.
+    CALL METHOD zcl_hr_utilities=>get_objec_text
+      EXPORTING
+        im_otype       = 'S'
+        im_objid       = <lt_object>-objid
+      IMPORTING
+        ex_description = <lt_t2>-lv_plans "plans
+      EXCEPTIONS
+        not_found      = 1
+        OTHERS         = 2.
+
+    DATA lt_objec2 TYPE TABLE OF objec.
+    DATA lt_struc2 TYPE tt_struc.
+    FIELD-SYMBOLS <lt_object2> TYPE objec.
+    FIELD-SYMBOLS <lt_struc2> TYPE struc.
+    DATA: lt_rstruc0 TYPE RANGE OF i,
+          lt_rstruc2 TYPE RANGE OF i,
+          lt_rstruc3 TYPE RANGE OF i,
+          lt_rstruc4 TYPE RANGE OF i.
+
+    CLEAR lt_struc2[].
+    CLEAR lt_objec2[].
+    "S-IF-O-IF
+    " в зависимоти от уровней из признака, берем все нижестоящие с необходимого уровня.
+    CALL FUNCTION 'RH_STRUC_GET'
+      EXPORTING
+        act_otype      = 'S'
+        act_objid      = <str_s>-objid
+        act_wegid      = 'ZHR-1F'
+        act_plvar      = '01'
+        act_begda      = ls_selscr-datum
+        act_endda      = ls_selscr-datum
+      TABLES
+        result_objec   = lt_objec2
+        result_struc   = lt_struc2
+      EXCEPTIONS
+        no_plvar_found = 1
+        no_entry_found = 2
+        OTHERS         = 3.
+
+    SORT lt_cols BY levl ASCENDING. "возр
+    "lt_cols[1] - наивысший
+    DATA lv_painter TYPE string.
+    FIELD-SYMBOLS <text> TYPE string. "lt_t1- text fields
+    FIELD-SYMBOLS <pd_objid_r> TYPE pd_objid_r. "lt_t1- objid for debug
+    DATA: lt_text TYPE TABLE OF pt1002.
+    DATA lev TYPE i.
+*    FIELD-SYMBOLS <lt_rstruc2> LIKE LINE OF lt_rstruc2.
+    DATA: lv_des1 TYPE string, "text TLINE descr temp для дальнейшего сохранения
+          lv_des2 TYPE string,
+          lv_des3 TYPE string,
+          lv_des4 TYPE string.
+    DATA: lv_o1 TYPE pd_objid_r, "сохраняем objid при проходе по дереву для дальнешего сохранения в таблицу
+          lv_o2 TYPE pd_objid_r,
+          lv_o3 TYPE pd_objid_r,
+          lv_o4 TYPE pd_objid_r.
+
+    DEFINE save_lower. "&1 - 1,2,3,4   &2 - <lt_s1>,<lt_s2>,<lt_s3>,<lt_s4>
+      "сохраняем все нижние
+      "текущий уровень
+      lt_rstruc2[] = VALUE #(
+        ( sign   = 'I' option = 'EQ' low = &2-seqnr ) ).
+      lev = lt_cols[ &1 ]-levl.
+      ADD 1 TO lev. "ниже
+      WHILE ( lev < lt_cols[ &1 + 1 ]-levl ). "сохраняем все листья дерева до следующего указанного уровня
+        lt_rstruc0 = lt_rstruc2.
+        CLEAR lt_rstruc2[].
+        "сохраняем все нижние в lt_rstruc2
+        LOOP AT lt_struc2 ASSIGNING <lt_struc2>
+             WHERE otype = '1F' AND level = lev AND pup IN lt_rstruc0.
+          lt_rstruc2[] = VALUE #( BASE lt_rstruc2
+            ( sign   = 'I' option = 'EQ' low = <lt_struc2>-seqnr ) ).
+        ENDLOOP.
+        ADD 1 TO lev. "ниже
+      ENDWHILE.
+    END-OF-DEFINITION.
+    "вербальное описание считать HRP1002-TABNR, где HRP1002-SUBTY = '0001', HRP1002-OBJID = идентификатору объекта 1F из списка пути анализа, далее считать поле HRT1002-TLINE, где HRT1002-TABNR = HRP1002-TABNR
+    DEFINE set_text. "&1 - 1,2,3,4
+      "save objid
+      lv_painter = '<lt_t1>-' && lt_cols[ &1 ]-marker && '_objid'.
+      ASSIGN (lv_painter) to <pd_objid_r>.
+      <pd_objid_r> = lv_o&1.
+      "save text
+      lv_painter = '<lt_t1>-' && lt_cols[ &1 ]-marker && '_t'.
+      ASSIGN (lv_painter) TO <text>.
+
+      CALL FUNCTION 'RH_OBJECT_DESCRIPTION_READ'
+        EXPORTING
+          plvar         = '01'
+          otype         = '1F'
+          objid         = <pd_objid_r>
+          sttag         = ls_selscr-datum
+        TABLES
+          ptxt1002      = lt_text "вся длинная строка разбита на строки
+        EXCEPTIONS
+          nothing_found = 1
+          infty_empty   = 2
+          undefined     = 3
+          OTHERS        = 4.
+      IF sy-subrc EQ 0.
+        CALL FUNCTION 'HRHAP_CONVERT_PT1002_TO_STRG'
+          EXPORTING
+            t_desc_tab         = lt_text
+          IMPORTING
+            string_description = <text>.
+        CONDENSE <text>.
+      ELSE.
+        <text> = ''.
+      ENDIF.
+      clear lt_text[].
+      UNASSIGN: <pd_objid_r>, <text>.
+    END-OF-DEFINITION.
+    "проходим уровни иерархии в S-IF-O-IF, которые заданы в признаке "c высшего уровня к нижнему
+    "lt_struc2-objid(realo) =>lt_objec2-objid(PD_OBJID_R)
+    LOOP AT lt_struc2 ASSIGNING FIELD-SYMBOL(<lt_s1>) WHERE level = lt_cols[ 1 ]-levl AND otype = '1F'.
+      save_lower 1 <lt_s1>.
+      READ TABLE lt_objec2 ASSIGNING <lt_object2> WITH KEY realo = <lt_s1>-objid.
+      lv_o1 = <lt_object2>-objid. "сохраняем objid
+      LOOP AT lt_struc2 ASSIGNING FIELD-SYMBOL(<lt_s2>) WHERE level = lt_cols[ 2 ]-levl AND otype = '1F' AND pup IN lt_rstruc2.
+        save_lower 2 <lt_s2>.
+        READ TABLE lt_objec2 ASSIGNING <lt_object2> WITH KEY realo = <lt_s2>-objid.
+        lv_o2 = <lt_object2>-objid. "сохраняем objid
+        LOOP AT lt_struc2 ASSIGNING FIELD-SYMBOL(<lt_s3>) WHERE level = lt_cols[ 3 ]-levl AND otype = '1F' AND pup IN lt_rstruc2.
+          save_lower 3 <lt_s3>.
+          READ TABLE lt_objec2 ASSIGNING <lt_object2> WITH KEY realo = <lt_s3>-objid.
+          lv_o3 = <lt_object2>-objid. "сохраняем objid
+          LOOP AT lt_struc2 ASSIGNING FIELD-SYMBOL(<lt_s4>) WHERE level = lt_cols[ 4 ]-levl AND otype = '1F' AND pup IN lt_rstruc2.
+
+            READ TABLE lt_objec2 ASSIGNING <lt_object2> WITH KEY realo = <lt_s4>-objid.
+            lv_o4 = <lt_object2>-objid. "сохраняем objid
+
+            "сохраняем новую строку, только если такой строки ещё не было.
+            DEFINE fill_stru_ls_t1. "&1 - 1,2,3,4
+              lv_painter = 'ls_t1-' && lt_cols[ &1 ]-marker && '_objid'.
+              ASSIGN (lv_painter) to <pd_objid_r>.
+              <pd_objid_r> = lv_o&1.
+            END-OF-DEFINITION.
+            fill_stru_ls_t1 1.
+            fill_stru_ls_t1 2.
+            fill_stru_ls_t1 3.
+            fill_stru_ls_t1 4.
+            READ TABLE lt_t1 ASSIGNING <lt_t1> WITH TABLE KEY
+                          lv_fuo_objid = ls_t1-lv_fuo_objid
+                          lv_fug_objid = ls_t1-lv_fug_objid
+                          lv_fu_objid = ls_t1-lv_fu_objid
+                          lv_task_objid = ls_t1-lv_task_objid.
+            IF sy-subrc <> 0. "если небыло такой строки
+              "не было, ок, сохраняем новую.
+              APPEND INITIAL LINE TO lt_t1 ASSIGNING <lt_t1>. "таблица 1)
+              <lt_t1>-lv_id = sy-tabix. "row number of the last appended row
+
+              set_text 1. "lv_a1
+              set_text 2.
+              set_text 3.
+              set_text 4.
+            ENDIF.
+
+            "<lt_t1> - новая строка или старая
+            "Ставим отметачку Работнику в его строчку.
+            <lt_t2>-lt_t3 = VALUE #( BASE <lt_t2>-lt_t3
+              ( lv_id_f = <lt_t1>-lv_id lv_bool = abap_true ) ).
+
+          ENDLOOP.
+        ENDLOOP.
+      ENDLOOP.
+    ENDLOOP.
+
+
+
+  ENDLOOP.
+
+  "сортируем по порядку полей в шаблоне слева направо
+  SORT lt_t1 BY lv_fuo_objid lv_fug_objid lv_fu_objid lv_task_objid.
+
+  LOOP AT lt_t2 ASSIGNING <lt_t2>."для каждого пользователя
+    LOOP AT lt_t1 ASSIGNING <lt_t1>. "для каждой строки строк в 1)
+      "вставляем недостающие в lt_t3.
+      READ TABLE <lt_t2>-lt_t3 ASSIGNING <lt_t3> WITH TABLE KEY lv_id_f = <lt_t1>-lv_id.
+      IF sy-subrc <> 0. "если небыло.
+        <lt_t2>-lt_t3 = VALUE #( BASE <lt_t2>-lt_t3
+             ( lv_id_f = <lt_t1>-lv_id lv_bool = abap_false ) ).
+      ENDIF.
+    ENDLOOP.
+  ENDLOOP.
+
+"EXPORT
+  DATA: lv_content TYPE xstring
+      , lv_result  TYPE string
+      .
+  CALL TRANSFORMATION y25_mss_9235_excel_02
+    SOURCE
+      t1 = lt_t1
+      t2 = lt_t2
+    RESULT XML lv_result
+  .
+
+
+  CHECK lv_result IS NOT INITIAL.
+*
+*  REPLACE ALL OCCURRENCES OF '~' IN lv_result WITH `</w:t><w:br/><w:t>`.
+*
+  CALL FUNCTION 'SCMS_STRING_TO_XSTRING'
+    EXPORTING
+      text   = lv_result
+    IMPORTING
+      buffer = lv_content
+    EXCEPTIONS
+      OTHERS = 0.
+
+
+  CALL METHOD cl_wd_runtime_services=>attach_file_to_response
+    EXPORTING
+      i_filename  = 'Должностные обязанности.xml'
+      i_content   = lv_content
+      i_mime_type = 'application/msexcel'
+*     i_in_new_window = ABAP_FALSE
+      i_inplace   = abap_true.
+
+ENDMETHOD.
+
+
+
+*Можно сделать одним вызовом:
+methods GET_PRIZ
+    exporting
+      value(EV_TASK) type Y9235-LEVL
+      value(EV_FU) type Y9235-LEVL
+      value(EV_FU_G) type Y9235-LEVL
+      value(EV_FU_O) type Y9235-LEVL
+    raising
+      CX_STATIC_CHECK .
+
+
+  method GET_PRIZ.
+
+
+DATA ex TYPE REF TO cx_static_check.
+
+data lv_s type Y9235.
+
+lv_s-marker = '<TASK>'.
+CALL FUNCTION 'HR_FEATURE_BACKFIELD'
+  EXPORTING
+    feature                           = 'Y9235'
+    struc_content                     = lv_s
+ IMPORTING
+   BACK                              = ev_task
+ .
+IF sy-subrc <> 0.
+  RAISE EXCEPTION ex.
+ENDIF.
+
+lv_s-marker = '<FUNC>'.
+CALL FUNCTION 'HR_FEATURE_BACKFIELD'
+  EXPORTING
+    feature                           = 'Y9235'
+    struc_content                     = lv_s
+ IMPORTING
+   BACK                              = ev_fu
+ .
+IF sy-subrc <> 0.
+  RAISE EXCEPTION ex.
+ENDIF.
+
+lv_s-marker = '<FUNC_GROUP>'.
+CALL FUNCTION 'HR_FEATURE_BACKFIELD'
+  EXPORTING
+    feature                           = 'Y9235'
+    struc_content                     = lv_s
+ IMPORTING
+   BACK                              = ev_fu_g
+ .
+IF sy-subrc <> 0.
+  RAISE EXCEPTION ex.
+ENDIF.
+
+lv_s-marker = '<FUNC_ORGEH>'.
+CALL FUNCTION 'HR_FEATURE_BACKFIELD'
+  EXPORTING
+    feature                           = 'Y9235'
+    struc_content                     = lv_s
+ IMPORTING
+   BACK                              = ev_fu_o
+ .
+IF sy-subrc <> 0.
+  RAISE EXCEPTION ex.
+ENDIF.
+
+  endmethod.

@@ -1,0 +1,16 @@
+http://pandia.ru/text/78/364/175.php
+
+DATA lt_val      TYPE STANDARD TABLE OF zwww_values.
+DO 100 TIMES.
+  lt_val = VALUE #( BASE lt_val
+        ( var_name = 'a' var_num = sy-index find_text = '[a]' value = 'aa' )   "a - имя строки, var_num - порядковый номер, find_text, value
+enddo.
+
+CALL FUNCTION 'ZWWW_OPENFORM'
+  EXPORTING
+    form_name   = 'ZA' "щаблон
+  TABLES
+    it_values   = lt_val
+  EXCEPTIONS
+    printcancel = 1
+    OTHERS      = 2.

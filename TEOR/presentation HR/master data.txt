@@ -1,0 +1,15 @@
+Master data значения
+1)	Pa
+2)	Data Class таблицы
+	The data class defines the physical area of the database (for ORACLE the TABLESPACE) in which your table is logically stored. If you choose a data class correctly, your table will automatically be assigned to the correct area when it is created on the database.
+
+
+APPL0 (master data):
+Data that is seldom changed. An example of master data is the data contained in an address file, such as the name, address and telephone number.
+APPL1 (transaction data):
+Data that is frequently changed. An example of transaction data is the goods in a warehouse which change after each purchase order. 
+APPL2 (organizational data):
+Customizing data that is defined when the system is installed and seldom changed. An example is the table with country codes.
+
+Delivery class: A, C, L, G, E, S, W
+DataClass: APPL0, APPL1, APPL2

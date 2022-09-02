@@ -1,0 +1,13 @@
+Supply function
+	only WD runtime can access such a method.
+	called if node's collection is initial
+	if lead selection idex of parend node is changed
+	if  node's collection is invalidate programmatically
+
+The lead selection of a context node points to either a single selected node element (value of the lead selection = number of the selected node element) or, if no element is selected, it has the value of the constant IF_WD_CONTEXT_NODE=>NO_SELECTION. The lead selection can be set automatically by the Web Dynpro framework if the context node property Initialize Lead Selection is set to true. In this case, the first element in a collection will automatically be marked as the element at lead selection. The lead selection can also be set by program source code or it can be set by user actions related to UI elements for example, mark line in table view element, which is bound to the node).
+
+The supply function is especially useful in combination with singleton nodes. The values of child node elements of the type Singleton depend on the element of the parent node to which the lead selection is currently assigned. If the lead selection
+
+is changed by the user, the supply function can access the new lead selection element and recalculate the values of the child node elements accordingly.
+
+You can find further information about this from various online resources. 

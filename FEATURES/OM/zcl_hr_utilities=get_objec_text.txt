@@ -1,0 +1,26 @@
+1002 subtype 0001 по умолчанию
+
+
+CALL METHOD zcl_hr_utilities=>get_objec_text
+    EXPORTING
+      im_otype       = pv_otype
+      im_objid       = pv_objid
+      im_date        = pv_date
+      im_subty       = pv_subty
+    IMPORTING
+      ex_description = cv_value
+    EXCEPTIONS
+      not_found      = 1
+      OTHERS         = 2.
+
+CALL FUNCTION 'RH_OBJECT_DESCRIPTION_READ'
+      EXPORTING
+        plvar    = im_plvar
+        otype    = im_otype
+        objid    = im_objid
+        sttag    = im_date
+        subty    = im_subty
+      TABLES
+        ptxt1002 = lt_text
+      EXCEPTIONS
+        OTHERS   = 1.

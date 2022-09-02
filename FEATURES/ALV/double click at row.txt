@@ -1,0 +1,59 @@
+just found this demo (SALV_LEARN_MAP_TABLE_4):
+
+
+& Report  SALV_LEARN_MAP_TABLE_4
+ 
+REPORT zkko_salv_learn_map_table_4 .
+ 
+CLASS lcl_handle_events DEFINITION DEFERRED.
+DATA: gr_handle_events TYPE REF TO lcl_handle_events,
+      gt_outtab TYPE TABLE OF sflight.
+ 
+*       CLASS lcl_handle_events DEFINITION
+CLASS lcl_handle_events DEFINITION.
+  PUBLIC SECTION.
+    METHODS:
+      on_double_click FOR EVENT double_click OF cl_salv_events_table
+        IMPORTING row column.
+ENDCLASS.                    "lcl_handle_events DEFINITION
+ 
+*       CLASS lcl_handle_events IMPLEMENTATION
+CLASS lcl_handle_events IMPLEMENTATION.
+  METHOD on_double_click.
+    DATA ls_sflight TYPE sflight.
+    READ TABLE gt_outtab
+    INTO ls_sflight
+    INDEX row.  "get selected row
+    MESSAGE i000(0k) WITH 'Zeile' row 'Airline' ls_sflight-carrid. "#EC NOTEXT
+  ENDMETHOD.                    "on_double_click
+ENDCLASS.                    "lcl_handle_events IMPLEMENTATION
+ 
+START-OF-SELECTION.
+*... Select data
+  SELECT * FROM sflight INTO CORRESPONDING FIELDS OF TABLE gt_outtab.
+*... Create Instance
+  DATA:
+    gr_table  TYPE REF TO cl_salv_table.
+ 
+  CALL METHOD cl_salv_table=>factory
+    IMPORTING
+      r_salv_table = gr_table
+    CHANGING
+      t_table      = gt_outtab.
+ 
+*... Enable Generic ALV functions
+  DATA: gr_functions TYPE REF TO cl_salv_functions_list.
+  gr_functions = gr_table->get_functions( ).
+  gr_functions->set_default( ).
+* gr_functions->set_all( ).
+ 
+*... register to double click event
+  DATA:
+    lr_events TYPE REF TO cl_salv_events_table.
+ 
+  lr_events = gr_table->get_event( ).
+  CREATE OBJECT gr_handle_events.
+  SET HANDLER gr_handle_events->on_double_click FOR lr_events.
+ 
+*... Display table
+  gr_table->display( ).

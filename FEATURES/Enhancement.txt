@@ -1,0 +1,5 @@
+ENHANCEMENT 1  ZLSO_0125_E_ENG.    "active version
+IF sy-cprog = 'ZLSO_0125_V2'.
+  OTYPE = 'E'.
+endif.
+ENDENHANCEMENT.

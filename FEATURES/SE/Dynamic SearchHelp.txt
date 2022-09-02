@@ -1,0 +1,29 @@
+PARAMETERS: p_vbeln TYPE vbak-vbeln,
+            p_posnr TYPE text10.
+
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_posnr.
+
+
+TYPES: BEGIN OF myt,
+           text TYPE text10,
+    text2 TYPE text10,
+         END OF myt.
+
+  DATA value_tab TYPE STANDARD TABLE OF myt.
+
+  APPEND INITIAL LINE TO value_tab ASSIGNING FIELD-SYMBOL(<a>).
+  <a>-text = 'aaa'.
+  <a>-text2 = 'aaa22'.
+  APPEND INITIAL LINE TO value_tab ASSIGNING FIELD-SYMBOL(<a2>).
+  <a2>-text = 'aaa2'.
+  
+
+  CALL FUNCTION 'F4IF_INT_TABLE_VALUE_REQUEST'
+    EXPORTING
+      retfield    = 'text'
+      dynprofield = 'P_POSNR'
+      dynpprog    = sy-cprog
+      dynpnr      = sy-dynnr
+      value_org   = 'S'
+    TABLES
+      value_tab   = value_tab.

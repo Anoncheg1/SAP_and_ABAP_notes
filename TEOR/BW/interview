@@ -1,0 +1,63 @@
+;-*- mode: Org; fill-column:110; -*-
+
+* BW Data warehouse?
+SAP Business Warehouse (SAP BW) - Enterprise Data Warehouse product   as a part of a business intelligence solution.
+Data warehouse is a solution in increasing amount of business information for efficient decision-making processes.
+Provides data:
+ - Detailed or granular
+ - Integrated
+ - Historical
+ - Easy-access
+
+* BI?
+BI stands for evolution of informational processing as example of business process reengineering evolution.  
+
+Обозначение компьютерных методов и инструментов для организаций, обеспечивающих перевод транзакционной деловой
+информации в человекочитаемую форму, пригодную для бизнес-анализа, а также средства для массовой работы с
+такой обработанной информацией.
+* OLAP?
+Термин введен Эдгаром Коддом. Цель OLAP - облегчение решения задач анализа данных. 
+В противовес транзакционной системе OLTP, OLAP online analytical processing  хранит исторические данные, гибкая и ориентирована на вывод данных.
+
+12 признаков Эдгара Кодда:
+ - Многомерная концепция данных. ::
+ - Прозрачность. :: Должны опираться на открытые системы, поддерживающие гетерогенные источники данных.
+ - Доступность. :: Пользователю единую лог схему.
+ - постоянная скорость вып запросов. :: не должна падать при росте числа измерений
+ - Клиент/Сервер архитектура :: 
+ - Различное число измерений :: не накладываются ограничения на измерения
+ - Динамическое представление разряженных матриц :: Не каждая ячейка содержит данные, система должна уметь большие объемы
+ - Многопользовательская поддержка :: 
+ - Неограниченные многомерные операции :: не накладываются ограничения на отношения между ячейками
+ - Интуитивно понятные инструменты манипулирования данными :: 
+ - Гибкая настройка конечных отчетов :: пользователь видит только необходимые данные и изменения немедленно отображаются
+ - Отсутствие ограничений на кол во измерений и уровней агрегации данных :: 
+Найджел Пенс 
+ - Fast мгновенный отклик
+ - Shared
+ - multidimensional
+ - Information - донные должны быть полны с точки зрения аналитики
+* OLTP vs OLAP
+| Sr.No. | Data Warehouse (OLAP)                                                                  | Operational Database(OLTP)                                        |
+|--------+----------------------------------------------------------------------------------------+-------------------------------------------------------------------|
+|      1 | It involves historical processing of information.                                      | It involves day-to-day processing.                                |
+|      2 | OLAP systems are used by knowledge workers such as executives, managers, and analysts. | OLTP systems are used by clerks, DBAs, or database professionals. |
+|      3 | It is used to analyze the business.                                                    | It is used to run the business.                                   |
+|      4 | It focuses on Information out.                                                         | It focuses on Data in.                                            |
+|      5 | It is based on Star Schema, Snowflake Schema, and Fact Constellation Schema.           | It is based on Entity Relationship Model.                         |
+|      6 | It focuses on Information out.                                                         | It is application oriented.                                       |
+|      7 | It contains historical data.                                                           | It contains current data.                                         |
+|      8 | It provides summarized and consolidated data.                                          | It provides primitive and highly detailed data.                   |
+|      9 | It provides summarized and multidimensional view of data.                              | It provides detailed and flat relational view of data.            |
+|     10 | The number of users is in hundreds.                                                    | The number of users is in thousands.                              |
+|     11 | The number of records accessed is in millions.                                         | The number of records accessed is in tens.                        |
+|     12 | The database size is from 100GB to 100 TB.                                             | The database size is from 100 MB to 100 GB.                       |
+|     13 | These are highly flexible.                                                             | It provides high performance.                                     |
+* OLAP базовые операции
+ - поворот;
+ - проекция. :: При проекции значения в ячейках, лежащих на оси проекции, суммируются по некоторому
+   предопределенному закону;
+ - раскрытие ( drill-down ). :: Одно из значений измерения заменяется совокупностью значений из следующего уровня
+   иерархии измерения; соответственно заменяются значения в ячейках гиперкуба;
+ - свертка ( roll-up/drill-up ). :: Операция, обратная раскрытию;
+ - сечение ( slice-and-dice ).

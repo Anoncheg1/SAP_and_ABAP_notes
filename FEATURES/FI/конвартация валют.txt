@@ -1,0 +1,34 @@
+Конвертация валют
+
+    CONVERT_TO_FOREIGN_CURRENCY Конвертация в иностранную валюту
+    CONVERT_TO_LOCAL_CURRENCY Конвертация во внутреннюю валюту
+    CONVERT_AMOUNT_TO_CURRENCY Конвертация валют
+
+В чем разница? Локальная валюта это валюта страны в которой расположена компания, иностранная валюта, это все остальные валюты. В системе может быть задана как прямая так и обратная котировка, и они могут отличаться.
+
+CALL FUNCTION 'CONVERT_AMOUNT_TO_CURRENCY'
+         EXPORTING
+              date             = sy-datum
+              foreign_currency = 'USD'
+              foreign_amount   = '2000.00'
+              local_currency   = 'EUR'
+         IMPORTING
+              local_amount     = amount.
+ 
+    IF iv_waers_new NE iv_waers_old.
+      CALL FUNCTION 'CONVERT_TO_LOCAL_CURRENCY'
+        EXPORTING
+          date             = sy-datum
+          foreign_amount   = cv_betrg
+          foreign_currency = iv_waers_old
+          local_currency   = iv_waers_new
+        IMPORTING
+          local_amount     = cv_betrg
+        EXCEPTIONS
+          no_rate_found    = 1
+          overflow         = 2
+          no_factors_found = 3
+          no_spread_found  = 4
+          derived_2_times  = 5
+          OTHERS           = 6.
+    ENDIF.

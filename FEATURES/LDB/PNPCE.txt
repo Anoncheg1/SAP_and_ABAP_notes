@@ -1,0 +1,5 @@
+"Если период приходится задавать самому
+  rp_provide_from_last p0001 space pn-begda pn-endda.
+  IF pnp-sw-found NE 1.
+    RETURN.
+  ENDIF.

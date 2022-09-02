@@ -1,0 +1,37 @@
+
+
+https://blogs.sap.com/2013/08/16/using-sets-in-abap-program/
+
+Important Transaction Code for Sets:
+GS01        Create set
+
+GS02       Change Set
+
+GS03        Display Set
+
+GS04        Delete set
+
+GS07        Exports sets
+
+GS08        Import sets
+
+GS09        Copy sets from client
+
+_Benefits of Using Sets_:
+In most cases, we create custom table and provide maintenance of the table to store some validation related values. We can maintain those values against a Set. If volumes of values are huge then avoid maintaining it using Sets.
+Use sets to maintain TVARV values.
+
+
+" ограничение по PERSK, PERSG
+  CALL METHOD zcl_hr_utilities=>get_set_values
+    EXPORTING
+      i_setname  = 'Z0449-PERSG'
+    IMPORTING
+      e_setvalue = gr_persg.
+
+
+  CALL METHOD zcl_hr_utilities=>get_set_values
+    EXPORTING
+      i_setname  = 'Z0449-PERSK'
+    IMPORTING
+      e_setvalue = gr_persk.

@@ -1,0 +1,13 @@
+*{ Скоробагатов А. 29.09.2017 16:56:10
+*{Вместо технического имени необходимо вывдоить полную иерархию орг.ед.
+    wd_this->get_orgeh_name(
+      EXPORTING
+        iv_objid = <ls_objec>-objid
+        iv_type  = <ls_objec>-otype
+        iv_begda = ls_selscr-datum
+        iv_endda = ls_selscr-datum
+      IMPORTING
+        ev_orgeh_txt = <ls_alv_data>-orgeh ).
+
+*    <ls_alv_data>-orgeh = lv_o_descr.
+*}

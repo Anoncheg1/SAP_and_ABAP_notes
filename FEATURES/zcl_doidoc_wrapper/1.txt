@@ -1,0 +1,17 @@
+Ошибка имени файла нефиксируется
+im_save - красная кнопка сохранения варианта, которая работает как сохранение документа
+
+
+PARAMETERS inside AS CHECKBOX DEFAULT abap_true.
+
+DATA:  lr_word TYPE REF TO zcl_doidoc_wrapper.
+
+lr_word = zcl_doidoc_wrapper=>doidoc_open( im_doc_type   = 'XLS' "DOC "VISIO
+                                             im_doc_source = 'WEBREP'
+                                             im_doc_key1   = 'ZA' "шаблон
+                                             im_doc_open_inplace = inside " не показываем сразу и показывать в SAP
+                                             im_doc_title  = 'Справка НПФ' ).
+
+WRITE ''. "чтобы предотвратить закрытие документа, на Microsoft Office 2010
+zcl_doidoc_wrapper=>doidoc_show( iref = lr_word ).
+*zcl_doidoc_wrapper=>doidoc_close( ).

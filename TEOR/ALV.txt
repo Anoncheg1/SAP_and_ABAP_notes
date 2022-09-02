@@ -1,0 +1,12 @@
+https://wiki.scn.sap.com/wiki/display/ABAP/ALV
+https://wiki.scn.sap.com/wiki/display/ABAP/ALV+Grid+Report+-+with+Object+Oriented+SALV+Classes
+
+REUSE_ALV_DISPLAY_GRID
+
+2000 year   CL_GUI_ALV_GRID - replacer, could make some of the columns, or even individual cells, editable
+
+ 7.20? CL_SALV_TABLE -  dynamically generating the field catalogue based on an internal table.  Problem to make column or cell editable.
+- Wrapper around CL_GUI_ALV_GRID, adding some features, and clearly subtracting others
+
+
+ Use the CL_SALV_TABLE to generate the field catalogue dynamically, and then pass that field catalogue into CL_GUI_ALV_GRID. There have been some articles on the SCN about that also!!!!

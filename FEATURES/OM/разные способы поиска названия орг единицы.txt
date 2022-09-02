@@ -1,0 +1,132 @@
+t527x
+
+
+1)
+CALL METHOD zcl_hr_utilities=>get_objec_text
+        EXPORTING
+          im_otype       = gc_otype_o
+          im_objid       = p0001-orgeh
+          im_date        = gv_endda
+          im_subty       = gc_rod_subty
+        IMPORTING
+          ex_description = lv_orgeh_txt2
+        EXCEPTIONS
+          not_found      = 1
+          OTHERS         = 2.
+
+RH_OBJECT_DESCRIPTION_READ
+1002-tline
+
+
+2)
+
+CALL FUNCTION 'ZHR_READ_ORG_PATH_FILIAL'
+*    EXPORTING
+*      iv_pernr     = p0001-pernr
+*      iv_date      = pn-endda
+*      iv_case      = 'Z002'
+*      iv_no_filial = ''
+*    IMPORTING
+*      ev_name      = lv_orgeh_string.
+*  lv_orgeh_txt = lv_orgeh_string.
+
+'P-S-O-O'
+если особые условия связанные с филиалом
+	RH_OBJECT_DESCRIPTION_READ
+
+
+3) HRT1002-TLINE
+
+ DATA: lt_text TYPE TABLE OF pt1002.
+
+           CALL FUNCTION 'RH_OBJECT_DESCRIPTION_READ'
+    EXPORTING
+      plvar         = lv_plvar
+      otype         = lv_otype
+      objid         = lv_objid
+      sttag         = i_begda
+      subty         = lv_subty
+    TABLES
+      ptxt1002      = lt_text
+    EXCEPTIONS
+      nothing_found = 1
+      infty_empty   = 2
+      undefined     = 3
+      OTHERS        = 4.
+  IF sy-subrc EQ 0.
+    CALL FUNCTION 'HRHAP_CONVERT_PT1002_TO_STRG'
+      EXPORTING
+        t_desc_tab         = lt_text
+      IMPORTING
+        string_description = lv_text.
+      CONDENSE lv_text.
+  ENDIF.
+
+3.1)
+
+CASE i_case.
+        WHEN 'R'.
+          lv_subty = 'Z002'.
+        WHEN 'D'.
+          lv_subty = 'Z003'.
+        WHEN 'V'.
+          lv_subty = 'Z004'.
+        WHEN 'T'.
+          lv_subty = 'Z005'.
+        WHEN 'P'.
+          lv_subty = 'Z006'.
+      ENDCASE.
+
+      CALL FUNCTION 'RH_OBJECT_DESCRIPTION_READ_2'
+        EXPORTING
+          begda         = i_date
+          endda         = i_date
+          subty         = lv_subty
+        TABLES
+          i1002         = lt_1002
+          i1002_exp     = lt_1002_exp
+          OBJECTS       = lt_objects
+        EXCEPTIONS
+          nothing_found = 1
+          infty_empty   = 2
+          undefined     = 3
+          OTHERS        = 4.
+
+      LOOP AT lt_1002 INTO ls_1002.
+        LOOP AT lt_1002_exp INTO ls_1002_exp
+            WHERE tabnr = ls_1002-tabnr.
+
+          MOVE-CORRESPONDING ls_1002_exp TO ls_text.
+          APPEND ls_text TO lt_pt1002.
+        ENDLOOP.
+      ENDLOOP.
+
+      CALL FUNCTION 'HRHAP_CONVERT_PT1002_TO_STRG'
+        EXPORTING
+          t_desc_tab         = lt_pt1002
+        IMPORTING
+          string_description = lv_text.
+
+      CONDENSE lv_text.
+
+      MOVE lv_text TO e_verb_descr.
+
+4)
+
+CALL FUNCTION 'RH_READ_OBJECT'
+      EXPORTING
+        plvar           = lv_plvar
+        otype           = lv_otype
+        objid           = lv_objid
+        begda           = i_begda
+        endda           = i_begda
+        check_stru_auth = space
+      IMPORTING
+        stext           = lv_stext
+      EXCEPTIONS
+        not_found       = 1
+        OTHERS          = 2.
+    IF sy-subrc EQ 0.
+      CONDENSE lv_text.
+      text = lv_stext.
+    ENDIF.

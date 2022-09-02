@@ -1,0 +1,15 @@
+CALL FUNCTION 'F4IF_FIELD_VALUE_REQUEST'
+        EXPORTING
+          tabname           = 'PLOGI'
+          fieldname         = 'OBJID'
+          searchhelp        = 'ZHRBAS00OBJID_L'
+          shlpparam         = 'OBJID'
+          dynpprog          = sy-repid
+          dynpnr            = sy-dynnr
+          dynprofield       = 'O_OBJID'
+        EXCEPTIONS
+          field_not_found   = 1
+          no_help_for_field = 2
+          inconsistent_help = 3
+          no_values_found   = 4
+          OTHERS            = 5.

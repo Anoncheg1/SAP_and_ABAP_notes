@@ -1,0 +1,39 @@
+﻿#+begin_src abap
+    "внутренняя структура
+    TYPES: BEGIN OF ts_inside,
+             index    TYPE i,
+             spfli_wa TYPE text255,
+           END OF ts_inside.
+    "внешняя структура
+    TYPES: BEGIN OF ts_t,
+             lt_inside TYPE TABLE OF ts_inside WITH DEFAULT KEY,
+           END OF ts_t.
+    "внешняя таблица
+    DATA: lt_t TYPE TABLE OF ts_t.
+
+    "строка внешней таблицы
+    APPEND INITIAL LINE TO lt_t ASSIGNING FIELD-SYMBOL(<lt_t>).
+    APPEND INITIAL LINE TO <lt_t>-lt_inside ASSIGNING FIELD-SYMBOL(<lt_inside>).
+    <lt_inside>-index = 1.
+    APPEND INITIAL LINE TO <lt_t>-lt_inside ASSIGNING <lt_inside>.
+    <lt_inside>-index = 2.
+
+    "вторая строка внешней таблицы
+    lt_t[] = VALUE #( BASE lt_t
+      ( lt_inside = VALUE #(
+        ( index = 21 )
+        ( index = 22 ) )
+      )
+    ).
+
+    "вывод
+    data a(255) type c.
+    LOOP AT lt_t ASSIGNING FIELD-SYMBOL(<l_t>).
+      LOOP AT <l_t>-lt_inside ASSIGNING FIELD-SYMBOL(<l_i>).
+        a = a && ` ` && <l_i>-index.
+      ENDLOOP.
+    ENDLOOP.
+    
+    cl_demo_output=>display( a ).
+#+end_src
+

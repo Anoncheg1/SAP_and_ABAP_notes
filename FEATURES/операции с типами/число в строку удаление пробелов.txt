@@ -1,0 +1,4 @@
+lv_anz      TYPE text20
+
+lv_anz =  ls_0014-anzhl.
+CONDENSE lv_anz.

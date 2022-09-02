@@ -1,0 +1,24 @@
+https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=473959437
+
+Иногда называют оканчиваясь на T.
+обычно в конце таблицы есть Неключевое текстовое CHAR поле, а до него ключевой foreign key по которому эта таблице привязывается к основной.
+
+Если есть ключевое поле SPRAS
+
+Edit->Translation Type
+
+Normally a table is translated using a standard translation tool (SE63)
+
+Translation with standard translation method
+	se63
+Load table: text and translation are generated automatically
+	Вроде бы автоматически.
+Translation only possible with object-specific tools
+	Не понятно, какие то внутренние sap преоцедуры
+Table is language-dependent, but not translation-relevant
+	which should be completely excluded from the translation although the table is formally language-dependent.
+
+*** Language-Dependent ***
+DD02L - LANGDEP = 'X'
+
+Table contains only INCLUDE to other tables

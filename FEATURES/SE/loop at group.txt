@@ -1,0 +1,11 @@
+LOOP AT gt_o ASSIGNING FIELD-SYMBOL(<t_o>) GROUP BY <t_o>-objid_o.
+        t_a_ex_f = abap_false.
+        LOOP AT GROUP <t_o> ASSIGNING FIELD-SYMBOL(<t_a_o>).
+          IF line_exists( gt_datatable[ objid_a = <t_a_o>-objid_a ] ).
+            t_a_ex_f = abap_true.
+          ENDIF.
+        ENDLOOP.
+        IF t_a_ex_f = abap_false.
+          APPEND <t_o>-objid_o TO gt_o_bad.
+        ENDIF
+ENDLOOP.

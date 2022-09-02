@@ -1,0 +1,111 @@
+FORM get_upper_manager USING iv_pernr TYPE pernr_d
+                       CHANGING ch_upper_fio TYPE any
+                              ch_upper_pernr TYPE pernr_d.
+
+
+  DATA lv_plvar      TYPE plvar.
+  DATA lt_chain_orgs TYPE zhrt_objid.
+  DATA lv_objid_s    TYPE objec-objid.
+  DATA lv_objid_p    TYPE objec-objid.
+  DATA lv_inits      TYPE text100.
+  DATA lv_nachn      TYPE string.
+  DATA lt_1001_o     TYPE STANDARD TABLE OF p1001.
+  DATA lt_1001_s     TYPE STANDARD TABLE OF p1001.
+
+  FIELD-SYMBOLS: <fs_chain_line>   LIKE LINE OF lt_chain_orgs.
+  FIELD-SYMBOLS: <fs_1001_line_o>  LIKE LINE OF lt_1001_o.
+  FIELD-SYMBOLS: <fs_1001_line_s>  LIKE LINE OF lt_1001_s.
+
+  CLEAR: ch_upper_fio, ch_upper_pernr.
+
+
+  CALL METHOD zcl_hr_utilities=>get_org_chain
+    EXPORTING
+      im_plvar     = zcl_hr_utilities=>act_plvar
+      im_pernr     = iv_pernr
+      im_date      = endda
+* << 22.10.2012 Пожилов В.В.
+*     im_level     = 1        " Поиск ОЕ на уровень выше
+* >> 22.10.2012 Пожилов В.В.
+    CHANGING
+      ch_chain_tab = lt_chain_orgs
+    EXCEPTIONS
+      not_found    = 1
+      OTHERS       = 2.
+
+  IF ( sy-subrc <> 0 ) OR ( lt_chain_orgs[] IS INITIAL ).
+    CHECK 1 <> 1."RAISE not_found.
+  ENDIF.
+  DELETE lt_chain_orgs INDEX 1. "Удалим из структуру отдел в котором находится ТН (останутся только вышестоящие)
+*  IF sy-subrc = 0.
+  LOOP AT lt_chain_orgs ASSIGNING <fs_chain_line>.
+* >> 22.10.2012 Пожилов В.В.
+    CALL FUNCTION 'RH_READ_INFTY_1001'
+      EXPORTING
+        plvar            = zcl_hr_utilities=>act_plvar
+        otype            = 'O'
+        objid            = <fs_chain_line>
+      TABLES
+        i1001            = lt_1001_o
+      EXCEPTIONS
+        nothing_found    = 1
+        wrong_condition  = 2
+        wrong_parameters = 3
+        OTHERS           = 4.
+    CHECK sy-subrc = 0.
+    LOOP AT lt_1001_o ASSIGNING <fs_1001_line_o> WHERE rsign = 'B'
+                                                   AND relat = '012'
+*                                                   AND relat = c_upper_manager
+                                                   AND sclas = 'S'.
+*                                               AND begda <= pv_main_line-ap_date_set
+*                                               AND endda >= pv_main_line-ap_date_set.
+    ENDLOOP.
+    CHECK sy-subrc = 0.
+    lv_objid_s = <fs_1001_line_o>-sobid.
+* << 22.10.2012 Пожилов В.В.
+    EXIT.
+  ENDLOOP.
+  IF lv_objid_s IS INITIAL.
+    CHECK 1 <> 1." RAISE not_found.
+  ELSE.
+* >> 22.10.2012 Пожилов В.В.
+    CALL FUNCTION 'RH_READ_INFTY_1001'
+      EXPORTING
+        plvar            = zcl_hr_utilities=>act_plvar
+        otype            = 'S'
+        objid            = lv_objid_s
+      TABLES
+        i1001            = lt_1001_s
+      EXCEPTIONS
+        nothing_found    = 1
+        wrong_condition  = 2
+        wrong_parameters = 3
+        OTHERS           = 4.
+    CHECK sy-subrc = 0.
+    LOOP AT lt_1001_s ASSIGNING <fs_1001_line_s> WHERE rsign = 'A'
+                                                   AND relat = '008'
+                                                   AND sclas = 'P'.
+      EXIT.
+    ENDLOOP.
+    CHECK sy-subrc = 0.
+    lv_objid_p = <fs_1001_line_s>-sobid.
+
+    ch_upper_pernr = lv_objid_p.
+
+    zcl_hr_utilities=>get_empl_name(
+      EXPORTING
+        im_pernr  = lv_objid_p
+        im_date   = endda
+      CHANGING
+        ch_inits  = lv_inits
+        ch_nachn  = lv_nachn
+      EXCEPTIONS
+*        not_found = 1
+        OTHERS    = 2 ).
+    IF sy-subrc = 0.
+      ch_upper_fio = lv_inits && ` ` && lv_nachn.
+    ENDIF.
+  ENDIF.
+
+
+ENDFORM.

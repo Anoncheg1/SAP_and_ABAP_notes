@@ -1,0 +1,13 @@
+;-*-Org-*-
+se09, se01 работает настя, SCMA 
+
+tabl E071
+следы записей объектов запросов
+
+* transport request (change request)
+- include tasks
+- has main owner and "tasks" subrequestst for members(employers). at
+  completion tasks it consolidated in main request
+- Transport of Copies :: it dies in the next target system. similar to
+     customizing and workbench
+

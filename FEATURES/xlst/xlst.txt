@@ -1,0 +1,88 @@
+D7H
+Y*9276
+Производственый календарь
+
+PDF Forms =>PDF
+
+Y25_CL_OXML_MERGER
+XML -> Word or Excel
+
+
+Excel-> Сохранить как -> Таблица XML 2003 -> *.xml
+
+скопировать весь файл в преоразвание, кроме первой строки.
+
+в заготовку XLST шаблона вставлять после 3 строки
+
+--
+orgeh
+---
+kol
+---
+pernr | fio | begda | endda|
+------
+втсавл:<xsl:for-each select="//Header/*">
+<row> - строка
+	<cell> - столбец
+		<DATA> отчет по </DATA>
+	</cell>
+	<cell>	
+		<data> orgeh втсавл:<xsl:value-of select="Header_orgeh"/> </data>
+	</cell>
+	<cell>
+		<data> 	? </data>
+	</cell>
+
+
+
+<xsl:switch select="begda">
+<xsl:when value-of="">
+<cell style=""/>	-стиль ячейки
+
+
+
+
+
+
+
+
+DATA lt_data_xml      TYPE swxmlcont.
+DATA l_ostream        TYPE REF TO if_ixml_ostream.
+DATA(l_xml) = cl_ixml=>create( ).
+DATA(l_stream_factory) = l_xml->create_stream_factory( ).
+l_ostream = l_stream_factory->create_ostream_itable( table = lt_data_xml[] ).
+
+
+CALL TRANSFORMATION (gc_xslt)
+    SOURCE
+      data = gt_excel
+    RESULT XML
+      l_ostream.
+
+
+DATA: workdir  TYPE string.
+cl_gui_frontend_services=>get_sapgui_workdir( CHANGING sapworkdir = workdir ).
+
+cl_gui_cfw=>flush( ).
+CONCATENATE workdir '\' 'ZHR_D3091' sy-datum sy-uzeit '.xml' INTO DATA(filename).
+*  "Удалим возможные спецсимволы
+REPLACE ALL OCCURRENCES OF '*' IN filename WITH space.
+
+
+CALL METHOD cl_gui_frontend_services=>gui_download
+  EXPORTING
+    filename         = filename
+    filetype         = 'BIN'
+  CHANGING
+    data_tab         = lt_data_xml[]
+  EXCEPTIONS
+    file_write_error = 1
+    OTHERS           = 99.
+
+CONCATENATE '"' filename '"' INTO filename.
+
+CALL METHOD cl_gui_frontend_services=>execute
+  EXPORTING
+    application = 'Excel'
+    parameter   = filename
+    operation   = 'OPEN'.

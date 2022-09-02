@@ -1,0 +1,12 @@
+; -*-Org-*-
+https://help.sap.com/saphelp_crm700_ehp02/helpdata/en/52/c25fc996a1494aa9e313d261a3728d/frameset.htm
+
+* authorizations
+  using a role-based identity management approach = assign authorizations to users based on the job
+** Identity Management for System Landscapes
+    SAP NetWeaver Identity Management (SAP NetWeaver Identity Management) provides central role-based identity management for provisioning user and access data within your heterogeneous system landscape. 
+    integrate with SAP NetWeaver Business Warehouse or the SAP BusinessObjects Access Control application
+*** Authorization Concept
+     protect transactions, programs, and services
+     authorizations > authorization profile -> role
+     User master record: user <->role

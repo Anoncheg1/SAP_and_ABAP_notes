@@ -1,0 +1,4 @@
+CALL METHOD lr->exec_macro
+      EXPORTING
+        macro_name  = 'Module1.DELETE_COL'
+        param_count = 0.

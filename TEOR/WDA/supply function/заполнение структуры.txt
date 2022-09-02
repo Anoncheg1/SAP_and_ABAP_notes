@@ -1,0 +1,8 @@
+node IF_WD_CONTEXT_NODE
+
+DATA: ls_selscr TYPE wd_this->element_selscr. "ссылка на ноду из контекста
+
+node->bind_structure(
+    new_item             = ls_selscr
+    set_initial_elements = abap_false
+  ).

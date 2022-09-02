@@ -1,0 +1,12 @@
+  SELECT pernr
+     FROM pa0007
+     INTO TABLE gt_007
+     WHERE begda <= p_endda  "infotype starts before screen end date
+     	AND endda => p_begda.  "and ends after screen start date
+
+Незабыть указать SUBTY
+Дополнительно посмотреть в интернете примеры для конкретного инфотипа
+
+SPRPS - ?
+
+

@@ -1,0 +1,69 @@
+
+ABAP TIPS
+Always specify your conditions in the Where-clause instead of checking them yourself with check statements. The database system can then use an index (if possible) and the network load is considerably less.
+
+ABAP TIPS
+For all frequently used Select statements, try to use an index. You always use an index if you specify (a generic part of) the index fields concatenated with logical Ands in the Select statement's Where clause. Note that complex Where clauses are poison for the statement optimizer in any database system.
+
+ABAP TIPS
+If there exists at least one row of a database table or view with a certain condition, use the Select Single statement instead of a Select-Endselect-loop. Select Single requires one communication with the database system, whereas Select-Endselect needs two.
+
+ABAP TIPS
+It is always faster to use the Into Table version of a Select statement than to use Append statements.
+
+ABAP TIPS
+To read data from several logically connected tables use a join instead of nested Select statements. Network load is considerably less.
+
+ABAP TIPS
+If you want to find the maximum, minimum, sum and average value or the count of a database column, use a select list with aggregate functions instead of computing the aggregates yourself. Network load is considerably less.
+
+ABAP TIPS
+If you process your data only once, use a Select-Endselect-loop instead of collecting data in an internal table with Select Into Table. Internal table handling takes up much more space.
+
+ABAP TIPS
+Use a select list or a view instead of Select * , if you are only interested in specific columns of the table. Network load is considerably less.
+
+ABAP TIPS
+For all frequently used, read-only tables, try to use SAP buffering. Network load is considerably less.
+
+ABAP TIPS
+Whenever possible, use array operations instead of single-row operations to modify your database tables. Frequent communication between the application program and database system produces considerable overhead.
+
+ABAP TIPS
+Whenever possible, use column updates instead of single-row updates to update your database tables. Network load is considerably less.
+
+ABAP TIPS
+Instead of using nested Select loops or FOR ALL ENTRIES it is often possible to use subqueries. Network load is considerably less.
+
+ABAP TIPS
+Use the special operators CO, CA, CS, instead of programming the operations yourself. If ABAP/4 statements are executed per character on long strings, CPU consumption can rise substantially.
+
+ABAP TIPS
+Some function modules for string manipulation have become obsolete and should be replaced by ABAP/4 statements or functions: STRING_CONCATENATE... -> CONCATENATE, STRING_SPLIT... -> SPLIT, STRING_LENGTH -> strlen(), STRING_CENTER -> WRITE...TO...CENTERED, STRING_MOVE_RIGHT -> WRITE...TO...RIGHT-JUSTIFIED
+
+ABAP TIPS
+Use the CONCATENATE statement instead of programming a string concatenation of your own.
+
+ABAP TIPS
+If you want to delete the leading spaces in a string, use the ABAP/4 statement SHIFT...LEFT DELETING LEADING... .Other constructions (with CN and SHIFT...BY SY-FDPOS PLACES, with CONDENSE if possible, with CN and ASSIGN CLA+SY-FDPOS(LEN) ...) are not as fast. In any case, avoid using SHIFT inside a WHILE-loop!
+
+ABAP TIPS
+Use the SPLIT statement instead of programming a string split yourself.
+
+ABAP TIPS
+Use the strlen( ) function to restrict the DO loop to the relevant part of the field, e.g. when determinating a check-sum.
+
+ABAP TIPS
+Use "CLEAR f WITH val" whenever you want to initialize a field with a value different from the field's type-specific initial value.
+
+ABAP TIPS
+Try to keep the table ordered and use binary search or used a table of type SORTED TABLE. If TAB has n entries, linear search runs in O( n ) time, whereas binary search takes only O( log2( n ) ).
+
+ABAP TIPS
+A dynamic key access is slower than a static one, since the key specification must be evaluated at runtime. However, for large tables the costs are dominated by number of comparison needed to locate the entry.
+
+ABAP TIPS
+If you need to access an internal table with different keys repeatedly, keep your own secondary indices.With a secondary index, you can replace a linear search with a binary search plus an index access.
+
+ABAP TIPS
+LOOP ... WHERE is faster than LOOP/CHECK because LOOP ... WHERE evaluates the specified condition internally. As with any logical expressions, the performance is better if the operands of a comparison share a common type. The performance can be further enhanced if LOOP ... WHERE is combined with FROM i1 and/or TO i2, if possible. 

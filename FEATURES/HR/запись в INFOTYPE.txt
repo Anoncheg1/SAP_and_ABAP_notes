@@ -1,0 +1,54 @@
+;-*-Org-*-
+
+HR_INFOTYPE_OPERATIO
+COP = Copy
+DEL = Delete
+DIS = Display
+EDQ = Lock/unlock
+INS = Create
+LIS9 = Delimit
+MOD = Change
+INSS = Create for Actions is not converted to Change 
+
+
+http://www.erpworkbench.com/abap/sap-fmodules/fms_HR_INFOTYPE_OPERATION.htm
+
+Example coding for MOD operation
+
+      CONSTANTS: change TYPE pspar-actio VALUE 'MOD'.
+  "This code is requred and locks the record ready for modification
+      CALL FUNCTION 'HR_EMPLOYEE_ENQUEUE'
+        EXPORTING
+         number = p_pernr.
+
+
+      "loop at p0071 into p_p0071.  "added to put code in context
+      validitybegin = p_record-begda.
+      validityend   = p_record-endda.
+      p_record-endda = pn-begda - 1.
+
+      CALL FUNCTION 'HR_INFOTYPE_OPERATION'
+        EXPORTING
+          infty         = '0071'
+          subtype       = p_record-subty
+          objectid      = P_record-objps
+          number        = p_record-pernr     "employeenumber
+          validityend   = validityend
+          validitybegin = validitybegin
+          record        = p_record
+          recordnumber  = p_record-SEQNR
+          operation     = change
+          nocommit      = nocommit
+          dialog_mode   = '0'
+        IMPORTING
+          return        = return_struct
+          key           = personaldatakey
+        EXCEPTIONS
+          OTHERS        = 0.
+
+       "endloop.
+
+     "unlock record after modification
+     CALL FUNCTION 'HR_EMPLOYEE_DEQUEUE'
+       EXPORTING
+        number = p_pernr.

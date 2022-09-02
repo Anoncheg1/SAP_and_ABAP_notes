@@ -1,0 +1,4 @@
+CALL FUNCTION 'SAPGUI_PROGRESS_INDICATOR'
+      EXPORTING
+        percentage = 30
+        text       = 'Выборка данных из БД...'(002).

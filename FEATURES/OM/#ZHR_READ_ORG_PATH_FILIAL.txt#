@@ -1,0 +1,32 @@
+gc_hrt_case_instrumental TYPE subty VALUE 'Z005' "Творительный
+          ,gc_hrt_case_genitive TYPE subty VALUE 'Z002' "Родительный
+          ,gc_hrt_case_nominative TYPE subty VALUE '0001'. "Именительный.
+
+
+
+вход P или Os
+P-S-O-O(P-B008-S-A003-O-A002-o)
+
+
+
+Если ошибка
+	Если P вход
+		HR_GET_EMPLOYEE_DATA - 0001
+		0001-orgeh
+	енд
+	
+	'ORGA-UP' (A-B059-O-A002-O-A003-o)
+end
+
+
+LOOP AT lt_objec  WHERE otype = gc_orgtype_orgunit
+	Если филиал zcl_hr_utilities=>is_filial или есть запись 9102-subty = 0001
+		RH_OBJECT_DESCRIPTION_READ IT1002-subtype Z901
+	иначе
+		RH_OBJECT_DESCRIPTION_READ 1002-0001(iv_case)
+	end
+
+	берем длинное название lt_pt1002-tline
+	ZHR_SKLONENIE 2 если iv_case не был задан   Падеж 1-им 2-род 3-дат 4-вин 5-тв 6-пр
+
+	

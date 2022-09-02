@@ -1,0 +1,1 @@
+ftp://ftp.sap.com/pub/sdn/devkits/netweaver/abap/

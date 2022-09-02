@@ -1,0 +1,58 @@
+*radiobutton
+SELECTION-SCREEN BEGIN OF LINE.
+PARAMETER rb_mod01 RADIOBUTTON GROUP modr DEFAULT 'X' " MODIF ID m01.
+  USER-COMMAND mod.
+SELECTION-SCREEN COMMENT 3(68) text-011 FOR FIELD rb_mod01.
+SELECTION-SCREEN END OF LINE.
+
+SELECTION-SCREEN BEGIN OF LINE.
+PARAMETER rb_mod02 RADIOBUTTON GROUP modr. " MODIF ID m02.
+SELECTION-SCREEN COMMENT 3(68) text-012 FOR FIELD rb_mod02.
+SELECTION-SCREEN END OF LINE.
+
+SELECTION-SCREEN BEGIN OF LINE.
+PARAMETER rb_mod03 RADIOBUTTON GROUP modr. " MODIF ID m03.
+SELECTION-SCREEN COMMENT 3(68) text-013 FOR FIELD rb_mod03.
+SELECTION-SCREEN END OF LINE.
+
+
+*fields 1
+SELECTION-SCREEN BEGIN OF LINE.
+SELECTION-SCREEN COMMENT (28) text-019 FOR FIELD so_qdop MODIF ID m01.
+SELECT-OPTIONS: so_qdop FOR gs_scr_1000-l_objid NO INTERVALS MODIF ID m01."MATCHCODE OBJECT zhrbas00objid_qk.
+SELECTION-SCREEN END OF LINE.
+SELECT-OPTIONS so_qkobl FOR gs_scr_1000-l_objid NO INTERVALS MATCHCODE OBJECT zhrbas00objid_qk MODIF ID m01.
+
+*field 2
+SELECT-OPTIONS so_slcat FOR gs_scr_1000-l_objid NO INTERVALS MATCHCODE OBJECT zhrbas00objid_l MODIF ID m02.
+
+*fields 3
+*нету
+
+AT SELECTION-SCREEN OUTPUT.
+
+LOOP AT SCREEN.
+    CASE screen-group1.
+      WHEN 'M01'.
+        IF rb_mod01 = abap_true.
+          screen-active = '1'.
+        ELSE.
+          screen-active = '0'.
+        ENDIF.
+        MODIFY SCREEN.
+      WHEN 'M02'.
+        IF rb_mod02 = abap_true.
+          screen-active = '1'.
+        ELSE.
+          screen-active = '0'.
+        ENDIF.
+        MODIFY SCREEN.
+      WHEN 'M03'.
+        IF rb_mod03 = abap_true.
+          screen-active = '1'.
+        ELSE.
+          screen-active = '0'.
+        ENDIF.
+        MODIFY SCREEN.
+    ENDCASE.
+  ENDLOOP.

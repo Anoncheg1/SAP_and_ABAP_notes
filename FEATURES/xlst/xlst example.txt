@@ -1,0 +1,78 @@
+https://wiki.scn.sap.com/wiki/display/ABAP/XML+XSLT+with+ABAP
+
+before:
+
+
+<xsl:transform version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:sap="http://www.sap.com/sapxsl"
+>
+
+<xsl:strip-space elements="*"/>
+
+<xsl:template match="/">
+		Сюда вставляем XML из EXCEL
+</xsl:template>
+
+</xsl:transform>
+
+
+
+2) Находим <Worksheet ss:Name="Лист1">
+Находим таблицу <Table удаляем ss:ExpandedRowCount="2" - явно заданное количество строк
+
+3) Находим нужную <Row> - строку, которую нужно пролупать.
+Окружаем её
+<!--   лупаем строку по DATA - параметру SOURCE у CALL TRANSFORMATION --> - комментарий
+<xsl:for-each select="//DATA/*">
+здесь <ROW> - строка которую лупаем
+</xsl:for-each>
+
+4) вставляем значение поля
+<xsl:value-of select="INDEX"/>
+
+*** вложенные циклы ***
+для вложенных циклов необходимо убрать //
+<xsl:for-each select="//DATA/*">
+            <xsl:for-each select="LT_INSIDE/*"> - здесь убрали // потому что DATA/LT_INSIDE
+              <Row>
+                <Cell>
+                  <Data ss:Type="Number">
+                    <xsl:value-of select="INDEX"/>
+                  </Data>
+                </Cell>
+                <Cell>
+                  <Data ss:Type="Number">0</Data>
+                </Cell>
+              </Row>
+            </xsl:for-each>
+          </xsl:for-each>
+
+*** можно задать явную позицию строки <ROW>***
+<xsl:for-each select="//DATA/*">
+<xsl:variable name="ops_row" select="2 + position()"/>    - вывод с третьей строки
+<Row ss:Index="{$ops_row}">
+
+
+
+
+*** разделение шаблона *** с199
+«xsl:template match-"PLANETS">
+<HTML>
+<xsl:apply-templates/>
+</HTML>
+</xsl:tempiate>
+<xsltemplate match="PLANET">
+<xsl:for-each select-"NAME">
+<P>
+<xsl:value-of select-"."/>
+</P>
+</xsl:for-each>
+</xsl:tempiate> 
+
+
+
+
+
+
+

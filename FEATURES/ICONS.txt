@@ -1,0 +1,96 @@
+; -*-Org-*-
+
+REPORT SHOWICON
+
+TABLE  ICON
+Type group ICON   =  CONSTANTS TYPE ICON_L2 (char4)
+
+
+* write icon
+type-pools icon. (include <icon>.)
+write ICON_DUMMY as icon.
+
+* write symbol
+TYPE-POOLS SYM.
+write SYM_ELLIPSIS as SYMBOL.
+
+* create icon at selection screen ICON_CREATE, ICON_CHANGE, ICON_DISPLAY, ICON_EXECUTE_OBJECT
+SELECTION-SCREEN PUSHBUTTON  /01(29) but1 USER-COMMAND but1.
+
+INITIALIZATION.
+  DATA: icon_name TYPE iconname VALUE 'ICON_ARROW_RIGHT',
+        button_text(20) TYPE c VALUE 'Fiscal Year',
+        quickinfo LIKE smp_dyntxt-quickinfo,
+        icon_str(255) TYPE c.
+
+  CALL FUNCTION 'ICON_CREATE'
+    EXPORTING
+      name                        = icon_name
+      text                        = button_text
+    "  info                        = quickinfo
+      ADD_STDINF                  = 'X'
+    IMPORTING
+      RESULT                      = icon_str
+    EXCEPTIONS
+      OTHERS                      = 0. "not interested in errors
+
+ "place text and icon on button
+  but1 = icon_str.
+
+* warehouse stock - Светофор с кнопкой
+TABLES sscrfields.
+
+SELECTION-SCREEN BEGIN OF LINE.
+SELECTION-SCREEN COMMENT (6) com1.
+SELECTION-SCREEN PUSHBUTTON (10) but1 USER-COMMAND but1.
+SELECTION-SCREEN END OF LINE.
+
+INITIALIZATION.
+  DATA: icon_name     TYPE iconname,
+        icon_name_g   TYPE iconname VALUE 'ICON_GREEN_LIGHT',
+        icon_name_y   TYPE iconname VALUE 'ICON_YELLOW_LIGHT',
+        icon_name_r   TYPE iconname VALUE 'ICON_RED_LIGHT',
+        lv_i          TYPE c,
+        icon_str(255) TYPE c.
+
+  icon_name = icon_name_g.
+  CALL FUNCTION 'ICON_CREATE'
+    EXPORTING
+      name       = icon_name "icon_name
+      add_stdinf = ' '
+    IMPORTING
+      result     = icon_str
+    EXCEPTIONS
+      OTHERS     = 0. "not interested in errors
+
+  " place text and icon on comment
+  com1 = icon_str.
+  lv_i = 'g'.
+
+AT SELECTION-SCREEN.
+  CASE sscrfields.
+    WHEN 'BUT1'.
+      CASE lv_i.
+        WHEN 'g'.
+          lv_i = 'y'.
+          icon_name = icon_name_y.
+          WHEN 'y'.
+          lv_i = 'r'.
+          icon_name = icon_name_r.
+          WHEN 'r'.
+          lv_i = 'g'.
+          icon_name = icon_name_g.
+      ENDCASE.
+
+      CALL FUNCTION 'ICON_CREATE'
+        EXPORTING
+          name       = icon_name "icon_name
+          add_stdinf = ' '
+        IMPORTING
+          result     = icon_str
+        EXCEPTIONS
+          OTHERS     = 0. "not interested in errors
+      " place text and icon on comment
+      com1 = icon_str.
+
+  ENDCASE.

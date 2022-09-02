@@ -1,0 +1,22 @@
+﻿SAP Service Marketplace
+	https://websmp103.sap-ag.de/~SAPIDP/002006825000000234912001E
+
+
+	https://help.sap.com/viewer/index
+	https://help.sap.com/viewer/p/SAP_ERP
+		Business Functions ERP
+	
+	ABAP - Keyword Documentation 
+	https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenabap.htm
+
+Поиск several SAP sites at once
+	http://sapcis.ru/
+
+Community WIKI
+	https://wiki.scn.sap.com/wiki/display/WHP/Home
+
+SAP Support Portal Home
+	https://support.sap.com/en/index.html
+	
+	Knowledge Base требует 
+	https://support.sap.com/en/my-support/knowledge-base.html

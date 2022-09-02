@@ -1,0 +1,12 @@
+﻿+submit	export to memory, set parameters	Where-used
++packed interface				Where-used
++enhancements, badi				
++includes					
++functional modules		легко		
++class methods		легко
++form вызывается по PERFORM subr(prog)  главно программе, находится так же как и submit	
+
+SE38	RPR_ABAP_SOURCE_SCAN
+Искомы стринг:
+Имя программы: Z*
+автор программы: кроме SAP*

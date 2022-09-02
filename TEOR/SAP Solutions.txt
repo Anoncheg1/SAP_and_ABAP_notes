@@ -1,0 +1,20 @@
+SAP SE - company
+
+SAP ONE Support program
+	SAP ONE Support Launchpad - provides user Service and Support applications. based on User Profiles
+
+SAP Solution Manager - product, integrated platform.
+	Возможности:
+		Внедрение комплекса решений «Управление современным предприятием» (SAP Business Suite).
+		Глобальное развертывание.
+		Синхронизация пользовательских настроек.
+		Тестирование. Поддержка ИТ-инфраструктуры и приложений.
+		Мониторинг решений. Управление уровнем сервиса и отчеты об уровне сервиса.
+		Обработка сервисов.
+
+SAP Fieldglass
+
+SAP Ariba
+
+
+SAP NetWeaver Master Data Management

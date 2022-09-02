@@ -1,0 +1,2 @@
+gc_low_date TYPE d VALUE '18000101', 01.01.1800
+gc_high_date TYPE d VALUE '99991231'.  31.12.9999

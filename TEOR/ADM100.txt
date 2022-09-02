@@ -1,0 +1,57 @@
+;-*-org-*-
+
+HTTP Client	SAP GUI Client	RFC client/Server
+------------------------------------------
+ICM		|		Gateway
+	\	|		/
+		ABAP Dispatcher	<>Dispatcher Queue
+
+
+* SID
+  SAP System IDs (SIDs) - SAPSID — installation, a three-character code such as C11, PRD, E56, etc.
+  Состоит из Central instance и дополнительных
+** One central instance (with database) - 00
+ - has  ABAP Message Server - SAP Message Server (MS) handles communication between distributed dispatchers in SAP ABAP system.
+        процесс Message Server (MS) центральной инстанции организовывает работу диалоговых инстанций, при запуске регистрируя их у себя, а затем распределяя соединения пользователей и отслеживая состояние SAP инстанций.
+ - has enqueue-type work processes.
+NOT USED if ABAP Central Services Instance (ASCS) configured
+
+* Logical System Names: PBGCLNT100
+ to identify a system uniquely within the network
+ 
+* Instance of an SAP System (application server) -  комбинация сервисов, которые включаются\отключаются все вместе.
+  являются копиями к central instance для scalability
+  - Has instance profile.
+  - its own directory structure in the file system
+** Dispatcher - central process of Instance
+ можно настроить несколько dispatchers по одному в instance, on host. Первый - 00, его порт 3200
+  у каждой инстансце на сервере своя память и директория.
+ has work processes:
+    Dialog (DIA): For executing foreground and dialog programs.
+    Update (UPD): For async (asynchronous) database updates.
+    Background (batch) (BGD): For executing batch or background jobs.
+    Enqueue (ENQ): For executing lock operations.
+    Spool (SPO): For executing printing formatting or output management.
+
+
+* ABAP Central Services (ASCS) 
+ for high availability you have to set up a separate instance
+ enables you to separate the ABAP Message Server and
+the ABAP Enqueue Service (not implemented as a work process in this case) from the
+ABAP central instance.
+  In the cluster you will then have the ASCS instance and the database, as well as any number of equal ABAP instances outside the cluster.
+= no central instance
+
+
+
+
+* SAP Logon
+ - Application Server :: The IP address of the instance 
+ - Instance Number :: 00
+ - System-ID :: SID
+
+* Logon groups tr SMLG
+Load Balancing per instances
+  Separate logon groups can be setup for applications/modules such as HR, FI/CO, SD, MM etc. 
+ language, country or company division, user group
+for ALE/RFC

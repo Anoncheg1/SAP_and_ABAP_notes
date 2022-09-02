@@ -1,0 +1,90 @@
+Y25_PY_9088
+
+Sub BeforeOutput(R As Range)
+  Dim c As Integer, Col As Range, Ofs As Range, I As Integer, Nm As String
+  
+  c = R.Value
+  R.Value = ""
+  If c > 1 Then
+    Set Col = Range("FirstColumn")
+    Set Ofs = Col.Offset(, 1)
+    Col.Copy
+    Ofs.Columns.Resize(, c - 1).Insert
+    Set Col = Range("Header FirstColumn")
+    Set Col = Col.Columns.Resize(, c)
+    For Each Ofs In Col
+      I = I + 1
+      Ofs.Value = "[FIELD" + LTrim(Str(I)) + "]"
+    Next
+  End If
+End Sub
+
+Sub AfterOutput(R As Range)
+  Dim FormatRange As Range
+    
+  SetFormatMask Range("FormatMask")
+  
+  Set FormatRange = Range("FormatArea")
+  Set FormatRange = Application.Intersect(FormatRange, FormatRange.Worksheet.UsedRange)
+
+  FormatRange.Value = FormatRange.Value
+  FormatRange.Columns.AutoFit
+  FormatRange.Rows.AutoFit
+  Range("Header").Rows.AutoFit
+End Sub
+
+
+Sub SetFormatMask(R As Range)
+  Dim Clmns As Range, Col As Range, UsedCol As Range, T As String, Dec As String
+  
+  Set Clmns = R.Application.Intersect(R, R.Worksheet.UsedRange)
+  For Each Col In Clmns
+    Set UsedCol = R.Application.Intersect(Col.EntireColumn, R.Worksheet.UsedRange)
+    
+    T = Mid(Col.Value, 1, 1)
+    If T = "D" Then
+      UsedCol.NumberFormat = "m/d/yyyy"
+    ElseIf T = "N" Or T = "I" Or T = "P" Or T = "F" Then
+      UsedCol.NumberFormat = "0"
+      If Len(Col) > 1 Then
+        UsedCol.NumberFormat = Mid(Col.Value, 2)
+      End If
+    Else
+      UsedCol.NumberFormat = "@"
+    End If
+  Next
+End Sub
+
+
+
+
+
+
+
+ DEFINE setval.
+      Clear is_Val.
+      is_Val-VAR_NAME  = &1.
+      is_Val-VAR_NUM   = &2.
+      is_Val-FIND_TEXT = &3.
+      is_Val-VAL_TYPE  = &4.
+      is_Val-VALUE     = &5.
+*    Concatenate '''' it_Val-VALUE into it_Val-VALUE.
+      Append is_Val TO it_Val.
+    END-OF-DEFINITION.
+
+"29
+setval 'A_BeforeOutput' '' '' '' numcols. 
+setval 'A_BeforeOutput' '' '' 'M' 'BeforeOutput'.
+
+"zcl_zwww=>char_tab
+"ћ–ќ“#ќценка-Ѕольничный#ќценка - больничный ћ–ќ“#—ред. з/п тек. пер.: день#—редн€€/ќтпуск алƒни#—редн€€/ѕособƒни#—редн€€/ѕособ„асы#—редн€€/ќтпуск„асы#—редн€€/ќтпуск алƒни#—редн€€/ѕланƒни√рафик—отр#—редн€€/ѕлан„ас√рафик—отр#—редн€€/‘актƒни√рафик#—редн€€/‘ак
+setval 'Header'     '' 'FIELD1' 'R' strheader.
+
+"C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#C#
+setval 'FormatMask' '' 'FIELD1' 'R' strmask.
+
+"5965.00#5965.00#5965.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#0.00#17895.00#
+setval 'Total' '' 'FIELD1' 'R' strvalue.
+
+
+setval 'Z_AfterOutput' '' '' 'M' 'AfterOutput'.

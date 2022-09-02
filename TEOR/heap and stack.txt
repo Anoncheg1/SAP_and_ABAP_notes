@@ -1,0 +1,14 @@
+HEAP
+instances of classes or are anonymous data objects.
+	*Heap references* point to objects or parts of objects in the heap
+		They are created either when new objects are created in the heap (using the statements CREATE OBJECT or CREATE DATA) or by applying the statement GET REFERENCE or the addition REFERENCE INTO to data objects in the heap. 
+
+		DATA(heap_ref)  = NEW i( 111 ). #located on the stack points to an anonymous data object in the heap.
+
+
+STACK
+the global data objects of programs and the local data objects of procedures stacked there.
+	*Stack references*
+		Stack references are always data references and are created only by applying the statement GET REFERENCE, the reference operator REF, or the addition REFERENCE INTO to data objects in the stack. Stack references are not memory-preserving. 
+
+		DATA(stack_ref) = REF #( heap_ref ). #

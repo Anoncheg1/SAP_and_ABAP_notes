@@ -1,0 +1,69 @@
+﻿**** String Expressions ****
+
+{ |string_template| } 
+  | { operand1 && operand2 [&&  operand3 ... ] }
+
+where one of the operands can itself be a string template
+
+
+
+**** String Templates ****
+
+|  [literal_text]  [ embedded_expressions ]   [control_characters]  | 
+
+literal_text - not enclosed in curly brackets {  }  
+
+embedded_expressions = { expr [format_options] } - с пробелами
+	Пример: { cntnt width = 1 }
+
+control_characters = 
+	\n Line break 0A 
+	\r Return 0D 
+	\t Tabulator 09 
+
+
+
+Примеры:
+	Пример 1:
+
+data a type string.
+data cntnt type string VALUE '111'.
+data compl  type string VALUE '222'.
+data brkpt  type string VALUE '333'.
+data wsml  type string VALUE '444'.
+data wbig  type string VALUE '555'.
+data kwsml   type string VALUE '666'.
+data kwbig   type string VALUE '777'.
+data kwnon   type string VALUE '888'.
+a = 
+|{ cntnt width = 10 }{ compl width = 1 }{ brkpt width = 1 }| &
+          |{ wsml width = 1 }{ wbig width = 1 }| &
+          |KW:{ kwsml width = 1 }{ kwbig width = 1 }{ kwnon width = 1 }|.
+
+write a.
+111       222333444555KW:666777888
+
+
+
+
+
+
+	Пример 2:
+
+a = |line 1;\n| &  " the 1st line
+*. note: only 2 significant spaces in next line
+     |  line{ 1 + 1 }| &
+*. note: no '\n' in previous line
+     | (still line { 1 + 1 });\n| &
+     |    line { 1 + 2 };|.
+
+write / a.
+
+cl_demo_output=>display_text( a ) .
+line 1;
+line2 (still line 2);
+line 3;
+
+aa = | { `1234567` WIDTH = 9 ALIGN = RIGHT }  | . "aligh rught
+
+Дополнительно: CL_ABAP_CHAR_UTILITIES.

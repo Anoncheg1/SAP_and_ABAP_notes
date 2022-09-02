@@ -1,0 +1,5 @@
+FREE =>clear
+EXPORT TO MEMORY ' '    => id
+LIKE с типами DICTIONARY
+work_area - структуры для таблиц.
+occurs n

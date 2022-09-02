@@ -1,0 +1,27 @@
+*    DATA: dynfields TYPE TABLE OF dynpread.
+*    data dynfields_wa like line of dynfields.
+*    dynfields_wa-fieldname = 'P_PODP'.
+*    APPEND dynfields_wa to dynfields.
+*    CALL FUNCTION 'DYNP_VALUES_READ'
+*      EXPORTING
+*        dyname               = sy-cprog
+*        dynumb               = sy-dynnr
+*        translate_to_upper   = 'X'
+*      TABLES
+*        dynpfields           = dynfields
+*      EXCEPTIONS
+*        invalid_abapworkarea = 1
+*        invalid_dynprofield  = 2
+*        invalid_dynproname   = 3
+*        invalid_dynpronummer = 4
+*        invalid_request      = 5
+*        no_fielddescription  = 6
+*        invalid_parameter    = 7
+*        undefind_error       = 8
+*        double_conversion    = 9
+*        stepl_not_found      = 10
+*        OTHERS               = 11.
+*    READ TABLE dynfields WITH KEY fieldname = 'P_PODP' into dynfields_wa.
+*    IF dynfields_wa-fieldvalue IS NOT INITIAL.
+*      MESSAGE 'aa' TYPE 'I'.
+*    ENDIF.

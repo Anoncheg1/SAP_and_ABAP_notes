@@ -1,0 +1,15 @@
+DATA lv_result  TYPE xstring.
+  CALL TRANSFORMATION zch_nested_itabs
+      SOURCE
+        data      = lt_t
+      RESULT XML lv_result
+    .
+
+  CHECK lv_result IS NOT INITIAL.
+
+  CALL METHOD cl_wd_runtime_services=>attach_file_to_response
+    EXPORTING
+      i_filename  = 'a.xml'
+      i_content   = lv_result
+      i_mime_type = 'application/msexcel'
+      i_inplace   = abap_true.

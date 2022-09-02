@@ -1,0 +1,5 @@
+CALL METHOD lo_el_selscr->set_attribute_property
+        EXPORTING
+          attribute_name = 'ORGEH'
+          property       = lo_el_selscr->e_property-read_only
+          value          = abap_true.

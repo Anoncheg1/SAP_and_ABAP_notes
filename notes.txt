@@ -1,0 +1,376 @@
+﻿Оглямов по Словарю, базе
+
+SAP R/3 Системное администрирование (fb2)
+https://coollib.com/b/163279/read
+
+pe03 признаки?
+
+---------------
+-- team viewer --
+Морозов 417 921 685 U6P8AKgl5Z
+Табулович 230 492 963 SOkaznp5Et
+
+-------------
+---ЗЕРКАЛА---
+-------------
+DFH.200  XDOPEA07   Dydy_56789
+DFH.200  XOMAA   Dydy_56789 нет прав на разработку
+D7H.200  XOMAA  LKjhgf-0987
+d7h 210 XOMAA Sdkeliwiewf-231234
+M0H.100  XOMAA      Mnbvcxz_123
+M0H.190  PRAABAP    Ghfel_103g (песочница)
+-------------
+--Оригиналы--
+-------------
+M0H.100 : XOKDY : Lkjhg_789
+D7H.200 : XOKDY : Lkjhg_12345
+D7H.200 : XOTDV    : Qwerty1111!
+D7H.210 : XOTDV    : Asdfg_123  - пользователь портала
+D7H.220 : XOTDV    : Asdfg_123
+DFH.200 : XOTNA    : Qwerty_123
+M0H.100 : XOTDV    : ZXcvb_123
+
+Зеркала
+M0H.100  XOMAA      Mnbvcxz_123
+Door-6781  - D7H WakeUp$91
+Dydy_56789 - DFH
+
+sm59
+Qwerty2
+D7H.200  XOTDV     Qwerty1111!
+D7H.210 : XOTDV    : Asdfg_123
+M0H.100 : XOTDV    : ZXcvb_123
+P7H.400  XOKSM     Asdfg_54321
+DFH.200 : XOTNA    : Qwerty_123
+
+    Authorization to execute Transaction PFCG (role maintenance)
+    Authorization to execute Transaction SU01 (user administration)
+
+
+ALV
+mohz
+ZPY_0607
+ZOM_0675
+
+
+
+Встроенные сообщения WDA? https://www.tutorialspoint.com/sap_web_dynpro/sap_web_dynpro_integration_messages.htm
+	ALV
+Y25_ESS_9229
+	выгрузка ворда
+валидация ввода Y25_ESS_9197  D7h
+y25_cl_oxml_merge грабли
+
+rp_provide_from_last p0002 space pn-begda pn-endda.
+получить последнюю запись из таблицы
+
+
+
+Климов Андрей
+
+
+для pernr ищим вышестоящую орг единицу O
+для неё находим штатную должность S
+для S находим прикрепленной к ней первого P
+для P находим фамилию и инициалы
+
+
+
+
+
+https://help.sap.com/doc/a642c404f1494ccb88128bf0681901a9/EHP8_HRSP_41/en-US/d3f2a05327a2dd72e10000000a4450e5.html
+
+			ЖИЛЬЕ
+http://belg.ru/announce.html?fr=1&sr=7&ag=1&c=495&page=1
+
+
+
+
+https://www.tutorialspoint.com/sap_payroll/sap_payroll_introduction.htm
+https://blogs.sap.com/2013/08/22/understanding-functions-in-payroll-schemas-specific-eg-wpbp/
+https://help.sap.com/doc/saphelp_46c/4.6.C/en-US/35/e1284d240f64e5e10000009b38f977/content.htm
+https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=72405
+
+http://www.insightcp.com/res_19.htm
+
+http://www.insightcp.com/res_13.html
+A 50000610
+S 18000447
+S 18000448
+https://www.tutorialspoint.com/sap_payroll/sap_payroll_introduction.htm
+
+
+https://www.avito.ru/staryy_oskol/kvartiry/snimu_1-k_kvartiru_1140742731
+
+Дарья, добрый день! Для того, чтобы все у Вас было грамотно составлено, нужно не к риэлторам (маклерам) обращаться, а к юристам. Так как риэлторы даже не знают, что такое договор аренды, а что такое договор найма. Если Вы - физические лица, то договор Ваш называется НЕ договором аренды, а договором НАЙМА жилого помещения. Договор АРЕНДЫ в отношении ЖИЛОГО помещения заключается только с ЮРИДИЧЕСКИМИ лицами. С физическими - договор НАЙМА. Но если вы даже и "обзовете" свой договор договором аренды, то применяются к нему нормы Гражданского кодекса о договоре найма жилого помещения.
+
+Договор найма жилого помещения заключается в простой письменной форме, на срок до пяти лет. Нотариальная форма - по желанию.
+
+Если срок в договоре не указан, считается, что договор заключен на срок пять лет.
+
+Никакой государственной регистрации такой договор НЕ подлежит (маклеры, путая аренду с наймом, часто говорят, что нужно заключить договор на срок до года, чтобы он не подлежал гос. регистрации).
+
+Передача денег за ЖКУ и за наем (по договору) обязательно оформляется расписками.
+
+В договоре обязательно напишите, какие ценные вещи оставляет в жилом помещении наймодатель, чтобы потом, не дай бог, не было претензий, что какие-то вещи пропали..
+
+Удачи!
+
+С уважением,
+
+Харченко О.В.
+
+
+
+
+https://www.tutorialspoint.com/sap_payroll/sap_payroll_introduction.htm
+
+конвертация валюты
+
+отсеить lgart которые совпадают с в zbas_filter, потом по zbas_filter выбираем KD
+добавит на селекционный экран кнопочку нулевые значения, фильтр КД по zbas_filter
+
+
+ Process Management
+
+That includes the following processes:
+
+Employee administration
+
+Personnel time management and evaluation
+
+Organizational Management
+
+Benefits management
+
+Payroll calculation
+
+Talent Management
+
+That includes the following processes:
+
+Recruiting
+
+Career management
+
+Succession management
+
+Enterprise Learning
+
+Employee performance management
+
+Compensation management
+
+[
+
+OM PA TM AND PAYROLL ARE MAIN MODULES OF SAP HR
+
+	program pnpce with huge functionality
+AQZZ/SAPQUERY/H2JUBILEE_LIST==
+
+fgroup TXXL  EXCEL - list viewer interface
+
+	все стандартные функции для работы с Excel
+http://www.sapnet.ru/viewtopic.php?t=210
+
+	CL_DEMO_OUTPUT=>display( 'wtf').
+
+
+Стажер. Человек с любым набором знаний и навыков за спиной. Бывшие программисты быстрее вникают (мое наблюдение). Бывшие 1С-ники хуже — надо голову сломать. стажер, это человек, который ничего не знает про САП про тот модуль, на который он пришел. Он мог читать про систему, листать курсы, но это все. Обычно стажеры проходят обучение в компании, потом становятся «разнорабочими» на проектах. Бегают подписывать документы, собирают протоколы, выверяют данные при миграции, помогают с обучением пользователей. Как правило никогда не выполняют настроек за исключением галочек по базам для видов оплаты или настройки графиков рабочего времени.
+
+Младший консультант. Бывший стажер, который прошел 1 проект полного цикла. Уже знает один-два компонента на уровне продвинутого пользователя. Может сам проводить обучение пользователей вместе со стажерами. Обычно такими становятся через год стажерства. Может сам провести миграцию по заданной методике. Настраивает простые вещи в системе, пишет базовые документы (рыбу проектного решения, сценарии тестирования, спецификации и пр.).
+
+Консультант. Тот самый боец, про которого всегда говорят, что это саповские консы. Эти ребята уже прошли в среднем два проекта полного цикла. Могут сами закрывать небольшие запросы на изменения. Умеют работать с пользователями, понимают взаимосвязи внутри модуля и рядом. Могут с нуля настроить простой проект, написать простой план проекта, сделать базовые документы.
+
+Старший консультант. Обычно это мозг, руководитель группы, который прошел 4-5 проектов и понимает модуль и «свои компоненты» на 4+. Такие люди могут запустить проект в два раза быстрее, чем младшие, например. Ибо уже есть опыт, понимание проблемных мест и наработанные инструменты и документы. 4-5 проектов обычно означает 3-5 лет живого опыта работы на проектах, отличных от стандарта системы. Вот эти люди уже могут претендовать на 200, если это 5 лет и 5 проектов со сложностями.
+
+Ведущий консультант/Эксперт. Для меня ведущий и эксперт это одно и тоже. Эти ребята в сапе уже более 7-8 лет. Проекты прошли разные. Обычно выполняют роль архитекторов, руководителей проектов или фрилансят на сложных задачах. Они сразу могут дать ответы на 90% вопросов (а не на все, как думают некоторые).
+
+Теперь отвечаю на вопрос, что стажер может получить после обучения у меня. Индивидуальное обучение позволяет понять, но не изучить работу системы. То есть на выходе будет понимание как настроить IDES или копию 000 манданта с нуля до базовых процессов (простой расчетный лист). Это не даст существенную прибавку к заработной плате, но позволит быстрее реализовать себя на проекте. Важно именно это, само время, которое вы экономите после обучения у меня. У меня есть примеры, когда студенты «отбивали» свои затраты через 1 месяц. Как MBA в свое время ??
+
+
+
+	Где лежат ORGANZATION UNITS
+
+Source : SDN
+
+Table
+
+HRP1000, HRP1001 and BUT000
+
+attributes in HRT1222
+
+link to org unit in HRP1222
+
+plant and storage location in HRT5502 and HRP5502 but also in bbp_locmap to get the plant code.
+
+Extend product category in infotype 1222
+
+Limits are in HRT5503 and HRP5503
+
+-> subtype 0100 for spend limit
+
+->subtype 0200 for approval limit
+
+HRT5500 and HRP.. for function (company, Porg, pgroup)
+
+HRT5501 HRP5501 : product category and responsability
+
+HRT5500, HRP5500 for functions, HRP1000 for organizations
+
+
+
+
+
+
+
+
+
+
+
+	Payroll Results Reader for PNPCE Reports (доступ к RT таблице кластера расчета, используется в H99CWTR0_CE)
+cl_hrpay99_prr_4_pnpce_reps
+
+
+Y25_PY_9182
+
+
+
+
+SLIS
+CL_GUI_ALV_TREE
+SALV
+CL_SALV_TREE
+CL_SALV_TREE is a kind of wrapper class for CL_GUI_ALV_TREE, that is all the tree functionality in CL_SALV_TREE is actually implemented using CL_GUI_ALV_TREE. CL_SALV_TREE architeturally is more Object Oriented, if I can put it this way, for example, if you need some manipulating with display layout, then in CL_GUI_ALV_TREE you set different fields of special structure whilst in case of CL_SALV_TREE you first have to obtain a reference to a specific interface, then change layout by calling different methods of this interface. Thus, to some extent the source code with CL_SALV_TREE becomes less ABAP specific and can look similar to Java code. If you need only the default values in display layout and field catalogue, then the source code is expected to be very short with CL_SALV_TREE, otherwise the code grows very quickly if you need more control and more bells-n-whistles.
+https://blogs.sap.com/2008/07/17/openofficeorg-odf-support-in-sap-software/
+
+	ногопоточность реализует Dispatcher
+и вызовом RFC START NEW TASK, locks для баз данных. https://blogs.sap.com/2014/11/15/controlled-multi-threading-in-abap/
+
+
+
+	What are indexes?- Indexes are described as a copy of a database table reduced to specific fields. This data exists in sorted form. This sorting form ease fast
+access to the field of the tables. In order that other fields are also read, a pointer to the associated record of the actual table are included in the index. Yhe indexes are activated along with the table and are created automatically with it in the
+database.
+
+	9. What is BDC programming?- Transferring of large/external/legacy data into SAP system using Batch Input programming. Batch input is a automatic procedure referred to as BDC(Batch Data Communications).The central component of the transfer is a queue file which receives the data vie a batch input programs and groups associated data into "sessions".
+
+	10. What are the functional modules used in sequence in BDC?- These are the 3 functional modules which are used in a sequence to perform a data transfer successfully using BDC programming:
+BDC_OPEN_GROUP - Parameters like Name of the client, sessions and user name are specified in this functional modules.
+BDC_INSERT - It is used to insert the data for one transaction into asession.
+BDC_CLOSE_GROUP - This is used to close the batch input session.
+
+
+	транзакции
+TSTCP
+se11->TSTC->TCODE-* + CINFO-08
+Не только 08. Еще и 0C.
+https://www.daniel-berlin.de/devel/sap-dev/determine-tcode-status-from-table-tstc/
+
+
+
+
+
+
+HR_READ_INFOTYPE - чтение
+HR_INFOTYPE_OPERATION - вставить
+
+
+
+
+
+
+
+	Динамические таблицы
+	вывод:
+FORM write_out.
+  LOOP AT <dyn_table> INTO <dyn_wa>.
+    DO.
+      ASSIGN COMPONENT  sy-index
+         OF STRUCTURE <dyn_wa> TO <dyn_field>.
+      IF sy-subrc <> 0.
+        EXIT.
+      ENDIF.
+      IF sy-index = 1.
+        WRITE:/ <dyn_field>.
+      ELSE.
+        WRITE: <dyn_field>.
+      ENDIF.
+    ENDDO.
+  ENDLOOP.
+ENDFORM.                    "write_out
+	создание типа элемента:
+cl_abap_elemdescr=>get_i( ).
+cl_abap_typedescr=>describe_by_data( wa_spfli ).
+cl_abap_typedescr=>describe_by_name( P_TABNAM ).
+	создание структуры и таблицы
+ls_component-name = 'COMP2'.
+ls_component-type ?= cl_abap_elemdescr=>get_c( 25 ). "lgarttxt
+APPEND ls_component to lt_components.
+** create structure description
+  lo_structdescr = cl_abap_structdescr=>create( lt_components ). "cl_abap_structdescr
+** create table description for structure
+  lo_tabledescr = cl_abap_tabledescr=>create(
+                  p_line_type  = lo_structdescr
+                  p_table_kind = cl_abap_tabledescr=>tablekind_std
+                  p_unique     = abap_false ).
+*
+** create data object
+  CREATE DATA lt_table TYPE HANDLE lo_tabledescr. "динамическая таблица
+  ASSIGN lt_table->* TO <lt_table>. "ТАБЛИЦА
+  CREATE DATA ls_table TYPE HANDLE lo_structdescr.
+  ASSIGN ls_table->* TO <ls_table>. "СТРОКА
+*
+  ASSIGN COMPONENT 1 OF STRUCTURE <ls_table> TO <lv_value>.
+  <lv_value> = 23.
+  INSERT <ls_table> INTO TABLE <lt_table>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+*  "подготавливаем выбранные ветви орг структуры виде ranges = grt_so_objid_all
+*  LOOP AT grt_so_objid ASSIGNING FIELD-SYMBOL(<so_objid>).
+*    gs_root_objects-otype = lc_o.
+*    gs_root_objects-objid = <so_objid>-low.
+*    APPEND gs_root_objects TO gt_root_objects.
+*  ENDLOOP.
+*  IF gt_root_objects[] IS INITIAL.
+*    "не выбраны орг структуры, сообщение об ошибке.
+*    RETURN.
+*  ENDIF.
+*  CALL FUNCTION 'HR_STRUCTURE_GET'
+*    EXPORTING
+*      root_plvar       = gv_plvar
+**     root_otype       = lc_S
+**     root_objid       = <l>
+*      root_objects     = gt_root_objects
+*      begda            = gv_begda
+*      endda            = gv_endda
+*      pathid           = 'O-O_DOWN' ##NO_TEXT
+*      stru_tech_depth  = 0
+*    IMPORTING
+**     result_objects   = lt_res_objs_s
+*      result_structure = gt_result_structure
+*    EXCEPTIONS
+*      plvar_not_found  = 1
+*      root_not_found   = 2
+*      path_not_found   = 3
+*      internal_error   = 4
+*      OTHERS           = 5.
+*  DATA ls_so_objid LIKE LINE OF grt_so_objid.
+*  LOOP AT gt_result_structure ASSIGNING FIELD-SYMBOL(<selected_org_e>) WHERE otype = lc_o.
+*    ls_so_objid-sign = 'I'.
+*    ls_so_objid-option = 'EQ'.
+*    ls_so_objid-low = <selected_org_e>-objid.
+*    ls_so_objid-high = space.
+*    APPEND ls_so_objid TO grt_so_objid_all.
+*  ENDLOOP.

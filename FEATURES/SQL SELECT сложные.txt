@@ -1,0 +1,16 @@
+ограничение - если выбираешь одну строку, то уже с выборкой ничего нельзя дальше сделать.
+Селект Селекта невозможен
+
+
+SELECT w~MOLGA w~LGART t~LGTXT w~kumul y~type01 y~type02 y~type03 INTO TABLE lt_v512w
+    FROM t512w as w
+    LEFT OUTER JOIN t512t as t on ( t~MOLGA eq w~molga AND t~sprsl eq 'R' AND t~LGART eq w~lgart )
+    INNER JOIN y25_T_9100 as y on ( y~LGART eq w~lgart )
+    WHERE w~MOLGA EQ p_molga
+      and w~begda <= p_datum
+      and w~endda >= p_datum.
+
+SELECT orgeh, count( * ) as aa
+    FROM pa0000 INNER JOIN pa0001
+    ON pa0000~pernr = pa0001~pernr
+    GROUP BY orgeh.

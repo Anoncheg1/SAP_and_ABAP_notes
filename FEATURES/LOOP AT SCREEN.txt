@@ -1,0 +1,42 @@
+AT SELECTION-SCREEN OUTPUT.
+pchplvar = cl_0125=>get_plvar( ).
+  LOOP AT SCREEN INTO DATA(screen_wa).
+    CASE screen_wa-name.
+* тип объекта
+      WHEN 'PCHOTYPE'.
+        screen_wa-required    = 1.
+        screen_wa-intensified = 1.
+        MODIFY screen FROM screen_wa.
+* план
+      WHEN 'PCHPLVAR'.
+        screen_wa-input = 0.
+* критерий поиска
+      WHEN '%_PCHSEARK_%_APP_%-TEXT'.
+        screen_wa-active = 0.
+      WHEN 'PCHSEARK'.
+        screen_wa-active = 0.
+* Статус объекта
+      WHEN '%_PCHOSTAT_%_APP_%-TEXT'.
+        screen_wa-active = 0.
+      WHEN 'PCHOSTAT'.
+        screen_wa-active = 0.
+      WHEN '$OSTATTX'.
+        screen_wa-active = 0.
+      WHEN '$OSTATTX'.
+        screen_wa-active = 0.
+      WHEN '%PIST015_1000'.
+        screen_wa-active = 0.
+* Установить условие структуры
+      WHEN '$PUSHSTB'.
+        screen_wa-active = 0.
+* параметры структуры
+      WHEN '%BSTP065_BLOCK_1000'.
+        screen_wa-active = 0.
+    ENDCASE.
+* параметры структуры
+    CASE screen_wa-group4.
+      WHEN '066' OR '071' OR '073' OR '076'.
+        screen_wa-active = 0.
+    ENDCASE.
+    MODIFY screen FROM screen_wa.
+  ENDLOOP.

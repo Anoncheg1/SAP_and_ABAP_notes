@@ -1,0 +1,27 @@
+http://abap-blog.ru/osnovy-abap/dinamicheskoe-programmirovanie-v-abap/
+https://itpsap.com/abap-dynamic-programming-part-1/
+https://itpsap.com/abap-dynamic-programming-part-2/
+https://itpsap.com/abap-dynamic-programming-part-3/
+https://itpsap.com/abap-dynamic-programming-part-4/
+
+Вывод структуры:
+
+  "write gs_out.
+  DO.
+    ASSIGN COMPONENT sy-index OF STRUCTURE gs_out TO FIELD-SYMBOL(<component>).
+    IF sy-subrc <> 0.
+      EXIT. " no more components
+    ENDIF.
+    WRITE: <component>.
+  ENDDO.
+
+
+Есть 4 поля и 4 переменных, нужно присвоить переменные в том порядке, в котором указано в признаке.
+1 - a
+2- b
+3 - c
+4 - d или в другом порядке.
+
+сохраняем для переменных a,b,c,d их присвоенные 1,2,3,4
+затем так где запоняются a,b,c,d использовать switch
+

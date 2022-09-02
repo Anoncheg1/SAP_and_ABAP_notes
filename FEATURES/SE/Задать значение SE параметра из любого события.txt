@@ -1,0 +1,14 @@
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR s_orgeh-low.
+    "диалоговое окно с орг структурой
+    CALL FUNCTION 'RP_PNP_ORGSTRUCTURE'
+      EXPORTING
+        plvar  = gv_plvar
+      TABLES
+        pobjid = s_orgeh[].
+
+    READ TABLE s_orgeh WITH KEY sign   = 'I' option = 'EQ' ASSIGNING FIELD-SYMBOL(<line>).
+    IF <line> IS ASSIGNED.
+      s_orgeh = <line>.
+    ENDIF.
+
+    CALL FUNCTION 'SAPGUI_SET_FUNCTIONCODE'.

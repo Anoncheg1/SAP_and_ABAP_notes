@@ -1,0 +1,24 @@
+    CALL FUNCTION 'SAPGUI_SET_FUNCTIONCODE'.
+
+
+
+
+  METHOD dynp_update.
+    DATA: lt_fields TYPE STANDARD TABLE OF dynpread.
+
+    FIELD-SYMBOLS: <fs_fields> TYPE dynpread.
+
+    APPEND INITIAL LINE TO lt_fields ASSIGNING <fs_fields>.
+
+    <fs_fields>-fieldname  = 'S_ORGEH-LOW'.
+    <fs_fields>-fieldvalue = ''.
+
+    CALL FUNCTION 'DYNP_VALUES_UPDATE'
+      EXPORTING
+        dyname     = sy-repid
+        dynumb     = sy-dynnr
+      TABLES
+        dynpfields = lt_fields
+      EXCEPTIONS
+        OTHERS     = 0.
+  ENDMETHOD.      

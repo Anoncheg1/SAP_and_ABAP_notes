@@ -1,0 +1,9 @@
+- validity dates.
+
+gc_low_date TYPE d VALUE '18000101', 01.01.1800
+gc_high_date TYPE d VALUE '99991231'.  31.12.9999 "infinity
+
+Adress infotype:
+Если нужна только Start data в инфотипе, то ставится begda и endda = infinity
+при добавлении новой записи ставится следующая begda и endda = infinity, а предудыщая endda = begda - 1 day.
+

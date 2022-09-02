@@ -1,0 +1,28 @@
+﻿ SAP Business Suite
+
+
+business applications: such as FI, CO, MM,etc
+
+
+
+basis консультант?
+	Business Application Software Integrated solution
+	SAP applications such as FI,CO,PP etc. can run and communicate with each other across different Operating systems and 	Databases with the help of BASIS.
+	Nowadays Basis is known as Netweaver.
+	Alias of BASIS is SAP Application Server Technology
+	 Basis is the operating system for SAP applications and ABAP. Basis provides services like communication with the operating system, database communication, memory management, runtime collection of application data, web requests, exchanging business data etc...
+
+SAP Basis consultant should able to do the following tasks:
+    SAP application server monitoring, ABAP dump, and system log analysis.
+    Performance tuning
+    Database maintenance, Database backup schedule and restore
+    R/3, NetWeaver, solution manager installation,etc..
+    SAP license maintenance.
+    SAP landscape, transport management system installations, etc
+    Client creating, client copying, client deletion, etc
+    Creating user, assigning roles, locking and unlocking users,etc
+    Background jobs scheduling, job monitoring, job deletion, etc
+    Profile and operation mode maintenance
+    Applying support patches, upgrading and installing add-ons
+    SNOTE applying and removing errors.
+    System copy, System refresh ,etc

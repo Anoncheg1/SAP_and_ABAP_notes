@@ -1,0 +1,373 @@
+﻿
+
+Hcm hrp hr?
+Human Resource Department
+Human Resource Planning as the process of people forecasting.
+Human Resources противопоставляется OD.
+Human Resource Management (traditional) or "people development" более человечный. Внутренние преимущества. Organizational Development
+Human Resource Management System
+Human Capital Management - стратегический подход, SAP модуль, люди - ресурс. Внешнее богатство.
+http://www.differencebetween.net/language/words-language/difference-between-hcm-and-hrms/
+https://www.projectguru.in/publications/difference-between-human-capital-management-human-resource-management/
+модули
+Personnel Administration (PA), most commonly used
+Organizational Management (OM),  Первый модуль который нужно реализовать в HCM
+Personnel Time Management (PT)
+ Payroll (PY)
+PA:
+
+OM for PC service technician position
+
+
+
+SPRO часть процесса customization
+SPRO is abbreviation for SAP Project Reference Object (Справочный объект проекта).
+https://help.sap.com/saphelp_nw74/helpdata/en/4d/aee029a4bc6d4be10000000a42189e/frameset.htm
+
+SPRO holds almost all customizations and all the configurations that an application require.
+* SAP Reference IMG (Implementation Management Guide)
+Вся функции для настройки.
+* Project IMGs определенная часть из всех функций
+* Project view IMG
+IMG menu which you will find customization settings for all modules
+HCM Организационная структура
+- Структура предприятия 
+- Структура персонала 
+- Организационный план 
+Organization Structure (HCM Организационная структура) -  time recording and payroll
+* Enterprise structure Структурая предприятия
+* Pay scale structure
+* Wage types
+* Personnel structure Структурая персонала
+* User authorizations
+Enterprise Structure (Структурая предприятия)- Personnel administration, payroll processing, and time management
+Отражает формальную и финансовую структуры компании.
+* Client (MANDT)
+* Company Code (Балансовая единица)
+* Personnel area (Раздел персонала)
+* Personnel subarea (Подраздел персонала)
+* Organizational Key
+Personnel Structure
+* Administrative Structure
+* Organizational Structure
+Administrative Personnel Structure
+*  Employee group
+*  Employee subgroup
+*  Payroll area
+*  Organizational Key
+Organizational Personnel Structure (организационный план) OM
+The building blocks of OM are SPOCK organizational objects. They are described as follows:
+S: This stands for Position (for example, HR Manager, Marketing Director, and so
+on)
+P: This stands for Person. More in PA (Personnel Administration)
+O: This stands for Organizational unit (also known as Org unit; it represents the
+department in a company)
+C: This stands for Job (for example, manager, director, and so on)
+K: This stands for Cost Center
+Structural divisions Структурное подразделение - используется для расчета налогов в FI модуле.
+Administration units Административные единицы.
+Grouping of several organizational units for the preference processing, for example, plants or plant groups. 
+Business units can be assigned to one administrative unit regardless of their position in the business structure or hierarchy. Administrative units help to bundle, for example, requests or dunnings of vendor declarations from vendors for plants or plant groups. 
+Plant 
+Logistics - General (LO)
+In Logistics a plant is an organizational unit for dividing an enterprise according to production, procurement, maintenance, and materials planning. 
+A place where materials are produced, or goods and services are provided.
+Филиал Р9102-subty = 0002, 0003, а если 0001, то это организация
+9102 Сведения об оранизации - Организация - Филиал - структурное подразделение.
+zcl_hr_utilities=>is_org
+zcl_hr_utilities=>is_filial
+[10:35:05] Виталий Прауд: чем организация отличается от филиала?
+[10:35:22] Гурген Багратуни: организация на уровень выше
+Или
+Z_NOT_OUT атрибут сценария Z_OBJECT установлев в 'X'
+
+OM Attributes
+- Each object can have a number of attributes. These attributes are stored in infotypes. These attributes are inherited based on the relationships. Eg. If a job has a salary range, the position related to it inherits it and thus the person that holds that position. Org Units and postions will inherit cost center of the parent org units. Positions can inherit tasks of the jobs that describe them (and can also have tasks directly assigned to them).  The important attributes of the OM objects are listed below.
+1. Org Unit - Org title, description, address, head of Org Unit, cost center, account assignment features
+2. Position - Position title, description, Vacancy, Address, Work Schedule, Cost Distribution, Worker's Comp codes, Account assignement features, Cost Center override
+3. Job - Class title, Description, Salary band/Scale, FLSA Status, EEO/AAP codes
+An organizational object consists of
+* a short and long description
+* an 8 digit ID number (assigned by the system) and a description 
+* a link, which defines the relationship of an object to another object 
+* a validity period and a time constraint
+* a status flag
+* assignment to one or more scenarios
+An organizational unit also has its own specific characteristics (attributes it1222 or infotypes?). 
+1222 Общее ведение атрибутов General Attribute Maintenance
+SM30 - T77OMATTR. viewcluster
+(key/value pair) has particular characteristics, for example
+* a reference to the Data Dictionary 
+* specific F4 help
+* special types of inheritance
+Data can be divided logically using scenarios = subtype.
+This infotype is only used in Customer Relationship Management.
+Function group RHOMATTRIBUTES.
+RH_OM_ATTRIBUTES_READ
+RH_OM_ATTRIBUTES_INSERT
+RH_OM_ATTRIBUTES_UPDATE
+https://help.sap.com/viewer/aa5437cb9f20438baf40c0c702ca47bf/7.5.8/en-US/4eebef1711394e6fe10000000a42189d.html
+CLIENT german MANDANT - компания, фирма или предприятие юридически и организационно самостоятельный участник системы.
+
+Идентификатор объектов
+Pernr PA
+ИТ 0105-тип 0001 привязывает к pernr USERID (Имя пользователя SAP-системы (SY-UNAME)  или почтовый адрес. USRTY и SUBTY.
+Идентификатор объектов OM?
+
+
+T777D - таблицы к инфотипов и инфо-подтипов
+Таблицы инфотипов:
+Database Tables in HR
+1. Personnel Administration (PA) - master and time data infotype tables (transparent tables). PAnnnn: e.g. PA0001 for infotype 0001
+2. Personnel Development (PD) - Org Unit, Job, Position, etc. (transparent tables). HRPnnnn: e.g. HRP1000 for infotype 1000
+3. Time/Travel expense/Payroll/Applicant Tracking data/HR work areas/Documents (cluster PCLn: e.g. PCL2 for time/payroll results.
+https://wiki.scn.sap.com/wiki/display/ABAP/Human+Resource+Tables+-+a+quick+reference+guide+for+an+ABAP+HR+Consultant
+Infotype ranges:
+0000 - 0999 PA and Payroll Data PAXXXX "employee" (PBXXX "candidate" Данные кандидатов)
+1000 - 1999 Personnel Planning HRPXXXX
+2000 - 2999 Time Mgmt PAXXXX
+4000 - 4999 Recruitment PBXXXX.
+5000 - 5999 E-Recruiting/Talent Mgmt HRPXXXX
+9000 - 9999 reserved for customer-defined infotypes
+
+0000 Actions Мероприятия
+0001 Organizational assignment Орг. Присвоение
+0002 Personal data Персональные данные
+1000 Object Объект
+1001 Relationships Соединения
+1002 Description Вербальное описание
+Проверочные таблицы инфотипов:
+T582S - PA - PA(PB) XXXX Master/Time Data
+T777T - OM - HRPXXXX Organizational Data
+HR Master data (PA)
+* Infotypes
+* Subtypes
+* Object Identification to differentiate between data records
+* Data structure
+* Relationship
+employee's personnel number
+PLOGI (отчет RHPLOGI0) предоставляет прозрачный каталог всех объектов планирования персонала для инфо-типа 1000 и используется для аналитических отчетов.
+Ключивые поля PA
+MANDT Client 
+.INCLUDE PAKEY Key for HR Master Data
+
+
+Subtype Подтипы и что это.
+Некоторые инфо-типы имеют подтипы. Например виды адресов для инфо-типа Адрес 0006 представляют собой подтипы: Permanent Residence, Temporary  Residence, Emergency Address. SUBTY field.
+T777D-STYPT,SYTXT - таблицы подтипов
+T591S PA subtypes (почему нет 2001 2002?)
+T778U OM subtypes
+
+Временная привязка Time constraint
+Для определения того, как записи данных инфо-типа взаимодействуют друг с другом во времени, используется временная привязка.
+
+https://archive.sap.com/discussions/thread/3281037
+OM:
+0 = May only be present once
+1 = Without gaps
+2 = With gaps
+3 = Unlimited
+PA:
+1  Record must have no gaps, no overlappings
+2  Record may include gaps, no overlappings
+3  Record may include gaps, can exist more than once
+A  Infotype exists just once from Jan.1 1800 to Dec.12 9999
+B  IT exists for maximum of once from Jan.1 1800 to Dec.12 9999
+T  Time constraint is based on subtype or subtype table
+Z  Time constraint for time management infotypes -> T554Y
+
+For infotypes PA:
+SPRO → IMG → Personnel Management → Personnel Administration → Customizing Procedures → Infotypes
+For subtypes PA:
+SPRO → IMG → Personnel Management → Personnel Administration → Personal Data
+
+For infotypes and subtypes OM:
+SPRO → IMG → Personnel Management → Organizational Management → Basic Setting → Data model enhancement → Infotype Maintenance → Maintain Infotypes
+0 = May only be present once
+1 = Without gaps
+2 = With gaps
+3 = Unlimited
+
+For relationships OM 1001:
+Personnel Management → Organizational Management → Basic Settings → Data model enhancement → Relationship Maintenance → Maintain Relationships
+Или 
+PM -> Развитие персонала -> Осн пар настр -> Ведение соединений
+T778V
+For each object type OM 1001:
+SPRO | Personnel
+Management | Personnel development | Basic Settings | Maintain Relationships |
+Define Time Constraint Depending on Target Object Type
+
+PA:
+V_T582A - Infotype Attributes PA
+V_T591A - Subtype Characteristics PA
+T591B - Временная привязка дли видов оплат
+OM:
+SM30 + T778T временная привязка OM и инфо-подтипов
+
+
+
+Logical DatabasekeyInfotypesLogical AreaPNP and PNPCEpernr0000-0999, 2000 to 2999HR Master Data & Time PAPpernr?4000-4999Recruitment PCH otype, objidInfotypes of specified object type else all infotypes  
+
+
+PNPCE
+PNP mode:
+TABLES: PERNR.
+NODES: PERAS.
+INFOTYPES: 0006 NAME P0006.
+GET PERAS.
+	PERAS-PERNR.
+
+If the 
+'GET PERSON' and 
+'GET GROUP' events and the 
+'AS PERSON TABLE' addition for the INFOTYPES statement are not used, 
+the report indicates that it does not require the functionality for evaluating Concurrent Employment.
+
+CE mode: подробнее о режиме?
+TABLES: PERNR.
+NODES: PERSON, GROUP, PERAS.
+INFOTYPES: 0001 NAME ALL_0001 AS PERSON TABLE MODE P.
+INFOTYPES: 0001 NAME PP0001 AS PERSON TABLE.
+INFOTYPES: 0006 NAME P0006.
+GET PERSON.
+* table ALL_0001 is filled with infotype 0001 data of all PERNRs
+* stored in PERSON-ALL_PERNRS without authority check !!!
+  WRITE :/ PERSON-OBJID.
+  ...
+GET GROUP.
+* table P0001 is filled with infotype 0001 data of all PERNRs
+* stored in GROUP-ALL_PERNRS
+  WRITE :/ GROUP-GROUPING_REASON, GROUP-GROUPING_VALUE.
+  ...
+GET PERAS.
+* table P0006 is filled with infotype 0006 data of PERNR
+* stored in PERAS-PERNR
+  WRITE :/ PERAS-PERNR.
+  ...
+
+P0001[] заполняется всеми записями попавшими для pernr,
+P0001 структура содержит последнюю по endda запись.
+
+Заполнение таблиц INFOTYPES:
+Default (GET pernr )
+the data selection period  =  the person selection period. Data for pernr
+AS PERSON TABLE  (GET group)
+the data selection period  =  the person selection period. Data for group
+AS PERSON TABLE + MODE P (GET person)
+All data records + No authorization check.
+Impossible to set evaluation period.
+MODE N - объявление таблиц без чтения данных. Используется для чтения макросами.
+evaluation period  for payroll period = current payroll period or another payroll period + payroll area
+Evaluation Period
+The PNPCE (and the PNP) differentiates between the data selection period and the person selection period. = evaluation period.
+Only the personnel numbers are selected that fulfill the selection conditions on at least one (key) date in the specified person selection period. Begda or endda in period.
+BEGDA and ENDDA contain the data selection period whereas BEGPS and ENDPS contain the person selection period
+PNP macroses SE38 - DBPNPMAC include:
+rp_provide_from_frst
+rp_provide_from_last
+rp_read_infotype
+rp_set_data_interval
+PNPCE macroses SE38 - DBPNPCECOM include
+PCH macroses SE38 - DBPCHCOM include:
+
+Concurrent Employment(par) and Global Employment(seq)
+P  - A209 -  CP(Центральное лицо) 	TC 2
+CP - B209 - P				TC 3
+Person ID or External Person ID не путать с Personnel ID Number
+Personnel Number
+S_AHR_61016358 Reference Personnel Numbers
+IT 1002 - SBTYPE Вербальное описание для OM
+0001 Общее описание
+Z002 Наименование в род.падеже
+Z003 Наименование в дат.падеже
+Z004 Наименование в вин.падеже
+Z005 Наименование в твор.падеж
+Z006 Наименование в пред.падеж
+Z099 Код в историческ. системе
+
+IT 0002 - SBTYPE для Person
+PA0002 - NACHN Фамилия
+PA0002 - VORNA  Имя
+PA0002 - MIDNM Отчество
+PA0002 - INITS   Инициалы
+T527X SAP Organizational Units Table
+ORGTX Short Text of Organizational Unit
+
+Основные средства поиска в HR:
+HRBAS00OBJID  с параметрами:
+	PLVAR - 01
+      OTYPE - тип объекта
+
+Структурное подразделение - это организационная единица, в которой находится ТН. Pa0001-orgeh (обычно совпадает с P-S-O)
+В чем разница P-S-O-O?
+Когда сотрудник не присвоен штатной должности по пути анализа ничего, 
+В поле "Штатная должность" PLANS в ИТ 0001 появляется значение 9999999.
+https://www.tutorialspoint.com/sap_hr/sap_hr_quick_guide.htm
+SAP HCM - A Complete Tutorial - Ganesh Karthik S.pdf
+hr350
+SPRO 
+http://itsiti.com/spro-sap-project-reference-object
+https://www.tutorialkart.com/sap/what-is-sap-spro-sap-reference-project-object/
+SAP HR programming demystified: Understanding, creating, and enhancing SAP R infotypes by Michal Szymaczek
+
+TABNR Table infotypes (Table Part Табличный Компонент) данные имеют повторяющуюся структуру, многострочный текст любой длинны. 
+PTnnnn structure  
+separate table HRTnnnn
+
+HRPnnnn- TABNR - table pointer - > HRT1002 - TABNR 
+
+
+В каких случаях endda = '99991231'
+
+T7rur0 - ? https://blogs.sap.com/2013/07/11/sap-hcm-russia-roll-out-case/
+
+Что такое CRM, SRM https://wiki.scn.sap.com/wiki/display/CRM/Customer+Relationship+Management
+https://wiki.scn.sap.com/wiki/display/SRM/SAP+SRM
+
+pc00_m33_rep_adm_ord - Управление приказами по персоналу, позволяет просмотреть отчеты по запущенным мероприятиям.
+employee [emplɔɪˈiː]
+employer [ɪmˈplɔɪə]
+compulsory [kəmˈpʌlsərɪ]
+obligatory [ɔˈblɪgətərɪ]
+mandatory [ˈmændətərɪ]
+obsolete (ˈɒbsəˌliːt; ˌɒbsəˈliːt)
+ad-hoc
+customizing [ˈkʌstəmaɪzɪŋ]
+personalization [pɜːsənəlɪˈzeɪʃn]
+modification [mɔdɪfɪˈkeɪʃn]
+enhancement [ɪnˈhɑːnsmənt]
+customer [ˈkʌstəmə]
+report [rɪˈpɔːt]
+dialog [ˈdaɪəlɒg]
+reuse [rɪˈjuːz]
+recruitment [rɪˈkruːtmənt]
+hiring [ˈhaɪərɪŋ]
+induction [ɪnˈdʌkʃn] ввод сторудника
+training [ˈtreɪnɪŋ]
+orientation [ɔːrɪenˈteɪʃn]
+evaluation [ɪvæljʊˈeɪʃn] оценка
+promotion [prəˈməʊʃn]
+layoff [ˈleɪɒf]
+assignment [əˈsaɪnmənt]
+user [ˈjuːzə] dialog [ˈdaɪəlɒg]
+payroll /ˈpeɪrəʊl/
+ functionality /ˌfʌŋkʃəˈnæləti/
+possibility /ˌpɒsəˈbɪləti/
+upgrade /ˈʌpɡreɪd/
+group /ɡruːp/
+multi-layer /ˈmʌlti//ˈleɪə(r)/
+explicit /ɪkˈsplɪsɪt/
+template /ˈtempleɪt/
+
+
+Полезные транзации
+OM
+Ppose организация и распределение штанных должностей
+PP01  ведение объекта
+Pp02 ведение данных по объектам
+Pp03 ведение мероприятий по объектам
+
+PA
+PP20 просмотр основных данных персонала PA
+

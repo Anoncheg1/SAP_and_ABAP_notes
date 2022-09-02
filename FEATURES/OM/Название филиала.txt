@@ -1,0 +1,9 @@
+CALL FUNCTION 'ZHR_READ_ORG_PATH_FILIAL'
+*      EXPORTING
+*        iv_pernr     = lv_pernr1
+*        iv_date      = pn-endda
+*        iv_case      = 'Z002'
+*        iv_no_filial = ''
+*      IMPORTING
+*        ev_name      = lv_orgeh2_string.
+*    lv_orgeh_txt2 = lv_orgeh2_string.

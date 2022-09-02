@@ -1,0 +1,56 @@
+;-*-Org-*-
+https://blogs.sap.com/2011/07/07/gain-programmatic-access-to-data-of-sapgui-alv-reports/
+
+CL_SALV_BS_RUNTIME_INFO
+
+*SET( )*
+
+
+#+begin_src abap
+FIELD-SYMBOLS <lt_pay_data>   TYPE ANY TABLE.
+DATA lr_pay_data              TYPE REF TO data.
+
+  cl_salv_bs_runtime_info=>set(
+    EXPORTING display  = abap_false
+              metadata = abap_false
+              data     = abap_true ).
+
+
+ "Submit Wage Type Reporter
+SUBMIT h99cwtr0_ce WITH pnppernr IN pnppernr
+                     WITH begd_cal = pn-begda
+                     WITH endd_cal = pn-endda
+                     WITH pnpabkrs IN pnpabkrs
+                     WITH pnpwerks IN pnpwerks
+                     WITH pnpobjid IN pnpobjid
+                     WITH pnppersg IN pnppersg
+                     WITH pnpbtrtl IN pnpbtrtl
+                     WITH pnppersk IN pnppersk
+                     WITH pnpstat2 IN pnpstat2
+                     WITH s_pyty_c-low NE 'A'
+                     WITH s_pyty_c-high NE 'B'
+                     WITH p_h_strg = '33/30/03/01/07/10/13/17/20/24/27/34/43'
+                     WITH lv = 'X'
+                     AND RETURN.
+
+  TRY.
+      cl_salv_bs_runtime_info=>get_data_ref(
+        IMPORTING r_data = lr_pay_data ).
+      
+    CATCH cx_salv_bs_sc_runtime_info.
+      MESSAGE `Unable to retrieve ALV data` TYPE 'E'.
+  ENDTRY.
+
+ cl_salv_bs_runtime_info=>clear_all( ).
+
+
+ASSIGN lt_data_ref->* TO <lt_table>.
+
+LOOP AT <lt_table> ASSIGNING <ls_table>.
+     ASSIGN COMPONENT 'PAYTY' OF STRUCTURE <ls_table> TO <fs_payty>.
+     CHECK <fs_payty> IS ASSIGNED.
+     IF <fs_payty> <> ''. CONTINUE. ENDIF.
+ENDLOOP.
+
+#+end_src
+

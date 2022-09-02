@@ -1,0 +1,72 @@
+;-*- mode: Org; fill-column:135; -*-
+https://www.tutorialspoint.com/sap_bw/index.htm
+
+* BW BI
+SAP Business Warehouse (BW) integrates data from different sources, transforms and consolidates the data, does data cleansing, and
+storing of data as well. It also includes data modeling, administration and staging area.
+
+*SAP Business Intelligence (BI)* means analyzing and reporting of data from different heterogeneous data sources.  It allows you to
+acquire data from multiple data sources, data staging, which can be further distributed to different BI systems
+
+SAP BW is managed with tool *SAP BI Administration Workbench*
+
+BI platform provides:
+ - OLAP Processor
+ - Metadata Repository
+ - Process designer and other functions.
+
+ tool *Business Explorer Suite (BEx)* is a analysis and reporting functions in BI. historical and current data to different degree of
+ analysis.
+
+SAP BW - open,standard tool to extract the data from differen systems and send it to BI system.
+https://www.tutorialspoint.com/sap_bw/images/architecture_of_business_intelligence.jpg
+
+* History
+1997 first product *Business Warehouse Information System (BIW)* for reporing, analysis and data warehousing.
+Later, name changed to *SAP Buisiness Warehouse (BW)*
+After "Business Objects" changed again to *SAP BI*.
+| NAME | BIW Version | Release  | new                                                                                                                  |
+|------+-------------+----------+----------------------------------------------------------------------------------------------------------------------|
+| BIW  | 1.2A        | oct 1998 |                                                                                                                      |
+| BIW  | 1.2B        | sep 1999 |                                                                                                                      |
+| BIW  | 2.0A        | feb 2000 |                                                                                                                      |
+| BIW  | 2.0B        | jun 2000 |                                                                                                                      |
+| BIW  | 2.1C        | nov 2000 |                                                                                                                      |
+| BW   | 3.0A        | oct 2001 |                                                                                                                      |
+| BW   | 3.0B        | may 2002 |                                                                                                                      |
+| BW   | 3.1         | nov 2002 |                                                                                                                      |
+| BW   | 3.1c        | apr 2004 |                                                                                                                      |
+| BW   | 3.3         | apr 2004 |                                                                                                                      |
+| BW   | 3.5         | apr 2004 | Using an InfoPackage in BW 3.5, you can load data in Persistence Staging Area and also in targets from source system |
+| BI   | 7           | jul 2005 | If you are using SAP BI 7.0 the data load should be restricted to PSA only for latest versions                       |
+
+* source InfoPackage InfoProvider BIDataFlow
+  SAP BI data sources:
+ - SAP systems (SAP apps/ SAP ECC)  (BI Service API)
+ - Relational database (DB Connect)
+ - Flat file - Excel, text(File interface)
+ - Multidimensional ( Universe UDI connector)
+ - Web services that transfer by means of PUSH (XML Service)
+
+SAP BI Administration workbench tr *RSA1*. -> Source Systems.
+
+*InfoPackage* - contains all the information on how the data is loaded from the source system to a data source or a PSA.
+*InfoProvider*
+
+ - BI Data Flow :: Source (non-sap, SAP netweaver BI, sap) ->InfoPackage -> Data source/Persistent Staging Area(PSA) - [Data transfer
+                   Process]> Transformation -> InfoProvider
+* - BI Object :: consist of:
+   * Roles
+   * Web templates and workbook
+   * Queries
+   * InfoProvider
+   * Update Rules
+   * InfoSource
+   * Transfer Rules
+   * InfoObjects
+   * DataSources
+
+BI objects are divided into multiple BI content areas: SCM, CRM, HR, Finance Management, Product Lifecycle, Industry Solutions, Non-SAP
+data source, etc.
+* Data Warehousing
+ - Star Schema :: each dimension is joined to one single fact table

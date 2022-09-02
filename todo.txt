@@ -1,0 +1,207 @@
+﻿разработка механизмов интеграции (ALE IDOC, Proxy, Native SQL;
+
+Опыт использования в разработках SAP Enjoy controls (ALV Grid, ALV Tree, др.);
+Владение технологиями расширения системы (BADI, User-Exits, Enhancements, др.);
+Владение технологиями ввода данных (BAPI, BDC);
+Владение технологиями создания печатных форм: PDF, SmartForms, OLE;
+Приветствуются знания WorkFlow, Web Dynpro ABAP, WEB-сервисы;
+Желательно опыт одним из модулями: FI, FM, CO, MM, SD, PS, PM, SRM.
+
+
+
+
+smart forms
+
+
+SY-UNAME Logged in User Name/Id.
+SY-MANDT Logged-in client
+DIFFERENCE?
+
+user master record ?
+
+
+Cumulation Wage Types в PY
+
+Когда использовать методы Assistan CLass а когда private методы компонента?
+
+Рассмотреть основные модули HCM и их пункты в SAP Easy Access и вообще рассмотреть это меню.
+
+Посмотреть и записать самые базовые вопросы https://books.google.ru/books?id=D-td6P9UnEYC&printsec=frontcover&hl=ru
+
+сделать вывод настиной трансформации без словаря
+
+SELECT left join right join четко знать что происходит
+
+В WDA:
+окно Window что такое View Usage
+повторить MVC что есть что и откуда приходят данные.
+
+RFC
+WebDynpro/UI5/FIORI/OData
+модули  модулей SD, MM, FI, CO
+Batch-input, LSMW
+BAPI
+Создание печатных форм (SAPScript, Smartforms)
+Разработка отчетов, в том числе с использованием ALV grid и ALV- tree
+Работа с таблицами, ракурсами, средствами поиска, элементами данных, объектами полномочий, программированием транзакций
+
+Распределение Гаусса
+
+Буферизация таблиц и в абап доку SAP Buffering, Buffering Type
+
+2) demo ERP
+
+fat client sap gui shin client Web dynpro?
+
+Business Processes и bsiness transaction events
+
+Application component FIBF-Selection Atrib.
+
+https://blogs.sap.com/2011/12/04/abap-package-concept-part-1-the-basics/
+
+как использовать /ASU/GENERAL message class?
+
+transaction variant enhance
+
+BPM почему SAP это не автоматизирование бизнес процессов?
+
+документы оценки?
+http://olegkr.ru/funkcionalnye-moduli-dlya-raboty-s-dokumentami-ocenki
+
+
+PFCG  - role maintenance screen
+
+tabnr hrp1222? hrt1222
+способы подсоединения средства поиска, эл данных?
+
+	single infotypes -?
+Infotypes '1000' and '1001' are not supported as they are single infotypes.
+
+
+
+
+PM-PA-Customizing Procedures-Infotype menus
+usergroup UGR
+infogroup sequence of actions
+Menu type -?
+B Applicant action menu
+G Info group
+I Infotype menu
+M Personnel action menu
+S Infotype menus.
+https://tekslate.com/personnel-administration-sap-hr/
+https://books.google.ru/books?id=TVHlAwAAQBAJ&pg=PT237&lpg=PT237&dq=sap+hr+menus++S+Infotype+menus+M+Personnel+action+menu&source=bl&ots=KLijlKCo3k&sig=9xTFdiqxlBkvP8aVYSGmoLD1WdM&hl=ru&sa=X&ved=0ahUKEwj9va-l9f7UAhVFYJoKHUdoAGcQ6AEIMjAG
+http://sap.ittoolbox.com/groups/technical-functional/sap-hr/difference-between-user-group-and-info-group-3358718
+
+
+infotype menu  spro->PM->PA->Customizing Procedure->Infotype Menus-> Infotype menu
+
+
+
+
+прочитать: Batch Input, BAPI
+hibris
+- Знание объектов словаря данных и технологий блокировки;
+Понимание принципов адаптации стандартных программ SAP (BADI, Enhancement Framework, BTE)
+- Технологии интеграций систем и миграции данных (RFC, BAPI, BDC, LSMW)
+
+
+
+
+
+
+
+
+Коллеги‚ добрый день!
+В связи с расширением отдела на данную вакансию рассматриваются кандидаты с разным опытом работы: от стажера до эксперта.
+
+Задачи:
+
+    Выполнение разработок на языке ABAP на проектах сопровождения и развития (внедрение нового функционала) SAP-систем: SAP ERP‚ SRM‚ BW‚ модули: FI (в т.ч. FI-AA‚ FI-SL)‚ MM‚ LO‚ SD‚ CO‚ PS‚ PM‚ RE‚ RCM:
+        Разработка отчетов различной сложности;
+        Реализация межсистемных интерфейсов с использованием технологий: IDOC‚ RFC‚ PROXY-интерфейсов SAPXI‚ WebServices;
+        Разработка программ загрузки / ведения данных‚ используя процедуры Batch Input‚ BAPI;
+        Разработка выходных форм: SmartForms‚ Adobe Forms‚ SAPScript‚ интеграция с MSOffice;
+        Адаптация стандартных программ SAP‚ используя технологии: Enhancement Framework‚ User Exit’s‚ BADI‚ BTE‚ RWINи др.;
+        Анализ и консультирование по программному коду на ABAP;
+        Отладка и тестирование разработок;
+        Оптимизация программ;
+        Оценка объема разработки и возможности реализации функциональных требований на основании предоставленного технического задания на разработку;
+        Контроль качества программных разработок на ABAP;
+        Документирование разработок согласно требованиям к проектной документации;
+        Изучение технологий разработки приложений для SAP-систем (профессиональное развитие);
+        Чтение технической литературы на английском языке.
+
+
+Требования:
+
+    Высшее техническое образование‚ желательно в области прикладной математики и информатики;
+
+    Опыт разработки программ на ABAP на проектах внедрения‚ тиражирования и сопровождения;
+    Глубокое знание языка программирования ABAP‚ теории БД и OPENSQL‚ принципов ООП;
+    Знание архитектуры SAP-систем;
+    Знание следующих технологий и средств ведения разработок:
+        средства ABAPWorkbench‚ технологий создания отчетов: SAPEnjoy Сontrols (ALVGridControl‚ ALVTreeControl и др.)‚ ABAPUsersDialogs (selectionscreen‚ dynproscreen‚ listprocessing‚ события селекционных и dynpro-экранов‚ контекст вывода и обработки сообщений);
+        технологий ввода и обмена данными: BAPI‚ Batch-input‚ загрузка и выгрузка данных на локальную машину‚ в том числе для MSOffice (OLE‚ DOI и др.);
+        технологии обмена данным с внешними системами: ALE‚ RFC‚ PROXY-интерфейсы‚ WEB-сервисы;
+        технологий расширения стандартной функциональности: Enhancement Framework‚ BADI‚ User-Exits‚ BTE‚ RWIN и др.;
+        технологий создания печатных форм: PDFbasedforms‚ Smartforms‚ SAPScript;
+    Уверенное владение средствами отладки приложений;
+    Наличие базовых знаний системных (базисных) транзакций;
+    Приветствуется знание технологий: Workflow‚ Web Dynpro‚ опыта написания макросов на VBA‚ а также наличие опыта ведения разработок для платформы SAPHANA;
+    Приветствуется наличие сертификатов SAPи свидетельств о прохождении курсов‚ опыта управления группой разработчиков;
+    Быстрая обучаемость‚ ответственность‚ исполнительность‚ готовность к работе в режиме многозадачности и командной работе;
+    Знание технического английского языка.
+
+
+Условия:
+
+    Офис на ст. м. Бауманская‚ 5 мин пешком;
+    Официальное оформление согласно ТК РФ и заработная плата;
+    График работы: понедельник - пятница с 09:00 до 18:00;
+    Возможность профессионального роста за счет работы с большим количеством модулей SAP-систем;
+    Переаттестация каждые полгода‚ где обсуждается повышение должности и заработной платы;
+    Премии по результатам работы;
+    Возможность обучения за счет Компании;
+    Отличный молодой коллектив;
+    Выгодные корпоративные тарифы на мобильную связь;
+    Корпоративные тренировки по футболу;
+    Бесплатные занятия английским языком.
+
+
+	дропбокс проектная документация
+	собственный профиль стандартов и методик
+ используются стандарты управления  проектами, стандарты и базовые нормативные документы управления жизненным циклом программных средств, а также методологии проектирования программных средств от известных производителей (Microsoft, Oracle, HP, BMC  и др.).  На их основе компания-интегратор формирует свой собственный профиль стандартов и методик, регламентирующий процессы проектирования, разработки, эксплуатации и развития информационной системы
+
+
+
+
+
+
+
+
+
+
+
+
+
+ракурсы таблицы варианты расширение таблиц
+
+
+
+fg RPBS HR-обработка ошибок
+
+
+
+курсы виды оплаты
+
+Reference Types 
+
+paah оперативный запрос
+
+sap query построитель отчетов 
+создание инфо-набора SQ02
+
+что такое кластер?
+
+we recommend browser control wrappers such as dynamic documents or text edit control wrappers. 

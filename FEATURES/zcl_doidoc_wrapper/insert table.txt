@@ -1,0 +1,4 @@
+WORD:
+
+"читает все поля и все строки и вставляет их как-нибудь
+lr_word->ins_tble_to_word( data_table    = t_294[] doctable_number = '1' startrow        = '10' ). 

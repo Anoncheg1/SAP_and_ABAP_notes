@@ -1,0 +1,3 @@
+http://abap-blog.ru/database-work/koncepciya-blokirovok-v-sap/
+https://help.sap.com/saphelp_crm70/helpdata/en/47/df116e6abf296fe10000000a42189b/frameset.htm
+https://help.sap.com/saphelp_crm70/helpdata/en/e5/de86e135cd11d3acb00000e83539c3/content.htm?loaded_from_frameset=true
